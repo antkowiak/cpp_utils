@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="arbnumber.h" />
+    <ClInclude Include="bidirectional_map.h" />
     <ClInclude Include="comparable.h" />
     <ClInclude Include="lifetime.h" />
     <ClInclude Include="table.h" />

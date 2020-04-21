@@ -1,15 +1,22 @@
 #include <iostream>
 #include <string>
 
-#include "arbnumber.h"
+#include "bidirectional_map.h"
 
 
 int main(int argc, char* argv[])
 {
-	ArbNumber an1("6.109090909090909");
-	ArbNumber an2("2.0");
+	bidirectional_map<int, std::string> bdm;
 
-	std::cout << (an1 * an2) << std::endl;
+	bdm.put(1, "one");
+	bdm.put("two", 2);
+	bdm.put(3, "three");
+	bdm.put("four", 4);
+	bdm.put("three", 3);
+	bdm.put(12, "twelve");
+
+	for (auto iter = bdm.begin(); iter != bdm.end(); ++iter)
+		std::cout << "A: " << iter->first << "  B: " << iter->second << std::endl;
 
 	return EXIT_SUCCESS;
 }
