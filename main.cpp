@@ -1,16 +1,15 @@
 #include <iostream>
 #include <string>
 
+#include "arbnumber.h"
 
-#include "table.h"
 
 int main(int argc, char* argv[])
 {
-	table<int> tab(4, 5);
+	ArbNumber an1("6.109090909090909");
+	ArbNumber an2("2.0");
 
-	tab[2][3] = 5;
-
-	std::cout << tab.to_string();
+	std::cout << (an1 * an2) << std::endl;
 
 	return EXIT_SUCCESS;
 }

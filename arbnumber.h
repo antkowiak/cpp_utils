@@ -18,122 +18,7 @@
 #include <string>
 #include <vector>
 
-// Table Exceptions
-class TableException : public std::exception
-{
-protected:
-	std::string msg;
-
-public:
-	TableException(const std::string& msg_)
-		: msg(msg_)
-	{
-	}
-
-	virtual const char* what() const
-	{
-		return msg.c_str();
-	}
-};
-
-// Table. Allows for indexing into a matrix (cols x rows) for storing data.
-template<typename T>
-class Table
-{
-private:
-	Table()
-	{
-	}
-
-	size_t GetIndex(const size_t col, const size_t row) const
-	{
-		if (col >= columns)
-			throw new TableException("TableException: Column Index: " + std::to_string(col) + " out of range");
-
-		if (row >= rows)
-			throw new TableException("TableException: Row Index: " + std::to_string(row) + " out of range");
-
-		return (col + (row * columns));
-	}
-
-private:
-	std::vector<T> data;
-	size_t columns;
-	size_t rows;
-
-public:
-	Table(const size_t num_columns, const size_t num_rows)
-		: columns(num_columns),
-		rows(num_rows)
-	{
-		data = std::vector<T>(columns * rows);
-		clear();
-	}
-
-	Table(const Table& rhs)
-	{
-		data = rhs.data;
-		columns = rhs.columns;
-		rows = rhs.rows;
-	}
-
-	void clear()
-	{
-		std::fill(data.begin(), data.end(), T());
-	}
-
-	size_t size() const
-	{
-		return columns * rows;
-	}
-
-	T get(const size_t col, const size_t row) const
-	{
-		return data[GetIndex(col, row)];
-	}
-
-	void set(const size_t col, const size_t row, const T& element)
-	{
-		data[GetIndex(col, row)] = element;
-	}
-
-	T& operator [] (const std::pair<const size_t, const size_t> indices)
-	{
-		return data[GetIndex(indices.first, indices.second)];
-	}
-
-	std::vector<T> get_row(const size_t row) const
-	{
-		std::vector<T> v;
-
-		for (size_t i = 0; i < columns; ++i)
-			v.push_back(get(i, row));
-
-		return v;
-	}
-
-	std::vector<T> get_column(const size_t col) const
-	{
-		std::vector<T> v;
-
-		for (size_t i = 0; i < rows; ++i)
-			v.push_back(get(col, i));
-
-		return v;
-	}
-
-	void print() const
-	{
-		for (size_t row = 0; row < rows; ++row)
-		{
-			for (size_t col = 0; col < columns; ++col)
-			{
-				std::cout << get(col, row) << " ";
-			}
-			std::cout << std::endl;
-		}
-	}
-};
+#include "table.h"
 
 // Arbitrary Precision Number Exceptions
 class ArbNumberException : public std::exception
@@ -776,26 +661,26 @@ protected:
 		if (botNumber.size() > topNumber.size())
 			std::swap(topNumber, botNumber);
 
-		Table<int16_t> table(topNumber.size() + botNumber.size(), botNumber.size());
+		table<int16_t> tab(topNumber.size() + botNumber.size(), botNumber.size());
 
 		int16_t carry = 0;
 
 		// interate backwards over bottom number
-		for (int b = botNumber.size() - 1; b >= 0; --b)
+		for (int b = static_cast<int>(botNumber.size()) - 1; b >= 0; --b)
 		{
 			carry = 0;
 
 			// iterate backwards over top number
-			for (int t = topNumber.size() - 1; t >= 0; --t)
+			for (int t = static_cast<int>(topNumber.size()) - 1; t >= 0; --t)
 			{
 				const int16_t sum = carry + (botNumber[b] * topNumber[t]);
 				const int16_t digit = sum % 10;
 				carry = sum / 10;
 
-				table.set(t + b + 1, botNumber.size() - b - 1, digit);
+				tab.set(static_cast<size_t>(t) + static_cast<size_t>(b) + 1, botNumber.size() - b - 1, digit);
 
 				if (t == 0)
-					table.set(t + b, botNumber.size() - b - 1, carry);
+					tab.set(static_cast<size_t>(t) + static_cast<size_t>(b), botNumber.size() - b - 1, carry);
 			}
 		}
 
@@ -804,12 +689,12 @@ protected:
 		std::string numStr;
 		carry = 0;
 
-		for (int col = topNumber.size() + botNumber.size() - 1; col >= 0; --col)
+		for (int col = static_cast<int>(topNumber.size()) + static_cast<int>(botNumber.size()) - 1; col >= 0; --col)
 		{
 			int16_t sum = carry;
 			for (size_t row = 0; row < botNumber.size(); ++row)
 			{
-				sum += table.get(col, row);
+				sum += tab.get(col, row);
 			}
 
 			const int16_t digit = sum % 10;
@@ -909,9 +794,9 @@ protected:
 		}
 
 		// Take the number of digits (before decimal place) in ai1, and subtract the number of digits that are in ai2 (plus one.)
-		int32_t decimal_place = ai1.whole.size() - ai2.whole.size() + 1;
+		int decimal_place = static_cast<int>(ai1.whole.size()) - static_cast<int>(ai2.whole.size()) + 1;
 
-		// If there aer more decimal places in the former, decimal_place will be negative. 
+		// If there are more decimal places in the former, decimal_place will be negative. 
 		// So insert leading zeros.
 		for (; decimal_place < 0; ++decimal_place)
 			quotient_str.insert(0, "0");
