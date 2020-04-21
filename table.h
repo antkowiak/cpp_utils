@@ -234,7 +234,7 @@ public:
 	}
 
 	// shrink to fit. no-op.
-	void shrink_to_fix()
+	void shrink_to_fit()
 	{
 		// no-op
 	}
