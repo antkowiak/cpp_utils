@@ -86,7 +86,7 @@ public:
 	 \version 1.0
 
 	 \date 2020-04-05
- */
+	*/
 	class table_exception : public std::exception
 	{
 		std::string msg; // string describing the reason for the exception
@@ -165,6 +165,28 @@ public:
 	}
 #pragma endregion Constructors
 
+#pragma region Iterators
+	// begin iterators
+	typename std::vector<T>::iterator begin() { return data.begin(); }
+	typename std::vector<T>::const_iterator begin() const { return data.begin(); }
+	typename std::vector<T>::const_iterator cbegin() const { return data.cbegin(); }
+
+	// end iterators
+	typename std::vector<T>::iterator end() { return data.end(); }
+	typename std::vector<T>::const_iterator end() const { return data.end(); }
+	typename std::vector<T>::const_iterator cend() const { return data.cend(); }
+
+	// reverse begin iterators
+	typename std::vector<T>::reverse_iterator rbegin() { return data.rbegin(); }
+	typename std::vector<T>::const_reverse_iterator rbegin() const { return data.rbegin(); }
+	typename std::vector<T>::const_reverse_iterator crbegin() const { return data.crbegin(); }
+
+	// reverse end iterators
+	typename std::vector<T>::reverse_iterator rend() { return data.rend(); }
+	typename std::vector<T>::const_reverse_iterator rend() const { return data.rend(); }
+	typename std::vector<T>::const_reverse_iterator crend() const { return data.crend(); }
+#pragma endregion Iterators
+
 #pragma region MemberFunctions
 public:
 	// clear the table. reset all elements to the default value.
@@ -177,6 +199,44 @@ public:
 	size_t size() const
 	{
 		return columns * rows;
+	}
+
+	// returns true if the table is empty (if size is zero)
+	bool empty() const
+	{
+		return (size() == 0);
+	}
+
+	// returns the capacity of the table (same as the size)
+	size_t capacity() const
+	{
+		return size();
+	}
+
+	// returns the max size of the table (same as the size)
+	size_t max_size() const
+	{
+		return size();
+	}
+
+	// reserve size in the table. no-op if size does not change. throws if size changes.
+	void reserve(const size_t new_cap)
+	{
+		if (new_cap != size())
+			throw new table_exception("table::reserve() with a new size cap is not supported!");
+	}
+
+	// resize the table. no-op if size does not change. throws if size changes.
+	void resize(const size_t new_size)
+	{
+		if (new_size != size())
+			throw new table_exception("table::resize() with a new size is not supported!");
+	}
+
+	// shrink to fit. no-op.
+	void shrink_to_fix()
+	{
+		// no-op
 	}
 
 	// returns a copy of the element at the specified column and row
