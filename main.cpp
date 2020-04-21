@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <string>
 
@@ -7,9 +8,15 @@ int main(int argc, char* argv[])
 {
 	table<int> tab(3, 3);
 
-	tab[0][0] = 6;
+	tab[0][0] = 3;
+	tab[0][1] = 5;
+	tab[0][2] = 1;
+	tab[1][0] = 7;
+	tab[1][1] = 2;
 
-	for (auto iter = tab.crbegin(); iter != tab.crend(); ++iter)
+	std::sort(tab.begin(), tab.end());
+
+	for (auto iter = tab.cbegin(); iter != tab.cend(); ++iter)
 		std::cout << "elem: " << (*iter) << std::endl;
 
 	return EXIT_SUCCESS;
