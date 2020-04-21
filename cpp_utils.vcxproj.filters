@@ -33,6 +33,9 @@
     <ClInclude Include="bidirectional_map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="algorithm_rda.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="algorithm_rda.h" />
     <ClInclude Include="arbnumber.h" />
     <ClInclude Include="bidirectional_map.h" />
     <ClInclude Include="comparable.h" />
