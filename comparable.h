@@ -10,9 +10,9 @@ public:
 public:
 	bool operator == (const T& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const T& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const T& rhs) const { return compareTo(rhs) <  0; }
+	bool operator <  (const T& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const T& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const T& rhs) const { return compareTo(rhs) >  0; }
+	bool operator >  (const T& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const T& rhs) const { return compareTo(rhs) >= 0; }
 };
 
@@ -26,16 +26,16 @@ public:
 public:
 	bool operator == (const T& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const T& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const T& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const T& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const T& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const T& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const T& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const T& rhs) const { return compareTo(rhs) >= 0; }
 
 	bool operator == (const U& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const U& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const U& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const U& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const U& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const U& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const U& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const U& rhs) const { return compareTo(rhs) >= 0; }
 
 };
@@ -51,23 +51,23 @@ public:
 public:
 	bool operator == (const T& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const T& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const T& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const T& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const T& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const T& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const T& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const T& rhs) const { return compareTo(rhs) >= 0; }
 
 	bool operator == (const U& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const U& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const U& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const U& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const U& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const U& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const U& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const U& rhs) const { return compareTo(rhs) >= 0; }
 
 	bool operator == (const V& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const V& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const V& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const V& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const V& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const V& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const V& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const V& rhs) const { return compareTo(rhs) >= 0; }
 };
 
@@ -83,30 +83,30 @@ public:
 public:
 	bool operator == (const T& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const T& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const T& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const T& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const T& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const T& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const T& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const T& rhs) const { return compareTo(rhs) >= 0; }
 
 	bool operator == (const U& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const U& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const U& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const U& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const U& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const U& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const U& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const U& rhs) const { return compareTo(rhs) >= 0; }
 
 	bool operator == (const V& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const V& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const V& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const V& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const V& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const V& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const V& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const V& rhs) const { return compareTo(rhs) >= 0; }
 
 	bool operator == (const W& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const W& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const W& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const W& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const W& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const W& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const W& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const W& rhs) const { return compareTo(rhs) >= 0; }
 };
 
@@ -123,37 +123,37 @@ public:
 public:
 	bool operator == (const T& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const T& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const T& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const T& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const T& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const T& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const T& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const T& rhs) const { return compareTo(rhs) >= 0; }
 
 	bool operator == (const U& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const U& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const U& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const U& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const U& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const U& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const U& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const U& rhs) const { return compareTo(rhs) >= 0; }
 
 	bool operator == (const V& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const V& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const V& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const V& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const V& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const V& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const V& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const V& rhs) const { return compareTo(rhs) >= 0; }
 
 	bool operator == (const W& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const W& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const W& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const W& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const W& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const W& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const W& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const W& rhs) const { return compareTo(rhs) >= 0; }
 
 	bool operator == (const X& rhs) const { return compareTo(rhs) == 0; }
 	bool operator != (const X& rhs) const { return compareTo(rhs) != 0; }
-	bool operator <  (const X& rhs) const { return compareTo(rhs) < 0;  }
+	bool operator <  (const X& rhs) const { return compareTo(rhs) < 0; }
 	bool operator <= (const X& rhs) const { return compareTo(rhs) <= 0; }
-	bool operator >  (const X& rhs) const { return compareTo(rhs) > 0;  }
+	bool operator >  (const X& rhs) const { return compareTo(rhs) > 0; }
 	bool operator >= (const X& rhs) const { return compareTo(rhs) >= 0; }
 };
 #pragma endregion ComparableInterfaces

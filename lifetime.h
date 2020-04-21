@@ -2,6 +2,7 @@
 
 // C++ Class to track/debug the object "lifetime" of potential containers and data structures
 
+#include <iostream>
 #include <sstream>
 #include <string>
 

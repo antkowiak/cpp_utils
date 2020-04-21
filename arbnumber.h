@@ -64,7 +64,7 @@ private:
 public:
 	Table(const size_t num_columns, const size_t num_rows)
 		: columns(num_columns),
-		  rows(num_rows)
+		rows(num_rows)
 	{
 		data = std::vector<T>(columns * rows);
 		clear();
@@ -97,7 +97,7 @@ public:
 		data[GetIndex(col, row)] = element;
 	}
 
-	T & operator [] (const std::pair<const size_t, const size_t> indices)
+	T& operator [] (const std::pair<const size_t, const size_t> indices)
 	{
 		return data[GetIndex(indices.first, indices.second)];
 	}
@@ -211,7 +211,7 @@ public:
 
 		Scrub();
 	}
-	
+
 	ArbNumber(const double initial)
 		: ArbNumber(std::to_string(initial))
 	{
@@ -267,7 +267,7 @@ public:
 		return *this;
 	}
 
-	ArbNumber& operator += (const std::string & rhs)
+	ArbNumber& operator += (const std::string& rhs)
 	{
 		*this = *this + ArbNumber(rhs);
 		return *this;
@@ -367,12 +367,12 @@ public:
 	{
 		return !(*this == rhs);
 	}
-	
+
 	bool operator != (const std::string& rhs) const
 	{
 		return (*this) != ArbNumber(rhs);
 	}
-	
+
 	bool operator != (const double rhs) const
 	{
 		return (*this) != ArbNumber(rhs);
@@ -398,8 +398,8 @@ public:
 
 		for (size_t i = whole.size(); i != 0; --i)
 		{
-			if (GetWholeAtIndex(i-1) != rhs.GetWholeAtIndex(i-1))
-				return GetWholeAtIndex(i-1) < rhs.GetWholeAtIndex(i-1);
+			if (GetWholeAtIndex(i - 1) != rhs.GetWholeAtIndex(i - 1))
+				return GetWholeAtIndex(i - 1) < rhs.GetWholeAtIndex(i - 1);
 		}
 
 		const size_t max_fractional = std::max(fractional.size(), rhs.fractional.size());
@@ -428,7 +428,7 @@ public:
 		return *this < rhs || *this == rhs;
 	}
 
-	bool operator <= (const std::string & rhs) const
+	bool operator <= (const std::string& rhs) const
 	{
 		ArbNumber ai(rhs);
 
@@ -447,7 +447,7 @@ public:
 		return (!(*this <= rhs));
 	}
 
-	bool operator > (const std::string & rhs) const
+	bool operator > (const std::string& rhs) const
 	{
 		return (!(*this <= ArbNumber(rhs)));
 	}
@@ -462,7 +462,7 @@ public:
 		return (!(*this < rhs));
 	}
 
-	bool operator >= (const std::string & rhs) const
+	bool operator >= (const std::string& rhs) const
 	{
 		return (!(*this < ArbNumber(rhs)));
 	}
@@ -677,7 +677,7 @@ protected:
 
 		for (size_t i = max_fractional; i > 0; --i)
 		{
-			int8_t sum = carry + ai1.GetFractionalAtIndex(i-1) + ai2.GetFractionalAtIndex(i-1);
+			int8_t sum = carry + ai1.GetFractionalAtIndex(i - 1) + ai2.GetFractionalAtIndex(i - 1);
 			int8_t digit = sum % 10;
 			carry = sum / 10;
 			returnVal.fractional.insert(returnVal.fractional.begin(), digit);
@@ -792,7 +792,7 @@ protected:
 				const int16_t digit = sum % 10;
 				carry = sum / 10;
 
-				table.set(t+b+1, botNumber.size() - b - 1, digit);
+				table.set(t + b + 1, botNumber.size() - b - 1, digit);
 
 				if (t == 0)
 					table.set(t + b, botNumber.size() - b - 1, carry);
@@ -853,7 +853,7 @@ protected:
 		// "Right-hand-side" number for Tabular Division
 		std::vector<int8_t> right_num_vec(ai1.whole);
 		right_num_vec.insert(right_num_vec.end(), ai1.fractional.begin(), ai1.fractional.end());
-		
+
 		// Maximum digits to take the calculation
 		const size_t max_calc_digits = ai1.whole.size() + ai1.fractional.size() + ai2.whole.size() + ai2.fractional.size() + max_digits;
 

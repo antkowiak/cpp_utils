@@ -9,16 +9,16 @@
 
 /**
  \class table
- 
+
  \brief Template class to represent a cols*rows table of values.
- 
+
  This class allows you to store a table of values that can be indexed
  by column and row indicies.
- 
+
  \author Ryan Antkowiak (antkowiak@gmail.com)
- 
+
  \version 1.0
- 
+
  \date 2020-04-05
  */
 template<typename T>
@@ -28,21 +28,21 @@ class table
 private:
 	/*
 	 \class table_indexer
-	 
+
 	 \brief Helper class to allow for indexing into a table using two [] operators.
-	 
+
 	 This class will help with allowing access to elements in a table using two
 	 bracket operators.  The table class [] (int) operator will return a table_index
 	 object, which then can be indexed with another [] (int) operator to access
 	 an element in the table.  For example:
-	 
-	     table<int> myTable(5, 5);
-	     myTable[2][3] = 10;
-	 
+
+		 table<int> myTable(5, 5);
+		 myTable[2][3] = 10;
+
 	 \author Ryan Antkowiak (antkowiak@gmail.com)
-	 
+
 	 \version 1.0
-	 
+
 	 \date 2020-04-05
 	 */
 	class table_indexer
@@ -73,19 +73,19 @@ private:
 #pragma region NestedClass_table_exception
 public:
 	/*
-     \class table_exception
+	 \class table_exception
 
 	 \brief Exceptions that can be thrown by the table class.
 
-     This class defines exceptions that can be thrown by the table class.
+	 This class defines exceptions that can be thrown by the table class.
 	 Typically this will be thrown when attempting to access row or column
 	 indices that are out of the allowed range.
 
-     \author Ryan Antkowiak (antkowiak@gmail.com)
+	 \author Ryan Antkowiak (antkowiak@gmail.com)
 
-     \version 1.0
+	 \version 1.0
 
-     \date 2020-04-05
+	 \date 2020-04-05
  */
 	class table_exception : public std::exception
 	{
@@ -146,10 +146,10 @@ public:
 	}
 
 	// construct a table of size: columns * rows, with a specified default element value
-	table(const size_t num_columns, const size_t num_rows, const T & def_value)
+	table(const size_t num_columns, const size_t num_rows, const T& def_value)
 		: columns(num_columns),
-		  rows(num_rows),
-		  default_value(def_value)
+		rows(num_rows),
+		default_value(def_value)
 	{
 		data = std::vector<T>(columns * rows, default_value);
 		clear();
@@ -276,9 +276,9 @@ public:
 
 	// prints a string representation of the table to standard output, using a provided function
 	// for converting table elements into strings.
-	void print(const std::function<std::string(const T&)> & to_string_func,
-		const std::string & col_delim = " ",
-		const std::string & row_delim = "\n") const
+	void print(const std::function<std::string(const T&)>& to_string_func,
+		const std::string& col_delim = " ",
+		const std::string& row_delim = "\n") const
 	{
 		std::cout << to_string(to_string_func, col_delim, row_delim);
 	}
