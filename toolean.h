@@ -14,12 +14,15 @@
 #include <exception>
 #include <iostream>
 
-extern const char other = 2;
-
 class toolean
 {
 private:
 	char data;
+
+public:
+	static toolean FALSE() { return toolean(false); }
+	static toolean TRUE() { return toolean(true); }
+	static toolean OTHER() { return toolean((char)2); }
 
 public:
 	toolean() : data(0) {}
@@ -106,3 +109,5 @@ public:
 		return os;
 	}
 };
+
+extern const toolean other = toolean::OTHER();
