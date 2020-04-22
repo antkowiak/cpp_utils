@@ -35,6 +35,11 @@ public:
 	bool operator > (const bool rhs) const = delete;
 	bool operator >= (const bool rhs) const = delete;
 
+	bool operator < (const char rhs) const = delete;
+	bool operator <= (const char rhs) const = delete;
+	bool operator > (const char rhs) const = delete;
+	bool operator >= (const char rhs) const = delete;
+
 	toolean& operator = (const toolean& rhs) { data = rhs.data; return *this; }
 	toolean& operator = (const bool rhs) { data = rhs ? 1 : 0; return *this; }
 	toolean& operator = (const char rhs) { if (rhs > 2) throw(std::exception()); data = rhs; return *this; }
