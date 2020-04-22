@@ -108,6 +108,17 @@ namespace test_toolean
 		ASSERT_TRUE(t == false);
 	}
 
+	static void test_006(const size_t testNum, TestInput& input)
+	{
+		// test out friend operators
+
+		toolean t = false;
+
+		ASSERT_TRUE(false == t);
+		ASSERT_TRUE(true != t);
+		ASSERT_TRUE(other != t);
+	}
+
 	static void run_tests()
 	{
 		// vector to hold functions to unit tests
@@ -120,6 +131,7 @@ namespace test_toolean
 		test_vec.push_back(test_003);
 		test_vec.push_back(test_004);
 		test_vec.push_back(test_005);
+		test_vec.push_back(test_006);
 
 		// run each unit test
 		for (size_t i = 0; i < test_vec.size(); ++i)

@@ -90,6 +90,11 @@ public:
 	toolean& operator--() { data = (data == 0) ? 2 : (data - 1); return *this; }
 	toolean operator--(int) { toolean tmp(*this); operator--(); return tmp; }
 
+	friend bool operator == (const bool lhs, const toolean& rhs) { return rhs == lhs; }
+	friend bool operator == (const char lhs, const toolean& rhs) { return rhs == lhs; }
+	friend bool operator != (const bool lhs, const toolean& rhs) { return rhs != lhs; }
+	friend bool operator != (const char lhs, const toolean& rhs) { return rhs != lhs; }
+
 	friend std::ostream& operator << (std::ostream& os, const toolean& rhs)
 	{
 		if (rhs.data == 0)
