@@ -81,7 +81,7 @@ std::list<T> split_to_list(const T& data, const V& delim)
 }
 
 // Split a string into a vector of sub-strings, based on a provided delimiter string
-std::vector<std::string> split_to_vector(const std::string& data, const std::string& delim)
+std::vector<std::string> split_string_to_vector(const std::string& data, const std::string& delim)
 {
 	std::vector<std::string> vec;
 
@@ -118,7 +118,7 @@ std::vector<std::string> split_to_vector(const std::string& data, const std::str
 }
 
 // Split a string into a list of sub-strings, based on a provided delimiter string
-std::list<std::string> split_to_list(const std::string& data, const std::string& delim)
+std::list<std::string> split_string_to_list(const std::string& data, const std::string& delim)
 {
 	std::list<std::string> lst;
 

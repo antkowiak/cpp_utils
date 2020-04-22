@@ -34,7 +34,7 @@ namespace unit_test_utils
 		}
 	}
 
-	// call the function and assert it does not throw
+	// call the function and fail if it throws an exception
 	static void ASSERT_NO_THROW(std::function<void(void)> f, const std::string& description = "")
 	{
 		bool exception_thrown = false;
@@ -59,7 +59,7 @@ namespace unit_test_utils
 		}
 	}
 
-	// call the function and assert it throws
+	// call the function and fail if it does not show an exception
 	static void ASSERT_THROWS(std::function<void(void)> f, const std::string& description = "")
 	{
 		bool exception_thrown = false;
@@ -84,8 +84,7 @@ namespace unit_test_utils
 		}
 	}
 
-
-	// call the function and assert that it does throw std::out_of_range
+	// call the function and fail if it does throw std::out_of_range
 	static void ASSERT_THROWS_OUT_OF_RANGE(std::function<void(void)> f, const std::string& description = "")
 	{
 		bool out_of_range_thrown = false;

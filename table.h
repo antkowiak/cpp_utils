@@ -157,11 +157,11 @@ public:
 
 	// copy constructor
 	table(const table& rhs)
+	: data(rhs.data),
+	  columns(rhs.columns),
+	  rows(rhs.rows),
+	  default_value(rhs.default_value)
 	{
-		data = rhs.data;
-		columns = rhs.columns;
-		rows = rhs.rows;
-		default_value = rhs.default_value;
 	}
 #pragma endregion Constructors
 
