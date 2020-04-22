@@ -43,42 +43,58 @@ protected:
 	}
 
 public:
+	// Constructors, destructor, and assignment operator
 	bidirectional_map() {}
-	bidirectional_map(const bidirectional_map<T, U>& other) : m_map(other.m_map), m_map_r(other.m_map_r) {}
+	bidirectional_map(const bidirectional_map<T, U>& rhs) : m_map(rhs.m_map), m_map_r(rhs.m_map_r) {}
 	virtual ~bidirectional_map() {}
+	
+	bidirectional_map<T, U>& operator = (const bidirectional_map<T, U>& rhs) { this->m_map = rhs.m_map; this->m_map_r = rhs.m_map_r; return *this; }
 
-public:
-	virtual void put(const T& t, const U& u) { erase_values(m_map, u); erase_values(m_map_r, t); m_map[t] = u; m_map_r[u] = t; }
-	virtual void put(const U& u, const T& t) { erase_values(m_map, u); erase_values(m_map_r, t); m_map[t] = u; m_map_r[u] = t; }
-
+	// Element access
+	virtual const U& at(const T& t) const { return m_map.at(t); }
+	virtual const T& at(const U& u) const { return m_map_r.at(u); }
+	
 	virtual U& get(const T& t) { return m_map[t]; }
 	virtual T& get(const U& u) { return m_map_r[u]; }
 
-	virtual const U& at(const T& t) const { return m_map.at(t); }
-	virtual const T& at(const U& u) const { return m_map_r.at(u); }
+	virtual const U& operator [] (const T& t) { return m_map[t]; }
+	virtual const T& operator [] (const U& u) { return m_map_r[u]; }
 
-	virtual bool contains(const T& t) const
-	{
-		for (auto iter = m_map.cbegin(); iter != m_map.cend(); ++iter)
-			if (iter->first == t)
-				return true;
-		return false;
-	}
+	// Iterators
+	virtual typename std::map<T, U>::const_iterator begin() const { return m_map.begin(); }
+	virtual typename std::map<U, T>::const_iterator begin_r() const { return m_map_r.begin(); }
 
-	virtual bool contains(const U& u) const
-	{
-		for (auto iter = m_map_r.cbegin(); iter != m_map_r.cend(); ++iter)
-			if (iter->first == u)
-				return true;
-		return false;
-	}
+	virtual typename std::map<T, U>::const_iterator cbegin() const { return m_map.cbegin(); }
+	virtual typename std::map<U, T>::const_iterator cbegin_r() const { return m_map_r.cbegin(); }
 
-	virtual void clear() { m_map.clear(); m_map_r.clear(); }
-	virtual size_t size() const { return m_map.size(); }
+	virtual typename std::map<T, U>::const_reverse_iterator rbegin() const { return m_map.rbegin(); }
+	virtual typename std::map<U, T>::const_reverse_iterator rbegin_r() const { return m_map_r.rbegin(); }
+
+	virtual typename std::map<T, U>::const_reverse_iterator crbegin() const { return m_map.crbegin(); }
+	virtual typename std::map<U, T>::const_reverse_iterator crbegin_r() const { return m_map_r.crbegin(); }
+
+	virtual typename std::map<T, U>::const_iterator end() const { return m_map.end(); }
+	virtual typename std::map<U, T>::const_iterator end_r() const { return m_map_r.end(); }
+
+	virtual typename std::map<T, U>::const_iterator cend() const { return m_map.cend(); }
+	virtual typename std::map<U, T>::const_iterator cend_r() const { return m_map_r.cend(); }
+
+	virtual typename std::map<T, U>::const_reverse_iterator rend() const { return m_map.rend(); }
+	virtual typename std::map<U, T>::const_reverse_iterator rend_r() const { return m_map_r.rend(); }
+
+	virtual typename std::map<T, U>::const_reverse_iterator crend() const { return m_map.crend(); }
+	virtual typename std::map<U, T>::const_reverse_iterator crend_r() const { return m_map_r.crend(); }
+
+	// Capacity
 	virtual bool empty() const { return m_map.empty() && m_map_r.empty(); }
+	virtual size_t size() const { return m_map.size(); }
 	virtual size_t max_size() const { return std::min(m_map.max_size(), m_map_r.max_size()); }
 
-	virtual void swap(bidirectional_map<T, U>& other) { std::swap(m_map, other.m_map); std::swap(m_map_r, other.m_map_r); }
+	// Modifiers
+	virtual void clear() { m_map.clear(); m_map_r.clear(); }
+
+	virtual void put(const T& t, const U& u) { erase_values(m_map, u); erase_values(m_map_r, t); m_map[t] = u; m_map_r[u] = t; }
+	virtual void put(const U& u, const T& t) { erase_values(m_map, u); erase_values(m_map_r, t); m_map[t] = u; m_map_r[u] = t; }
 
 	virtual size_t erase(const T& t)
 	{
@@ -92,8 +108,7 @@ public:
 		const size_t c4 = erase_values(m_map_r, t);
 		return std::max({ c1, c2, c3, c4 });
 	}
-
-	size_t erase(const U& u)
+	virtual size_t erase(const U& u)
 	{
 		if (!contains_key(m_map_r, u))
 			return 0;
@@ -106,33 +121,31 @@ public:
 		return std::max({ c1, c2, c3, c4 });
 	}
 
-	virtual typename std::map<T, U>::const_iterator begin() { return m_map.begin(); }
-	virtual typename std::map<U, T>::const_iterator begin_r() { return m_map_r.begin(); }
+	virtual void swap(bidirectional_map<T, U>& other) { std::swap(m_map, other.m_map); std::swap(m_map_r, other.m_map_r); }
 
-	virtual typename std::map<T, U>::const_iterator cbegin() { return m_map.cbegin(); }
-	virtual typename std::map<U, T>::const_iterator cbegin_r() { return m_map_r.cbegin(); }
+	// Lookup
+	virtual size_t count(const T& t) const { return m_map.count(t); }
+	virtual size_t count(const U& u) const { return m_map_r.count(u); }
+	
+	virtual typename std::map<T, U>::const_iterator find(const T& t) const { return m_map.find(t); }
+	virtual typename std::map<U, T>::const_iterator find_r(const U& u) const { return m_map_r.find(u); }
 
-	virtual typename std::map<T, U>::const_reverse_iterator rbegin() { return m_map.rbegin(); }
-	virtual typename std::map<U, T>::const_reverse_iterator rbegin_r() { return m_map_r.rbegin(); }
+	virtual bool contains(const T& t) const
+	{
+		for (auto iter = m_map.cbegin(); iter != m_map.cend(); ++iter)
+			if (iter->first == t)
+				return true;
+		return false;
+	}
+	virtual bool contains(const U& u) const
+	{
+		for (auto iter = m_map_r.cbegin(); iter != m_map_r.cend(); ++iter)
+			if (iter->first == u)
+				return true;
+		return false;
+	}
 
-	virtual typename std::map<T, U>::const_reverse_iterator crbegin() { return m_map.crbegin(); }
-	virtual typename std::map<U, T>::const_reverse_iterator crbegin_r() { return m_map_r.crbegin(); }
-
-	virtual typename std::map<T, U>::const_iterator end() { return m_map.end(); }
-	virtual typename std::map<U, T>::const_iterator end_r() { return m_map_r.end(); }
-
-	virtual typename std::map<T, U>::const_iterator cend() { return m_map.cend(); }
-	virtual typename std::map<U, T>::const_iterator cend_r() { return m_map_r.cend(); }
-
-	virtual typename std::map<T, U>::const_reverse_iterator rend() { return m_map.rend(); }
-	virtual typename std::map<U, T>::const_reverse_iterator rend_r() { return m_map_r.rend(); }
-
-	virtual typename std::map<T, U>::const_reverse_iterator crend() { return m_map.crend(); }
-	virtual typename std::map<U, T>::const_reverse_iterator crend_r() { return m_map_r.crend(); }
-
-	virtual const U& operator [] (const T& t) { return m_map[t]; }
-	virtual const T& operator [] (const U& u) { return m_map_r[u]; }
-
+	// Comparison operators
 	virtual bool operator == (const bidirectional_map<T, U>& rhs) const { return m_map == rhs.m_map && m_map_r == rhs.m_map_r; }
 	virtual bool operator == (const std::map<T, U>& rhs) const { return m_map == rhs; }
 	virtual bool operator == (const std::map<U, T>& rhs) const { return m_map_r == rhs; }
@@ -140,5 +153,4 @@ public:
 	virtual bool operator != (const bidirectional_map<T, U>& rhs) const { return !(*this == rhs); }
 	virtual bool operator != (const std::map<T, U>& rhs) const { return !(*this == rhs); }
 	virtual bool operator != (const std::map<U, T>& rhs) const { return !(*this == rhs); }
-
 };

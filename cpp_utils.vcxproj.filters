@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\unit_tests">
+      <UniqueIdentifier>{2c9669cd-5f2c-4341-aa38-9f2661f2382d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="arbnumber.h">
@@ -35,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="algorithm_rda.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unit_tests\test_bidirectional_map.h">
+      <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
