@@ -85,7 +85,19 @@ public:
 
 	fix_message(const fix_message& rhs)
 	{
-		memcpy(data, rhs.data, MAX_FIX_ID);
+		if (buffer == nullptr)
+		{
+			memcpy(data, rhs.data, MAX_FIX_ID);
+		}
+		else
+		{
+			const size_t length = strlen(rhs.buffer);
+			buffer = (char*)malloc(length + 1);
+			strncpy_s(buffer, length + 1, rhs.buffer, length);
+			buffer[length] = EOL;
+
+			init(buffer);
+		}
 	}
 
 	~fix_message()
