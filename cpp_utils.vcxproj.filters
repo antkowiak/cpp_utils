@@ -42,6 +42,9 @@
     <ClInclude Include="unit_tests\test_bidirectional_map.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
+    <ClInclude Include="unit_tests\unit_test_utils.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
