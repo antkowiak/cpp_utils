@@ -128,7 +128,7 @@ public:
 	virtual size_t count(const U& u) const { return m_map_r.count(u); }
 	
 	virtual typename std::map<T, U>::const_iterator find(const T& t) const { return m_map.find(t); }
-	virtual typename std::map<U, T>::const_iterator find_r(const U& u) const { return m_map_r.find(u); }
+	virtual typename std::map<U, T>::const_iterator find(const U& u) const { return m_map_r.find(u); }
 
 	virtual bool contains(const T& t) const
 	{
