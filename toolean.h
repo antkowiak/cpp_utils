@@ -1,8 +1,9 @@
 #pragma once
 
-// This class is a joke. It is a pun on a "boolean",except this is a "toolean"
+// This class is a joke. It is a pun on a "boolean", except this is a "toolean"
 // which can store "true", "false", or "other" values (one of three values.)
 // It will throw if you try to assign or compare it to a different value.
+// Increment/Decrement will wrap.  Most other operators are removed.
 //
 // Please don't take this too seriously.  Unless your code as a need for this.
 // Hopefully not...
