@@ -48,6 +48,9 @@
     <ClInclude Include="toolean.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="unit_tests\test_toolean.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

@@ -150,6 +150,7 @@
     <ClInclude Include="table.h" />
     <ClInclude Include="toolean.h" />
     <ClInclude Include="unit_tests\test_bidirectional_map.h" />
+    <ClInclude Include="unit_tests\test_toolean.h" />
     <ClInclude Include="unit_tests\unit_test_utils.h" />
     <ClInclude Include="ymd.h" />
   </ItemGroup>

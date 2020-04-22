@@ -29,20 +29,55 @@ public:
 	bool operator <= (const toolean& rhs) const = delete;
 	bool operator > (const toolean& rhs) const = delete;
 	bool operator >= (const toolean& rhs) const = delete;
+	toolean operator + (const toolean& rhs) const = delete;
+	toolean operator - (const toolean& rhs) const = delete;
+	toolean operator * (const toolean& rhs) const = delete;
+	toolean operator / (const toolean& rhs) const = delete;
+	toolean operator % (const toolean& rhs) const = delete;
+	toolean& operator += (const toolean& rhs) = delete;
+	toolean& operator -= (const toolean& rhs) = delete;
+	toolean& operator *= (const toolean& rhs) = delete;
+	toolean& operator /= (const toolean& rhs) = delete;
+	toolean& operator %= (const toolean& rhs) = delete;
 
 	bool operator < (const bool rhs) const = delete;
 	bool operator <= (const bool rhs) const = delete;
 	bool operator > (const bool rhs) const = delete;
 	bool operator >= (const bool rhs) const = delete;
+	toolean operator + (const bool rhs) const = delete;
+	toolean operator - (const bool rhs) const = delete;
+	toolean operator * (const bool rhs) const = delete;
+	toolean operator / (const bool rhs) const = delete;
+	toolean operator % (const bool rhs) const = delete;
+	toolean& operator += (const bool rhs) = delete;
+	toolean& operator -= (const bool rhs) = delete;
+	toolean& operator *= (const bool rhs) = delete;
+	toolean& operator /= (const bool rhs) = delete;
+	toolean& operator %= (const bool rhs) = delete;
 
 	bool operator < (const char rhs) const = delete;
 	bool operator <= (const char rhs) const = delete;
 	bool operator > (const char rhs) const = delete;
 	bool operator >= (const char rhs) const = delete;
+	toolean operator + (const char rhs) const = delete;
+	toolean operator - (const char rhs) const = delete;
+	toolean operator * (const char rhs) const = delete;
+	toolean operator / (const char rhs) const = delete;
+	toolean operator % (const char rhs) const = delete;
+	toolean& operator += (const char rhs) = delete;
+	toolean& operator -= (const char rhs) = delete;
+	toolean& operator *= (const char rhs) = delete;
+	toolean& operator /= (const char rhs) = delete;
+	toolean& operator %= (const char rhs) = delete;
 
 	toolean& operator = (const toolean& rhs) { data = rhs.data; return *this; }
 	toolean& operator = (const bool rhs) { data = rhs ? 1 : 0; return *this; }
 	toolean& operator = (const char rhs) { if (rhs > 2) throw(std::exception()); data = rhs; return *this; }
+
+	toolean& operator++() { data = (data == 2) ? 0 : (data + 1); return *this; }
+	toolean operator++(int) { toolean tmp(*this); operator++(); return tmp; }
+	toolean& operator--() { data = (data == 0) ? 2 : (data - 1); return *this; }
+	toolean operator--(int) { toolean tmp(*this); operator--(); return tmp; }
 
 	friend std::ostream& operator << (std::ostream& os, const toolean& rhs)
 	{

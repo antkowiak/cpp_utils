@@ -59,6 +59,32 @@ namespace unit_test_utils
 		}
 	}
 
+	// call the function and assert it throws
+	static void ASSERT_THROWS(std::function<void(void)> f, const std::string& description = "")
+	{
+		bool exception_thrown = false;
+
+		try
+		{
+			f();
+		}
+		catch (...)
+		{
+			exception_thrown = true;
+		}
+
+		if (!exception_thrown)
+		{
+			std::cout << "ASSERT_THROWS() Failure.";
+			if (description != "")
+				std::cout << " Description: " << description;
+			std::cout << std::endl;
+
+			exit(EXIT_FAILURE);
+		}
+	}
+
+
 	// call the function and assert that it does throw std::out_of_range
 	static void ASSERT_THROWS_OUT_OF_RANGE(std::function<void(void)> f, const std::string& description = "")
 	{
