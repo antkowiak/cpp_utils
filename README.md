@@ -13,4 +13,6 @@ lifetime.h - Utility to benchmark the lifetime of c++ objects in containers.
 
 table.h - Utility to represent and access data elements in a table/matrix format.
 
+toolean.h - Utility for a "trinary" boolean that can hold three states: true, false, other.  (Kind of a joke.)
+
 ymd - Utility to represent a simple year-month-date object.
