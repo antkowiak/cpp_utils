@@ -175,7 +175,8 @@ public:
 
 		for (size_t row = 0; row < rows; ++row)
 			for (size_t column = 0; column < columns; ++column)
-				data[get_index(column, row)] = rhs[column][row];
+				if (column < rhs[row].size())
+					data[get_index(column, row)] = rhs[row][column];
 	}
 
 	// copy constructor
