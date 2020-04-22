@@ -32,7 +32,7 @@ public:
 	static toolean OTHER() { return toolean(OTHER_VALUE); }
 
 public:
-	toolean() : data(0) {}
+	toolean() : data(FALSE_VALUE) {}
 	toolean(const bool rhs) : data(rhs == false ? FALSE_VALUE : TRUE_VALUE) {}
 	toolean(const toolean& rhs) : data(rhs.data) { if (rhs.data > OTHER_VALUE) throw(std::exception()); }
 	~toolean() {}
