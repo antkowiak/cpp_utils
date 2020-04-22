@@ -13,8 +13,8 @@ private:
 public:
 	toolean() : data(0) {}
 	toolean(const bool rhs) : data(rhs == false ? 0 : 1) {}
-	toolean(const char rhs) { if (rhs > 2) throw(std::exception()); data = rhs; }
-	toolean(const toolean& rhs) : data(rhs.data) {}
+	toolean(const char rhs) : data(rhs) { if (rhs > 2) throw(std::exception()); }
+	toolean(const toolean& rhs) : data(rhs.data) { if (rhs.data > 2) throw(std::exception()); }
 	~toolean() {}
 
 	bool operator == (const toolean& rhs) const { return data == rhs.data; }
