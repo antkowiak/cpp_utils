@@ -5,7 +5,7 @@
 // It will throw if you try to assign or compare it to a different value.
 // Increment/Decrement will wrap.  Most other operators are removed.
 //
-// Please don't take this too seriously.  Unless your code as a need for this.
+// Please don't take this too seriously.  Unless your code has a need for this.
 // Hopefully not...
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
