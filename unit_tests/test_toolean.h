@@ -44,8 +44,10 @@ namespace test_toolean
 
 	static void test_001(const size_t testNum, TestInput& input)
 	{
-		ASSERT_THROWS([]() { toolean t = 'a'; });
-		ASSERT_THROWS([]() { toolean t('b'); });
+		// Removed test case -- No longer expose API to set via a 'char'
+
+		//ASSERT_THROWS([]() { toolean t = 'a'; });
+		//ASSERT_THROWS([]() { toolean t('b'); });
 	}
 
 	static void test_002(const size_t testNum, TestInput& input)
