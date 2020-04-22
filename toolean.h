@@ -18,26 +18,27 @@ class toolean
 {
 private:
 	char data;
+	static const char OTHER_VALUE = 2;
 
 public:
 	static toolean FALSE() { return toolean(false); }
 	static toolean TRUE() { return toolean(true); }
-	static toolean OTHER() { return toolean((char)2); }
+	static toolean OTHER() { return toolean((char)OTHER_VALUE); }
 
 public:
 	toolean() : data(0) {}
 	toolean(const bool rhs) : data(rhs == false ? 0 : 1) {}
-	toolean(const char rhs) : data(rhs) { if (rhs > 2) throw(std::exception()); }
-	toolean(const toolean& rhs) : data(rhs.data) { if (rhs.data > 2) throw(std::exception()); }
+	toolean(const char rhs) : data(rhs) { if (rhs > OTHER_VALUE) throw(std::exception()); }
+	toolean(const toolean& rhs) : data(rhs.data) { if (rhs.data > OTHER_VALUE) throw(std::exception()); }
 	~toolean() {}
 
 	bool operator == (const toolean& rhs) const { return data == rhs.data; }
 	bool operator == (const bool rhs) const { return ((rhs == false) ? (data == 0) : (data == 1)); }
-	bool operator == (const char rhs) const { if (rhs > 2) throw(std::exception()); return data == rhs; }
+	bool operator == (const char rhs) const { if (rhs > OTHER_VALUE) throw(std::exception()); return data == rhs; }
 
 	bool operator != (const toolean& rhs) const { return !((*this) == rhs); }
 	bool operator != (const bool rhs) const { return !((*this) == rhs); }
-	bool operator != (const char rhs) const { if (rhs > 2) throw(std::exception()); return data != rhs; }
+	bool operator != (const char rhs) const { if (rhs > OTHER_VALUE) throw(std::exception()); return data != rhs; }
 
 	bool operator < (const toolean& rhs) const = delete;
 	bool operator <= (const toolean& rhs) const = delete;
@@ -86,11 +87,11 @@ public:
 
 	toolean& operator = (const toolean& rhs) { data = rhs.data; return *this; }
 	toolean& operator = (const bool rhs) { data = rhs ? 1 : 0; return *this; }
-	toolean& operator = (const char rhs) { if (rhs > 2) throw(std::exception()); data = rhs; return *this; }
+	toolean& operator = (const char rhs) { if (rhs > OTHER_VALUE) throw(std::exception()); data = rhs; return *this; }
 
-	toolean& operator++() { data = (data == 2) ? 0 : (data + 1); return *this; }
+	toolean& operator++() { data = (data == OTHER_VALUE) ? 0 : (data + 1); return *this; }
 	toolean operator++(int) { toolean tmp(*this); operator++(); return tmp; }
-	toolean& operator--() { data = (data == 0) ? 2 : (data - 1); return *this; }
+	toolean& operator--() { data = (data == 0) ? OTHER_VALUE : (data - 1); return *this; }
 	toolean operator--(int) { toolean tmp(*this); operator--(); return tmp; }
 
 	friend bool operator == (const bool lhs, const toolean& rhs) { return rhs == lhs; }
