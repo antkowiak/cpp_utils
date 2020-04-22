@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <exception>
 #include <functional>
 #include <iostream>
@@ -153,6 +154,28 @@ public:
 	{
 		data = std::vector<T>(columns * rows, default_value);
 		clear();
+	}
+
+	// construct a table from a vector of vectors
+	table(const std::vector<std::vector<T> >& rhs)
+		: table(rhs, T())
+	{
+	}
+
+	// construct a table from a vector of vectors, providing a default value
+	table(const std::vector<std::vector<T> >& rhs, const T& def_value)
+		: default_value(def_value)
+	{
+		rows = rhs.size();
+		for (auto row : rhs)
+			columns = std::max(columns, row.size());
+
+		data = std::vector<T>(columns * rows, default_value);
+		clear();
+
+		for (size_t row = 0; row < rows; ++row)
+			for (size_t column = 0; column < columns; ++column)
+				data[get_index(column, row)] = rhs[column][row];
 	}
 
 	// copy constructor
