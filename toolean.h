@@ -43,36 +43,6 @@ public:
 	bool operator != (const toolean& rhs) const { return !((*this) == rhs); }
 	bool operator != (const bool rhs) const { return !((*this) == rhs); }
 
-	bool operator < (const toolean& rhs) const = delete;
-	bool operator <= (const toolean& rhs) const = delete;
-	bool operator > (const toolean& rhs) const = delete;
-	bool operator >= (const toolean& rhs) const = delete;
-	toolean operator + (const toolean& rhs) const = delete;
-	toolean operator - (const toolean& rhs) const = delete;
-	toolean operator * (const toolean& rhs) const = delete;
-	toolean operator / (const toolean& rhs) const = delete;
-	toolean operator % (const toolean& rhs) const = delete;
-	toolean& operator += (const toolean& rhs) = delete;
-	toolean& operator -= (const toolean& rhs) = delete;
-	toolean& operator *= (const toolean& rhs) = delete;
-	toolean& operator /= (const toolean& rhs) = delete;
-	toolean& operator %= (const toolean& rhs) = delete;
-
-	bool operator < (const bool rhs) const = delete;
-	bool operator <= (const bool rhs) const = delete;
-	bool operator > (const bool rhs) const = delete;
-	bool operator >= (const bool rhs) const = delete;
-	toolean operator + (const bool rhs) const = delete;
-	toolean operator - (const bool rhs) const = delete;
-	toolean operator * (const bool rhs) const = delete;
-	toolean operator / (const bool rhs) const = delete;
-	toolean operator % (const bool rhs) const = delete;
-	toolean& operator += (const bool rhs) = delete;
-	toolean& operator -= (const bool rhs) = delete;
-	toolean& operator *= (const bool rhs) = delete;
-	toolean& operator /= (const bool rhs) = delete;
-	toolean& operator %= (const bool rhs) = delete;
-
 	toolean& operator = (const toolean& rhs) { data = rhs.data; return *this; }
 	toolean& operator = (const bool rhs) { data = rhs ? TRUE_VALUE : FALSE_VALUE; return *this; }
 
