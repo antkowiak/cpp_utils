@@ -147,6 +147,7 @@
     <ClInclude Include="bidirectional_map.h" />
     <ClInclude Include="comparable.h" />
     <ClInclude Include="csv.h" />
+    <ClInclude Include="fix_message.h" />
     <ClInclude Include="lifetime.h" />
     <ClInclude Include="table.h" />
     <ClInclude Include="toolean.h" />

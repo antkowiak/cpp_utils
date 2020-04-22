@@ -11,6 +11,8 @@ comparable.h - Utility to generate all of the common comparison operator overloa
 
 csv.h - Utilities for dealing with comma separated values.
 
+fix_message.h - Utility for quickly retrieving fields from a FIX message string.
+
 lifetime.h - Utility to benchmark the lifetime of c++ objects in containers.
 
 table.h - Utility to represent and access data elements in a table/matrix format.
