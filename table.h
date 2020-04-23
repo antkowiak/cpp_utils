@@ -97,12 +97,6 @@ public:
 		table_exception(const std::string& msg_) : msg(msg_)
 		{
 		}
-
-		// returns the reason for the exception
-		virtual const char* what() const
-		{
-			return msg.c_str();
-		}
 	};
 #pragma endregion NestedClass_table_exception
 
