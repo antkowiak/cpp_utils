@@ -150,6 +150,7 @@
     <ClInclude Include="fix_message.h" />
     <ClInclude Include="lifetime.h" />
     <ClInclude Include="one_to_one_map.h" />
+    <ClInclude Include="statemachine.h" />
     <ClInclude Include="table.h" />
     <ClInclude Include="toolean.h" />
     <ClInclude Include="unit_tests\test_bidirectional_map.h" />

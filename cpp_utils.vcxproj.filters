@@ -66,6 +66,9 @@
     <ClInclude Include="unit_tests\unit_test_template.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
+    <ClInclude Include="statemachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
