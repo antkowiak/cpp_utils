@@ -44,9 +44,9 @@ protected:
 
 public:
 	// Constructors, destructor, and assignment operator
-	bidirectional_map() {}
-	bidirectional_map(const bidirectional_map<T, U>& rhs) : m_map(rhs.m_map), m_map_r(rhs.m_map_r) {}
-	virtual ~bidirectional_map() {}
+	bidirectional_map<T, U>() {}
+	bidirectional_map<T, U>(const bidirectional_map<T, U>& rhs) : m_map(rhs.m_map), m_map_r(rhs.m_map_r) {}
+	virtual ~bidirectional_map<T, U>() {}
 	
 	bidirectional_map<T, U>& operator = (const bidirectional_map<T, U>& rhs) { this->m_map = rhs.m_map; this->m_map_r = rhs.m_map_r; return *this; }
 
@@ -102,11 +102,12 @@ public:
 			return 0;
 
 		const U value = m_map[t];
-		const size_t c1 = m_map.erase(t);
-		const size_t c2 = erase_values(m_map, value);
-		const size_t c3 = m_map_r.erase(value);
-		const size_t c4 = erase_values(m_map_r, t);
-		return std::max({ c1, c2, c3, c4 });
+
+		return std::max({
+			m_map.erase(t),
+			erase_values(m_map, value),
+			m_map_r.erase(value),
+			erase_values(m_map_r, t) });
 	}
 	virtual size_t erase(const U& u)
 	{
@@ -114,11 +115,12 @@ public:
 			return 0;
 
 		const T value = m_map_r[u];
-		const size_t c1 = m_map_r.erase(u);
-		const size_t c2 = erase_values(m_map_r, value);
-		const size_t c3 = m_map.erase(value);
-		const size_t c4 = erase_values(m_map, u);
-		return std::max({ c1, c2, c3, c4 });
+
+		return std::max({
+			m_map_r.erase(u),
+			erase_values(m_map_r, value),
+			m_map.erase(value),
+			erase_values(m_map, u) });
 	}
 
 	virtual void swap(bidirectional_map<T, U>& other) { std::swap(m_map, other.m_map); std::swap(m_map_r, other.m_map_r); }

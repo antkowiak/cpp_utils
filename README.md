@@ -15,6 +15,8 @@ fix_message.h - Utility for quickly retrieving fields from a FIX message string.
 
 lifetime.h - Utility to benchmark the lifetime of c++ objects in containers.
 
+one_to_one_map.h - Wraps a std::map where the key and value are the same type, and can be searched by key or value.
+
 table.h - Utility to represent and access data elements in a table/matrix format.
 
 toolean.h - Utility for a "trinary" boolean that can hold three states: true, false, other.  (Kind of a joke.)
