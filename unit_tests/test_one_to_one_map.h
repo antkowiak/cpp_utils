@@ -27,7 +27,6 @@ namespace test_one_to_one_map
 		one_to_one_map<int> assignedIntMap;
 		one_to_one_map<std::string> assignedStringMap;
 
-
 		one_to_one_map<int> clearedIntMap;
 		one_to_one_map<std::string> clearedStringMap;
 	};
