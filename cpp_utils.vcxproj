@@ -154,6 +154,7 @@
     <ClInclude Include="table.h" />
     <ClInclude Include="toolean.h" />
     <ClInclude Include="unit_tests\test_bidirectional_map.h" />
+    <ClInclude Include="unit_tests\test_fix_message.h" />
     <ClInclude Include="unit_tests\test_one_to_one_map.h" />
     <ClInclude Include="unit_tests\test_toolean.h" />
     <ClInclude Include="unit_tests\unit_test_template.h" />
