@@ -5,8 +5,6 @@
 #include "unit_tests/test_one_to_one_map.h"
 #include "unit_tests/test_toolean.h"
 
-#include "fix_message.h"
-
 int main(int argc, char* argv[])
 {
 	test_bidirectional_map::run_tests();
