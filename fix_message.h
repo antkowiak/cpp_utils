@@ -148,7 +148,8 @@ protected:
 	}
 };
 
-
+// Note: See benchmarks in unit tests.  The "arr" implemention is always much faster than the "map" impl.
+// However, the "arr" implementation uses more memory than the "map" implementation.
 class fix_message_map : public fix_message
 {
 public:

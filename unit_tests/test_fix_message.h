@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <functional>
 #include <iostream>
 #include <string>
@@ -210,6 +211,138 @@ namespace test_fix_message
 
 #pragma warning( push )
 #pragma warning( disable : 6262 ) // warning about using a lot of stack
+	static void test_007(const size_t testNum, TestInput& input)
+	{
+		// benchmarks
+		const size_t num_iterations = 1000;
+
+		{
+			// 0. Control
+			auto start0 = std::chrono::steady_clock::now();
+			for (size_t i = 0; i < num_iterations; ++i)
+			{
+				char str0[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+			}
+			auto end0 = std::chrono::steady_clock::now();
+			std::cout << "    Benchmark: 0. Control:                            " << std::chrono::duration_cast<std::chrono::microseconds>(end0 - start0).count() << " usec" << std::endl;
+		}
+
+		{
+			// 1. Array creation with no memory copy		
+			auto start1 = std::chrono::steady_clock::now();
+			for (size_t i = 0; i < num_iterations; ++i)
+			{
+				char str1[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+				fix_message_arr fm_1;
+				fm_1.init(str1, false);
+			}
+			auto end1 = std::chrono::steady_clock::now();
+			std::cout << "    Benchmark: 1. Array creation with no memory copy: " << std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count() << " usec" << std::endl;
+		}
+
+		{
+			// 2. Array creation with memory copy
+			auto start2 = std::chrono::steady_clock::now();
+			for (size_t i = 0; i < num_iterations; ++i)
+			{
+				char str2[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+				fix_message_arr fm_2;
+				fm_2.init(str2, true);
+			}
+			auto end2 = std::chrono::steady_clock::now();
+			std::cout << "    Benchmark: 2. Array creation with memory copy:    " << std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count() << " usec" << std::endl;
+		}
+
+		{
+			// 3. Array lookup with no memory copy
+			auto start3 = std::chrono::steady_clock::now();
+			char str3[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+			fix_message_arr fm_3;
+			fm_3.init(str3, false);
+			for (size_t i = 0; i < num_iterations; ++i)
+			{
+				char dummy[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+				const char* field = fm_3.get_field(56);
+			}
+			auto end3 = std::chrono::steady_clock::now();
+			std::cout << "    Benchmark: 3. Array lookup with no memory copy:   " << std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3).count() << " usec" << std::endl;
+		}
+
+		{
+			// 4. Array lookup with memory copy
+			auto start4 = std::chrono::steady_clock::now();
+			char str4[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+			fix_message_arr fm_4;
+			fm_4.init(str4, true);
+			for (size_t i = 0; i < num_iterations; ++i)
+			{
+				char dummy[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+				const char* field = fm_4.get_field(56);
+			}
+			auto end4 = std::chrono::steady_clock::now();
+			std::cout << "    Benchmark: 4. Array lookup with memory copy:      " << std::chrono::duration_cast<std::chrono::microseconds>(end4 - start4).count() << " usec" << std::endl;
+		}
+
+		{
+			// 5. Map creation with no memory copy
+			auto start5 = std::chrono::steady_clock::now();
+			for (size_t i = 0; i < num_iterations; ++i)
+			{
+				char str5[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+				fix_message_map fm_5;
+				fm_5.init(str5, false);
+			}
+			auto end5 = std::chrono::steady_clock::now();
+			std::cout << "    Benchmark: 5. Map creation with no memory copy:   " << std::chrono::duration_cast<std::chrono::microseconds>(end5 - start5).count() << " usec" << std::endl;
+		}
+
+		{
+			// 6. Map creation with memory copy
+			auto start6 = std::chrono::steady_clock::now();
+			for (size_t i = 0; i < num_iterations; ++i)
+			{
+				char str6[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+				fix_message_map fm_6;
+				fm_6.init(str6, true);
+			}
+			auto end6 = std::chrono::steady_clock::now();
+			std::cout << "    Benchmark: 6. Map creation with memory copy:      " << std::chrono::duration_cast<std::chrono::microseconds>(end6 - start6).count() << " usec" << std::endl;
+		}
+
+		{
+			// 7. Map lookup with no memory copy
+			auto start7 = std::chrono::steady_clock::now();
+			char str7[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+			fix_message_map fm_7;
+			fm_7.init(str7, false);
+			for (size_t i = 0; i < num_iterations; ++i)
+			{
+				char dummy[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+				const char* field = fm_7.get_field(56);
+			}
+			auto end7 = std::chrono::steady_clock::now();
+			std::cout << "    Benchmark: 7. Map lookup with no memory copy:     " << std::chrono::duration_cast<std::chrono::microseconds>(end7 - start7).count() << " usec" << std::endl;
+		}
+
+		{
+			// 8. Map lookup with memory copy
+			auto start8 = std::chrono::steady_clock::now();
+			char str8[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+			fix_message_map fm_8;
+			fm_8.init(str8, true);
+			for (size_t i = 0; i < num_iterations; ++i)
+			{
+				char dummy[] = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
+				const char* field = fm_8.get_field(56);
+			}
+			auto end8 = std::chrono::steady_clock::now();
+			std::cout << "    Benchmark: 8. Map lookup with memory copy:        " << std::chrono::duration_cast<std::chrono::microseconds>(end8 - start8).count() << " usec" << std::endl;
+		}
+	}
+#pragma warning(pop)
+
+#pragma warning( push )
+#pragma warning( disable : 6262 ) // warning about using a lot of stack
 	static void run_tests()
 	{
 		// vector to hold functions to unit tests
@@ -223,6 +356,7 @@ namespace test_fix_message
 		test_vec.push_back(test_004);
 		test_vec.push_back(test_005);
 		test_vec.push_back(test_006);
+		test_vec.push_back(test_007);
 
 		// run each unit test
 		for (size_t i = 0; i < test_vec.size(); ++i)
