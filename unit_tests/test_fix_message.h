@@ -24,11 +24,11 @@ namespace test_fix_message
 		std::string str3_arr = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
 
 		fix_message_arr fm_empty_arr;
-		fix_message_arr fm_fromEmpty_arr = fix_message_arr("");
-		fix_message_arr fm_fromNull_arr = fix_message_arr(static_cast<const char*>(nullptr));
-		fix_message_arr fm_fromConstChar_arr = fix_message_arr(str1_arr);
+		fix_message_arr fm_fromEmpty_arr;
+		fix_message_arr fm_fromNull_arr;
+		fix_message_arr fm_fromConstChar_arr;
 		fix_message_arr fm_fromCharArray_arr;
-		fix_message_arr fm_fromString_arr = fix_message_arr(str3_arr);
+		fix_message_arr fm_fromString_arr;
 
 
 		const char* str1_map = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
@@ -36,25 +36,37 @@ namespace test_fix_message
 		std::string str3_map = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
 
 		fix_message_map fm_empty_map;
-		fix_message_map fm_fromEmpty_map = fix_message_map("");
-		fix_message_map fm_fromNull_map = fix_message_map(static_cast<const char*>(nullptr));
-		fix_message_map fm_fromConstChar_map = fix_message_map(str1_arr);
+		fix_message_map fm_fromEmpty_map;
+		fix_message_map fm_fromNull_map;
+		fix_message_map fm_fromConstChar_map;
 		fix_message_map fm_fromCharArray_map;
-		fix_message_map fm_fromString_map = fix_message_map(str3_arr);
+		fix_message_map fm_fromString_map;
 
 
 		TestInput()
 		{
+			fm_fromEmpty_arr.init("");
+			fm_fromNull_arr.init(static_cast<const char*>(nullptr));
+			fm_fromConstChar_arr. init(str1_arr);
+			fm_fromString_arr.init(str3_arr);
+
+
+			fm_fromEmpty_map.init("");
+			fm_fromNull_map.init(static_cast<const char*>(nullptr));
+			fm_fromConstChar_map.init(str1_arr);
+			fm_fromString_map.init(str3_arr);
+
+
 			str2_arr = (char*)malloc(strlen(str1_arr) + 1);
 			strncpy_s(str2_arr, strlen(str1_arr) + 1, str1_arr, strlen(str1_arr));
 			str2_arr[strlen(str1_arr)] = 0;
-			fm_fromCharArray_arr = fix_message_arr(str2_arr);
+			fm_fromCharArray_arr.init(str2_arr);
 
 
 			str2_map = (char*)malloc(strlen(str1_map) + 1);
 			strncpy_s(str2_map, strlen(str1_map) + 1, str1_map, strlen(str1_map));
 			str2_map[strlen(str1_map)] = 0;
-			fm_fromCharArray_map = fix_message_map(str2_map);
+			fm_fromCharArray_map.init(str2_map);
 		}
 
 		~TestInput()
@@ -85,11 +97,11 @@ namespace test_fix_message
 		std::string str3_arr = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
 		
 		ASSERT_NO_THROW([&]() { fix_message_arr fm_empty_arr; }, "construct a");
-		ASSERT_NO_THROW([&]() { fix_message_arr fm_fromEmpty_arr = fix_message_arr(""); }, "construct b");
-		ASSERT_NO_THROW([&]() { fix_message_arr fm_fromNull_arr = fix_message_arr(static_cast<const char*>(nullptr)); }, "construct c");
-		ASSERT_NO_THROW([&]() { fix_message_arr fm_fromConstChar_arr = fix_message_arr(str1_arr); }, "construct d");
-		ASSERT_NO_THROW([&]() { fix_message_arr fm_fromCharArray_arr = fix_message_arr(str2_arr); }, "construct e");
-		ASSERT_NO_THROW([&]() { fix_message_arr fm_fromString_arr = fix_message_arr(str3_arr); }, "construct f");
+		ASSERT_NO_THROW([&]() { fix_message_arr fm_fromEmpty_arr; fm_fromEmpty_arr.init(""); }, "construct b");
+		ASSERT_NO_THROW([&]() { fix_message_arr fm_fromNull_arr; fm_fromNull_arr.init(static_cast<const char*>(nullptr)); }, "construct c");
+		ASSERT_NO_THROW([&]() { fix_message_arr fm_fromConstChar_arr; fm_fromConstChar_arr.init(str1_arr); }, "construct d");
+		ASSERT_NO_THROW([&]() { fix_message_arr fm_fromCharArray_arr; fm_fromCharArray_arr.init(str2_arr); }, "construct e");
+		ASSERT_NO_THROW([&]() { fix_message_arr fm_fromString_arr; fm_fromString_arr.init(str3_arr); }, "construct f");
 
 
 		// initial stuff - map
@@ -98,11 +110,11 @@ namespace test_fix_message
 		std::string str3_map = "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856=TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT60=20180920-18:14:19.49210=092";
 
 		ASSERT_NO_THROW([&]() { fix_message_map fm_empty_map; }, "construct g");
-		ASSERT_NO_THROW([&]() { fix_message_map fm_fromEmpty_map = fix_message_map(""); }, "construct h");
-		ASSERT_NO_THROW([&]() { fix_message_map fm_fromNull_map = fix_message_map(static_cast<const char*>(nullptr)); }, "construct i");
-		ASSERT_NO_THROW([&]() { fix_message_map fm_fromConstChar_map = fix_message_map(str1_map); }, "construct j");
-		ASSERT_NO_THROW([&]() { fix_message_map fm_fromCharArray_map = fix_message_map(str2_map); }, "construct k");
-		ASSERT_NO_THROW([&]() { fix_message_map fm_fromString_map = fix_message_map(str3_map); }, "construct l");
+		ASSERT_NO_THROW([&]() { fix_message_map fm_fromEmpty_map; fm_fromEmpty_map.init(""); }, "construct h");
+		ASSERT_NO_THROW([&]() { fix_message_map fm_fromNull_map; fm_fromNull_map.init(static_cast<const char*>(nullptr)); }, "construct i");
+		ASSERT_NO_THROW([&]() { fix_message_map fm_fromConstChar_map; fm_fromConstChar_map.init(str1_map); }, "construct j");
+		ASSERT_NO_THROW([&]() { fix_message_map fm_fromCharArray_map;  fm_fromCharArray_map.init(str2_map); }, "construct k");
+		ASSERT_NO_THROW([&]() { fix_message_map fm_fromString_map; fm_fromString_map.init(str3_map); }, "construct l");
 
 	}
 
@@ -164,7 +176,11 @@ namespace test_fix_message
 
 	static void test_005(const size_t testNum, TestInput& input)
 	{
-		// copy test - arr
+		// copy test - arr 
+		//
+		// These should not compile. Copy construction is disallowed, on purpose.
+
+		/*
 		fix_message_arr cpy_arr(input.fm_fromCharArray_arr);
 		ASSERT_TRUE(std::string(cpy_arr.get_field(8)) == std::string("FIX.4.4"));
 		ASSERT_TRUE(std::string(cpy_arr.get_field(10)) == std::string("092"));
@@ -176,6 +192,20 @@ namespace test_fix_message
 		ASSERT_TRUE(std::string(cpy_map.get_field(8)) == std::string("FIX.4.4"));
 		ASSERT_TRUE(std::string(cpy_map.get_field(10)) == std::string("092"));
 		ASSERT_TRUE(std::string(cpy_map.get_field(56)) == std::string("TESTSELL1"));
+		*/
+	}
+
+	static void test_006(const size_t testNum, TestInput& input)
+	{
+		fix_message_arr fm_a;
+		ASSERT_TRUE(fm_a.get_field(0) == nullptr);
+		ASSERT_TRUE(fm_a.get_field(900) == nullptr);
+		ASSERT_TRUE(fm_a.get_field(1900) == nullptr);
+
+		fix_message_map fm_m;
+		ASSERT_TRUE(fm_m.get_field(0) == nullptr);
+		ASSERT_TRUE(fm_m.get_field(900) == nullptr);
+		ASSERT_TRUE(fm_m.get_field(1900) == nullptr);
 	}
 
 #pragma warning( push )
@@ -192,6 +222,7 @@ namespace test_fix_message
 		test_vec.push_back(test_003);
 		test_vec.push_back(test_004);
 		test_vec.push_back(test_005);
+		test_vec.push_back(test_006);
 
 		// run each unit test
 		for (size_t i = 0; i < test_vec.size(); ++i)
