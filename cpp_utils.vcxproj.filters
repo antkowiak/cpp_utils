@@ -72,6 +72,15 @@
     <ClInclude Include="unit_tests\test_fix_message.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
+    <ClInclude Include="lw_xml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unit_tests\test_lw_xml.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="unit_tests\test_algorithm_rda.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
