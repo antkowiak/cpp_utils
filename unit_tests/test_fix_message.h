@@ -4,6 +4,7 @@
 #include <functional>
 #include <iostream>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 #include "unit_test_utils.h"
@@ -178,27 +179,28 @@ namespace test_fix_message
 
 	static void test_005(const size_t testNum, TestInput& input)
 	{
-		// copy test - arr 
-		//
-		// These should not compile. Copy construction is disallowed, on purpose.
+		// ensure objects cannot be copied or assigned
 
-		/*
-		fix_message_arr cpy_arr(input.fm_fromCharArray_arr);
-		ASSERT_TRUE(std::string(cpy_arr.get_field(8)) == std::string("FIX.4.4"));
-		ASSERT_TRUE(std::string(cpy_arr.get_field(10)) == std::string("092"));
-		ASSERT_TRUE(std::string(cpy_arr.get_field(56)) == std::string("TESTSELL1"));
+		ASSERT_FALSE(std::is_copy_constructible<fix_message_arr>::value, "copy construct fix_message_arr");
+		ASSERT_FALSE(std::is_copy_constructible<fix_message_map>::value, "copy construct fix_message_map");
 
+		ASSERT_FALSE(std::is_trivially_copy_assignable<fix_message_arr>::value, "trivially copy assignable fix_message_arr");
+		ASSERT_FALSE(std::is_trivially_copy_assignable<fix_message_map>::value, "trivially copy assignable fix_message_map");
 
-		// copy test - map
-		fix_message_map cpy_map(input.fm_fromCharArray_map);
-		ASSERT_TRUE(std::string(cpy_map.get_field(8)) == std::string("FIX.4.4"));
-		ASSERT_TRUE(std::string(cpy_map.get_field(10)) == std::string("092"));
-		ASSERT_TRUE(std::string(cpy_map.get_field(56)) == std::string("TESTSELL1"));
-		*/
+		ASSERT_FALSE(std::is_nothrow_copy_assignable<fix_message_arr>::value, "nothrow copy assignable fix_message_arr");
+		ASSERT_FALSE(std::is_nothrow_copy_assignable<fix_message_map>::value, "nothrow copy assignable fix_message_map");
+
+		ASSERT_FALSE(std::is_assignable<fix_message_arr, fix_message_arr>::value, "assignable fix_message_arr");
+		ASSERT_FALSE(std::is_assignable<fix_message_map, fix_message_map>::value, "assignable fix_message_map");
+
+		ASSERT_FALSE(std::is_assignable<fix_message_arr&, fix_message_arr>::value, "assignable fix_message_arr");
+		ASSERT_FALSE(std::is_assignable<fix_message_map&, fix_message_map>::value, "assignable fix_message_map");
 	}
 
 	static void test_006(const size_t testNum, TestInput& input)
 	{
+		// ensure return nullptr when requesting undefined or invalid fields
+
 		fix_message_arr fm_a;
 		ASSERT_TRUE(fm_a.get_field(0) == nullptr);
 		ASSERT_TRUE(fm_a.get_field(900) == nullptr);
