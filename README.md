@@ -5,6 +5,8 @@ algorithm_rda.h - A collection of some useful algorithms.
 
 arbnumber.h - Utility for using and manipulating arbitrary precision floating point numbers.
 
+benchmark.h - Simple utility to benchmark how long a task takes to complete. Uses object lifetime.
+
 bidirectional_map.h - Utility for representing two one-to-one std::map objects that can be indexed by either key or value.
 
 comparable.h - Utility to generate all of the common comparison operator overloads.
