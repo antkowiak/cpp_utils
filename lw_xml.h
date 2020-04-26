@@ -49,21 +49,16 @@ namespace lw_xml
 		}
 		else
 		{
+			// Advance past the opening "<?" of the tag{
 			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "<?");
-			
-			// The index is at the start of the header data
-			size_t start = index;
 
-			// Advance index until past "?>"
-			algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), "?>");
+			// Read the tag text up until "?>"
+			std::string header_text = algorithm_rda::string_index_utils::read_and_advance_until_next(input, "?>", index);
 
-			// Copy out the header substring from start to current index
-			std::string header_text = input.substr(start, index - start);
-
-			// Advance two characters past the closing "?>"
+			// Advance past the closing "?>"
 			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "?>");
 
-			// Return the header
+			// Return the header text
 			return header_text;
 		}
 	}
@@ -76,22 +71,16 @@ namespace lw_xml
 	/////////////////////////////////////////////////////////////////////////
 	static std::string read_tag_text(const std::string& input, size_t& index)
 	{
-		// Advance past the opening tag
+		// Advance past the opening "<" of the tag
 		algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "<");
 
-		// The index is at the start of the header data
-		size_t start = index;
+		// Read the tag text up until ">"
+		std::string tag_text = algorithm_rda::string_index_utils::read_and_advance_until_next(input, ">", index);
 
-		// Advance index until the next ">"
-		algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), ">");
-
-		// Copy out the header substring from start to current index
-		std::string tag_text = input.substr(start, index - start);
-
-		// Advance two characters past the closing "?>"
+		// Advance past the closing ">"
 		algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), ">");
 
-		// Return the header
+		// Return the tag text
 		return tag_text;
 	}
 
@@ -215,7 +204,7 @@ namespace lw_xml
 		// the tag object that will ultimately be returned
 		lw_xml_tag tag;
 
-		// read the header text between "<?" and "?>"
+		// read the header text between "<" and ">"
 		std::string tag_text = read_tag_text(input, index);
 
 		size_t start = 0;
@@ -301,7 +290,7 @@ namespace lw_xml
 			}
 		}
 
-		// the final key was not yet added to the vector of attributes
+		// the final key (if any) was not yet added to the vector of attributes
 
 		// strip leading and trailing spaces from the key
 		algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(key);

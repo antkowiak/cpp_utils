@@ -151,6 +151,49 @@ namespace test_lw_xml
 
 	static void test_003(const size_t testNum, TestInput& input)
 	{
+		{
+			std::string tag_text = R"(<tag_name> tag_data </tag_name>)";
+			size_t index(0);
+			lw_xml_tag tag = lw_xml::create_tag(tag_text, index);
+			ASSERT_TRUE(tag.name == "tag_name");
+			ASSERT_TRUE(tag.attributes.empty());
+		}
+
+		{
+			std::string tag_text = R"(<tag_name>tag_data</tag_name>)";
+			size_t index(0);
+			lw_xml_tag tag = lw_xml::create_tag(tag_text, index);
+			ASSERT_TRUE(tag.name == "tag_name");
+			ASSERT_TRUE(tag.attributes.empty());
+		}
+
+		{
+			std::string tag_text = R"( <tag_name>tag_data</tag_name>)";
+			size_t index(0);
+			lw_xml_tag tag = lw_xml::create_tag(tag_text, index);
+			ASSERT_TRUE(tag.name == "tag_name");
+			ASSERT_TRUE(tag.attributes.empty());
+		}
+
+		{
+			std::string tag_text = R"(       <  tag_name >     tag_data    <  /tag_name >         )";
+			size_t index(0);
+			lw_xml_tag tag = lw_xml::create_tag(tag_text, index);
+			ASSERT_TRUE(tag.name == "tag_name");
+			ASSERT_TRUE(tag.attributes.empty());
+		}
+
+		{
+			std::string tag_text = R"(<tag_name attr1=attr1_text attr2="attr2_text"> tag_data </tag_name>)";
+			size_t index(0);
+			lw_xml_tag tag = lw_xml::create_tag(tag_text, index);
+			ASSERT_TRUE(tag.name == "tag_name");
+			ASSERT_TRUE(tag.attributes[0].first == "attr1");
+			ASSERT_TRUE(tag.attributes[0].second == "attr1_text");
+			ASSERT_TRUE(tag.attributes[1].first == "attr2");
+			ASSERT_TRUE(tag.attributes[1].second == "attr2_text");
+		}
+
 	}
 
 	static void test_004(const size_t testNum, TestInput& input)
