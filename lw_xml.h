@@ -76,31 +76,24 @@ namespace lw_xml
 	/////////////////////////////////////////////////////////////////////////
 	static std::string read_tag_text(const std::string& input, size_t& index)
 	{
-		if (!contains_header(input))
-		{
-			return std::string();
-		}
-		else
-		{
-			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "<");
+		// Advance past the opening tag
+		algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "<");
 
-			// The index is at the start of the header data
-			size_t start = index;
+		// The index is at the start of the header data
+		size_t start = index;
 
-			// Advance index until the next ">"
-			algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), ">");
+		// Advance index until the next ">"
+		algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), ">");
 
-			// Copy out the header substring from start to current index
-			std::string tag_text = input.substr(start, index - start);
+		// Copy out the header substring from start to current index
+		std::string tag_text = input.substr(start, index - start);
 
-			// Advance two characters past the closing "?>"
-			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), ">");
+		// Advance two characters past the closing "?>"
+		algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), ">");
 
-			// Return the header
-			return tag_text;
-		}
+		// Return the header
+		return tag_text;
 	}
-
 
 	/////////////////////////////////////////////////////////////////////////
 	//

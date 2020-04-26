@@ -248,6 +248,60 @@ namespace algorithm_rda
 
 		/////////////////////////////////////////////////////////////////////////
 		//
+		// Returns a substring starting at index, up until substring "until" is found.
+		// The substring will NOT include "until"
+		// This WILL advance the index.
+		//
+		/////////////////////////////////////////////////////////////////////////
+		static std::string read_and_advance_until_next(const std::string& input, const std::string& until, size_t& index)
+		{
+			const size_t start_index(index);
+			advance_index_until_next(input, index, input.size(), until);
+			return input.substr(start_index, index - start_index);
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		//
+		// Returns a substring starting at index, up until substring "until" is found.
+		// The substring will NOT include "until"
+		// This does NOT advance the index.
+		//
+		/////////////////////////////////////////////////////////////////////////
+		static std::string read_until_next(const std::string& input, const std::string& until, const size_t& index)
+		{
+			size_t idx = index;
+			return read_and_advance_until_next(input, until, idx);
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		//
+		// Returns a substring starting at index, up until substring "until" is found.
+		// The substring WILL include "until"
+		// This WILL advance the index.
+		//
+		/////////////////////////////////////////////////////////////////////////
+		static std::string read_and_advance_past_next(const std::string& input, const std::string& until, size_t& index)
+		{
+			const size_t start_index(index);
+			advance_index_past_next(input, index, input.size(), until);
+			return input.substr(start_index, index - start_index);
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		//
+		// Returns a substring starting at index, up until substring "until" is found.
+		// The substring WILL include "until"
+		// This will NOT advance the index.
+		//
+		/////////////////////////////////////////////////////////////////////////
+		static std::string read_past_next(const std::string& input, const std::string& until, const size_t& index)
+		{
+			size_t idx = index;
+			return read_and_advance_past_next(input, until, idx);
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		//
 		// Returns true if the provided character is a whitespace character
 		//
 		/////////////////////////////////////////////////////////////////////////

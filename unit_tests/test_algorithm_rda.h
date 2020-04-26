@@ -752,6 +752,542 @@ namespace test_algorithm_rda
 		}
 	}
 	
+	static void test_012(const size_t testNum, TestInput& input)
+	{
+		// read until next
+		using algorithm_rda::string_index_utils::read_until_next;
+
+		{
+			std::string s("");
+			size_t index(0);
+			std::string output = read_until_next(s, "", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("a");
+			size_t index(0);
+			std::string output = read_until_next(s, " ", index);
+			ASSERT_TRUE(output == "a", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("aaaa");
+			size_t index(0);
+			std::string output = read_until_next(s, " ", index);
+			ASSERT_TRUE(output == "aaaa", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("aaaa");
+			size_t index(0);
+			std::string output = read_until_next(s, "a", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_until_next(s, "d", index);
+			ASSERT_TRUE(output == "abc", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_until_next(s, "g", index);
+			ASSERT_TRUE(output == "abcdef", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_until_next(s, "z", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_until_next(s, "ef", index);
+			ASSERT_TRUE(output == "abcd", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefgef");
+			size_t index(0);
+			std::string output = read_until_next(s, "ef", index);
+			ASSERT_TRUE(output == "abcd", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_until_next(s, "abcdefg", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_until_next(s, "abcdefgh", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_until_next(s, "z", index);
+			ASSERT_TRUE(output == "defg", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(7);
+			std::string output = read_until_next(s, "z", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_until_next(s, "", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_until_next(s, "ef", index);
+			ASSERT_TRUE(output == "d", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_until_next(s, "g", index);
+			ASSERT_TRUE(output == "def", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+	}
+
+	static void test_013(const size_t testNum, TestInput& input)
+	{
+		// read and advance until next
+		using algorithm_rda::string_index_utils::read_and_advance_until_next;
+
+		{
+			std::string s("");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, "", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("a");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, " ", index);
+			ASSERT_TRUE(output == "a", s);
+			ASSERT_TRUE(index == 1, s);
+		}
+
+		{
+			std::string s("aaaa");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, " ", index);
+			ASSERT_TRUE(output == "aaaa", s);
+			ASSERT_TRUE(index == 4, s);
+		}
+
+		{
+			std::string s("aaaa");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, "a", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, "d", index);
+			ASSERT_TRUE(output == "abc", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, "g", index);
+			ASSERT_TRUE(output == "abcdef", s);
+			ASSERT_TRUE(index == 6, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, "z", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, "ef", index);
+			ASSERT_TRUE(output == "abcd", s);
+			ASSERT_TRUE(index == 4, s);
+		}
+
+		{
+			std::string s("abcdefgef");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, "ef", index);
+			ASSERT_TRUE(output == "abcd", s);
+			ASSERT_TRUE(index == 4, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, "abcdefg", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_until_next(s, "abcdefgh", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_and_advance_until_next(s, "z", index);
+			ASSERT_TRUE(output == "defg", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(7);
+			std::string output = read_and_advance_until_next(s, "z", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_and_advance_until_next(s, "", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_and_advance_until_next(s, "ef", index);
+			ASSERT_TRUE(output == "d", s);
+			ASSERT_TRUE(index == 4, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_and_advance_until_next(s, "g", index);
+			ASSERT_TRUE(output == "def", s);
+			ASSERT_TRUE(index == 6, s);
+		}
+	}
+
+	static void test_014(const size_t testNum, TestInput& input)
+	{
+		// read past next
+		using algorithm_rda::string_index_utils::read_past_next;
+
+		{
+			std::string s("");
+			size_t index(0);
+			std::string output = read_past_next(s, "", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("a");
+			size_t index(0);
+			std::string output = read_past_next(s, " ", index);
+			ASSERT_TRUE(output == "a", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("aaaa");
+			size_t index(0);
+			std::string output = read_past_next(s, " ", index);
+			ASSERT_TRUE(output == "aaaa", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("aaaa");
+			size_t index(0);
+			std::string output = read_past_next(s, "a", index);
+			ASSERT_TRUE(output == "a", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_past_next(s, "d", index);
+			ASSERT_TRUE(output == "abcd", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_past_next(s, "g", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_past_next(s, "z", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_past_next(s, "ef", index);
+			ASSERT_TRUE(output == "abcdef", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefgef");
+			size_t index(0);
+			std::string output = read_past_next(s, "ef", index);
+			ASSERT_TRUE(output == "abcdef", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_past_next(s, "abcdefg", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_past_next(s, "abcdefgh", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_past_next(s, "z", index);
+			ASSERT_TRUE(output == "defg", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(7);
+			std::string output = read_past_next(s, "z", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_past_next(s, "", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_past_next(s, "ef", index);
+			ASSERT_TRUE(output == "def", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_past_next(s, "g", index);
+			ASSERT_TRUE(output == "defg", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+	}
+
+	static void test_015(const size_t testNum, TestInput& input)
+	{
+		// read and advance past next
+		using algorithm_rda::string_index_utils::read_and_advance_past_next;
+
+		{
+			std::string s("");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, "", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 0, s);
+		}
+
+		{
+			std::string s("a");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, " ", index);
+			ASSERT_TRUE(output == "a", s);
+			ASSERT_TRUE(index == 1, s);
+		}
+
+		{
+			std::string s("aaaa");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, " ", index);
+			ASSERT_TRUE(output == "aaaa", s);
+			ASSERT_TRUE(index == 4, s);
+		}
+
+		{
+			std::string s("aaaa");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, "a", index);
+			ASSERT_TRUE(output == "a", s);
+			ASSERT_TRUE(index == 1, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, "d", index);
+			ASSERT_TRUE(output == "abcd", s);
+			ASSERT_TRUE(index == 4, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, "g", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, "z", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, "ef", index);
+			ASSERT_TRUE(output == "abcdef", s);
+			ASSERT_TRUE(index == 6, s);
+		}
+
+		{
+			std::string s("abcdefgef");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, "ef", index);
+			ASSERT_TRUE(output == "abcdef", s);
+			ASSERT_TRUE(index == 6, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, "abcdefg", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(0);
+			std::string output = read_and_advance_past_next(s, "abcdefgh", index);
+			ASSERT_TRUE(output == "abcdefg", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_and_advance_past_next(s, "z", index);
+			ASSERT_TRUE(output == "defg", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(7);
+			std::string output = read_and_advance_past_next(s, "z", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_and_advance_past_next(s, "", index);
+			ASSERT_TRUE(output == "", s);
+			ASSERT_TRUE(index == 3, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_and_advance_past_next(s, "ef", index);
+			ASSERT_TRUE(output == "def", s);
+			ASSERT_TRUE(index == 6, s);
+		}
+
+		{
+			std::string s("abcdefg");
+			size_t index(3);
+			std::string output = read_and_advance_past_next(s, "g", index);
+			ASSERT_TRUE(output == "defg", s);
+			ASSERT_TRUE(index == 7, s);
+		}
+	}
+
 	static void run_tests()
 	{
 		// vector to hold functions to unit tests
@@ -770,6 +1306,10 @@ namespace test_algorithm_rda
 		test_vec.push_back(test_009);
 		test_vec.push_back(test_010);
 		test_vec.push_back(test_011);
+		test_vec.push_back(test_012);
+		test_vec.push_back(test_013);
+		test_vec.push_back(test_014);
+		test_vec.push_back(test_015);
 
 		// run each unit test
 		for (size_t i = 0; i < test_vec.size(); ++i)
