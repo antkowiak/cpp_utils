@@ -347,35 +347,35 @@ namespace test_algorithm_rda
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), ' ');
+			advance_index_until_next(s, index, s.size(), " ");
 			ASSERT_TRUE(index == 7, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), 'a');
+			advance_index_until_next(s, index, s.size(), "a");
 			ASSERT_TRUE(index == 0, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), 'b');
+			advance_index_until_next(s, index, s.size(), "b");
 			ASSERT_TRUE(index == 1, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), 'c');
+			advance_index_until_next(s, index, s.size(), "c");
 			ASSERT_TRUE(index == 2, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), 'g');
+			advance_index_until_next(s, index, s.size(), "g");
 			ASSERT_TRUE(index == 6, s);
 		}
 	}
@@ -388,44 +388,38 @@ namespace test_algorithm_rda
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), ' ', ' ');
+			advance_index_until_next(s, index, s.size(), "  ");
 			ASSERT_TRUE(index == 7, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), 'a', ' ');
+			advance_index_until_next(s, index, s.size(), "a ");
 			ASSERT_TRUE(index == 7, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), 'a', 'b');
+			advance_index_until_next(s, index, s.size(), "ab");
 			ASSERT_TRUE(index == 0, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), 'b', 'c');
+			advance_index_until_next(s, index, s.size(), "bc");
 			ASSERT_TRUE(index == 1, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), 'c', 'd');
+			advance_index_until_next(s, index, s.size(), "cd");
 			ASSERT_TRUE(index == 2, s);
 		}
 
-		{
-			size_t index = 0;
-			std::string s = "abcdefg";
-			advance_index_until_next(s, index, s.size(), 'g', 0x00);
-			ASSERT_TRUE(index == 6, s);
-		}
 	}
 
 	static void test_006(const size_t testNum, TestInput& input)
@@ -436,35 +430,35 @@ namespace test_algorithm_rda
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), ' ');
+			advance_index_past_next(s, index, s.size(), " ");
 			ASSERT_TRUE(index == 7, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), 'a');
+			advance_index_past_next(s, index, s.size(), "a");
 			ASSERT_TRUE(index == 1, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), 'b');
+			advance_index_past_next(s, index, s.size(), "b");
 			ASSERT_TRUE(index == 2, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), 'c');
+			advance_index_past_next(s, index, s.size(), "c");
 			ASSERT_TRUE(index == 3, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), 'g');
+			advance_index_past_next(s, index, s.size(), "g");
 			ASSERT_TRUE(index == 7, s);
 		}
 	}
@@ -477,42 +471,42 @@ namespace test_algorithm_rda
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), ' ', ' ');
+			advance_index_past_next(s, index, s.size(), "  ");
 			ASSERT_TRUE(index == 7, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), 'a', ' ');
+			advance_index_past_next(s, index, s.size(), "a ");
 			ASSERT_TRUE(index == 7, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), 'a', 'b');
+			advance_index_past_next(s, index, s.size(), "ab");
 			ASSERT_TRUE(index == 2, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), 'b', 'c');
+			advance_index_past_next(s, index, s.size(), "bc");
 			ASSERT_TRUE(index == 3, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), 'c', 'd');
+			advance_index_past_next(s, index, s.size(), "cd");
 			ASSERT_TRUE(index == 4, s);
 		}
 
 		{
 			size_t index = 0;
 			std::string s = "abcdefg";
-			advance_index_past_next(s, index, s.size(), 'g', 0x00);
+			advance_index_past_next(s, index, s.size(), "g ");
 			ASSERT_TRUE(index == 7, s);
 		}
 	}

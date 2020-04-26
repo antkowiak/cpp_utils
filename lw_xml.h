@@ -49,19 +49,19 @@ namespace lw_xml
 		}
 		else
 		{
-			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), '<', '?');
+			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "<?");
 			
 			// The index is at the start of the header data
 			size_t start = index;
 
 			// Advance index until past "?>"
-			algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), '?', '>');
+			algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), "?>");
 
 			// Copy out the header substring from start to current index
 			std::string header_text = input.substr(start, index - start);
 
 			// Advance two characters past the closing "?>"
-			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), '?', '>');
+			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "?>");
 
 			// Return the header
 			return header_text;
@@ -82,19 +82,19 @@ namespace lw_xml
 		}
 		else
 		{
-			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), '<');
+			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "<");
 
 			// The index is at the start of the header data
 			size_t start = index;
 
 			// Advance index until the next ">"
-			algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), '>');
+			algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), ">");
 
 			// Copy out the header substring from start to current index
 			std::string tag_text = input.substr(start, index - start);
 
 			// Advance two characters past the closing "?>"
-			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), '>');
+			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), ">");
 
 			// Return the header
 			return tag_text;

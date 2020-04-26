@@ -159,6 +159,23 @@ namespace algorithm_rda
 		return lst;
 	}
 
+	namespace math_utils
+	{
+		// Return the maximum of three values
+		template<typename T>
+		T max3(const T& t1, const T& t2, const T& t3)
+		{
+			return std::max(t1, std::max(t2, t3));
+		}
+
+		// Return the minimum of three values
+		template<typename T>
+		T min3(const T& t1, const T& t2, const T& t3)
+		{
+			return std::min(t1, std::min(t2, t3));
+		}
+	}
+
 	namespace string_index_utils
 	{
 		/////////////////////////////////////////////////////////////////////////
@@ -170,65 +187,31 @@ namespace algorithm_rda
 
 		/////////////////////////////////////////////////////////////////////////
 		//
-		// Increments the index until it is at the index of the provided "until" character.
-		// This does not advance the index "past" the provided "until" character.
-		//
-		/////////////////////////////////////////////////////////////////////////
-		static void advance_index_until_next(const std::string& input, size_t& index, size_t max_index, const char until)
-		{
-			max_index = std::min(max_index, input.size());
-
-			while (index < max_index && input[index] != until)
-				++index;
-		}
-
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Increments the index until it is at the index of the provided "until_1" character
-		// and is followed by the "until_2" character.
+		// Increments the index until it is at the index of the provided "until"
+		// substring, up until the max_index or input.size().
 		// This does not advance the index "past" the provided "until" characters.
+		// It will point to the beginning of the "until" substring, if found.
+		// The index will not be incremented past the lesser of max_index or input.size().
+		// The index will not be set to string::npos
 		//
 		/////////////////////////////////////////////////////////////////////////
-		static void advance_index_until_next(const std::string& input, size_t& index, size_t max_index, const char until_1, const char until_2)
+		static void advance_index_until_next(const std::string& input, size_t& index, size_t max_index, const std::string & until)
 		{
-			max_index = std::min(max_index, input.size());
-
-			while (index < max_index && (!(input[index] == until_1 && input[index + 1] == until_2)))
-				++index;
+			index = algorithm_rda::math_utils::min3(input.find(until, index), max_index, input.size());
 		}
 
 		/////////////////////////////////////////////////////////////////////////
 		//
-		// Increments the index until it is PAST the next occurrence of the "until" character.
+		// Increments the index until it is PAST the next occurrence of the "until"
+		// substring, up until max_index or input.size().
+		// The index will not be incremented past the lesser of max_index or input.size().
+		// The index will not be set to string::npos
 		//
 		/////////////////////////////////////////////////////////////////////////
-		static void advance_index_past_next(const std::string& input, size_t& index, size_t max_index, const char until)
+		static void advance_index_past_next(const std::string& input, size_t& index, size_t max_index, const std::string & until)
 		{
-			max_index = std::min(max_index, input.size());
-
-			while (index < max_index && input[index] != until)
-				++index;
-			
-			++index;
-			index = std::min(index, input.size());
-		}
-
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Increments the index until it is PAST the provided "until_1" character
-		// and is followed by the "until_2" character.
-		// This DOES advance the index immediately past the "until_2" character.
-		//
-		/////////////////////////////////////////////////////////////////////////
-		static void advance_index_past_next(const std::string& input, size_t& index, size_t max_index, const char until_1, const char until_2)
-		{
-			max_index = std::min(max_index, input.size());
-
-			while (index < max_index && (!(input[index] == until_1 && input[index + 1] == until_2)))
-				++index;
-
-			index += 2;
-			index = std::min(index, input.size());
+			advance_index_until_next(input, index, max_index, until);
+			index = algorithm_rda::math_utils::min3(index + until.size(), max_index, input.size());
 		}
 
 		/////////////////////////////////////////////////////////////////////////
