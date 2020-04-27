@@ -374,11 +374,11 @@ namespace lw_xml
 			if (is_closing)
 			{
 				return;
-				continue;
 			}
 			else if (is_self_closing)
 			{
 				strip_closing_tag_character(tag->name);
+
 				if (!tag->name.empty())
 					parent->children.push_back(tag);
 				continue;
