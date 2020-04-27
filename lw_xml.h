@@ -23,7 +23,7 @@ namespace lw_xml
 	class node
 	{	
 	public:
-		node() { }
+		node() = default;
 
 	public:
 		std::string name;
@@ -41,8 +41,10 @@ namespace lw_xml
 
 	public:
 
-		document() { }
+		// default constructor
+		document() = default;
 
+		// construct from string of xml data
 		document(const std::string& input)
 		{
 			parse(input);
@@ -87,7 +89,7 @@ namespace lw_xml
 			return ss.str();
 		}
 
-		// output stream operator for xmld ocument
+		// output stream operator for xml document
 		friend std::ostream& operator << (std::ostream& os, const document& rhs)
 		{
 			os << rhs.to_string();
