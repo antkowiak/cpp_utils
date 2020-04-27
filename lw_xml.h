@@ -25,6 +25,30 @@ namespace lw_xml
 	public:
 		node() = default;
 
+		std::vector<std::shared_ptr<node> > get_children_by_name(const std::string& name)
+		{
+			std::vector<std::shared_ptr<node> > v;
+			for (auto c : children)
+				if (c->name == name)
+					v.push_back(c);
+			return v;
+		}
+
+		std::vector<std::shared_ptr<node> > find_nodes_by_path(const std::string& path)
+		{
+			std::vector<std::string> split_path = algorithm_rda::split_string_to_vector(path, "/");
+			return find_nodes_by_path(split_path);
+		}
+
+		std::vector<std::shared_ptr<node> > find_nodes_by_path(const std::vector<std::string>& path)
+		{
+			std::vector<std::shared_ptr<node> > v;
+
+			// TODO.  Maybe pass the output by ref?
+
+			return v;
+		}
+
 	public:
 		std::string name;
 		std::string data;
