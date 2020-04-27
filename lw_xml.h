@@ -5,21 +5,31 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
+#include <iostream>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "algorithm_rda.h"
 
-class lw_xml_tag
-{
-public:
-	std::string name;
-	std::vector <std::pair<std::string, std::string> > attributes;
-};
-
 namespace lw_xml
 {
+	struct node
+	{	
+		std::string name;
+		std::string data;
+		std::vector<std::pair<std::string, std::string> > attributes;
+		std::vector<std::shared_ptr<node> > children;
+
+		virtual ~node() {}
+	};
+
+	struct document : public node
+	{
+		std::shared_ptr<node> header;
+	};
+
 	/////////////////////////////////////////////////////////////////////////
 	//
 	// Returns true if the provided string contains an "<?xml ?>" style xml header
@@ -27,13 +37,8 @@ namespace lw_xml
 	/////////////////////////////////////////////////////////////////////////
 	static bool contains_header(const std::string& input, size_t index = 0)
 	{
-		for (size_t i = 0; i < input.size() - 1; ++i)
-			if (input[i] == '<')
-				return input[i + 1] == '?';
-
-		return false;
+		return algorithm_rda::string_index_utils::string_contains(input, "<?");
 	}
-
 
 	/////////////////////////////////////////////////////////////////////////
 	//
@@ -89,10 +94,10 @@ namespace lw_xml
 	// Attempts to create and return an xml tag object for an xml header "<?xml ... ?>"
 	//
 	/////////////////////////////////////////////////////////////////////////
-	static lw_xml_tag create_header_tag(const std::string& input, size_t & index)
+	static std::shared_ptr<node> create_header_tag(const std::string& input, size_t & index)
 	{
 		// the tag object that will ultimately be returned
-		lw_xml_tag header_tag;
+		auto header_tag = std::make_shared<node>();
 
 		// read the header text between "<?" and "?>"
 		std::string header_text = read_header_text(input, index);
@@ -108,7 +113,7 @@ namespace lw_xml
 		algorithm_rda::string_index_utils::advance_index_past_all_not(header_text, end, header_text.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
 
 		// assign the name of the tag object
-		header_tag.name = header_text.substr(start, end - start);
+		header_tag->name = header_text.substr(start, end - start);
 
 		// go past any residual whitespace
 		size_t cur = end;
@@ -161,7 +166,7 @@ namespace lw_xml
 					if (!key.empty())
 					{
 						// then insert it into the vector of attributes
-						header_tag.attributes.push_back({ key, value });
+						header_tag->attributes.push_back({ key, value });
 
 					}
 
@@ -188,7 +193,7 @@ namespace lw_xml
 
 		// if the key was a valid string, then add the key=value pair to the attribute vector
 		if (!key.empty())
-			header_tag.attributes.push_back({ key, value });
+			header_tag->attributes.push_back({ key, value });
 
 		// return the tag object
 		return header_tag;
@@ -199,13 +204,12 @@ namespace lw_xml
 	// Attempts to create and return an xml tag object
 	//
 	/////////////////////////////////////////////////////////////////////////
-	static lw_xml_tag create_tag(const std::string& input, size_t& index)
+	static std::shared_ptr<node> create_tag(const std::string& input, size_t& index)
 	{
 		// the tag object that will ultimately be returned
-		lw_xml_tag tag;
+		auto tag = std::make_shared<node>();
 
-		// read the header text between "<" and ">"
-		std::string tag_text = read_tag_text(input, index);
+		std::string tag_text = input;
 
 		size_t start = 0;
 
@@ -218,7 +222,7 @@ namespace lw_xml
 		algorithm_rda::string_index_utils::advance_index_past_all_not(tag_text, end, tag_text.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
 
 		// assign the name of the tag object
-		tag.name = tag_text.substr(start, end - start);
+		tag->name = tag_text.substr(start, end - start);
 
 		// go past any residual whitespace
 		size_t cur = end;
@@ -271,7 +275,7 @@ namespace lw_xml
 					if (!key.empty())
 					{
 						// then insert it into the vector of attributes
-						tag.attributes.push_back({ key, value });
+						tag->attributes.push_back({ key, value });
 
 						// reset the key and value text
 						key = "";
@@ -297,10 +301,144 @@ namespace lw_xml
 
 		// if the key was a valid string, then add the key=value pair to the attribute vector
 		if (!key.empty())
-			tag.attributes.push_back({ key, value });
+			tag->attributes.push_back({ key, value });
 
 		// return the tag object
 		return tag;
 	}
-};
 
+	static bool is_closing_tag(const std::string& input, const size_t start_index)
+	{
+		return algorithm_rda::string_index_utils::string_starts_with(input, "/", start_index);
+	}
+
+	static bool is_self_closing_tag(const std::string& input)
+	{
+		return algorithm_rda::string_index_utils::string_ends_with(input, "/");
+	}
+
+	static void strip_closing_tag_character(std::string& input)
+	{
+		std::string s;
+		for (auto c : input)
+			if (c != '/')
+				s += c;
+		input = s;
+	}
+
+	static bool is_there_data(const std::string& input, size_t index)
+	{
+		// read (starting at index) for the next non-whitespace char.  If it isn't "<" then it is data
+		while (index < input.size())
+		{
+			if (!algorithm_rda::string_index_utils::is_whitespace(input[index]))
+			{
+				return (input[index] != '<');
+			}
+			++index;
+		}
+
+		return false;
+	}
+
+	static void parse_recursive(std::shared_ptr<node> parent, const std::string& input, size_t& index)
+	{
+		while (index < input.size())
+		{
+			std::string tag_text = read_tag_text(input, index);
+
+			size_t dummy(0);
+			auto tag = create_tag(tag_text, dummy);
+			bool is_closing = is_closing_tag(tag->name, 0);
+			bool is_self_closing = is_self_closing_tag(tag->name);
+
+			algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(tag->name);
+
+			if (is_closing)
+			{
+				return;
+				continue;
+			}
+			else if (is_self_closing)
+			{
+				strip_closing_tag_character(tag->name);
+				if (!tag->name.empty())
+					parent->children.push_back(tag);
+				continue;
+			}
+			else
+			{
+				if (!tag->name.empty())
+					parent->children.push_back(tag);
+
+				// try to read data into tag->data if it exists
+				if (is_there_data(input, index))
+				{
+					tag->data = algorithm_rda::string_index_utils::read_and_advance_until_next(input, "<", index);
+					algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(tag->data);
+				}
+
+				// then recurse
+				parse_recursive(tag, input, index);
+			}
+		}
+	}
+
+	static std::shared_ptr<document> parse(const std::string& input)
+	{
+		auto doc = std::make_shared<document>();
+		size_t index(0);
+		doc->header = create_header_tag(input, index);
+		parse_recursive(doc, input, index);
+		return doc;
+	}
+
+	static void print_r(std::shared_ptr<node> tag, const size_t indent)
+	{
+		for (size_t i = 0; i < indent; ++i)
+			std::cout << "    ";
+
+		std::cout << "<" << tag->name;
+		for (auto attrib : tag->attributes)
+			std::cout << " " << attrib.first << "=\"" << attrib.second << "\"";
+
+		if (tag->children.empty())
+		{
+			if (tag->data.empty())
+			{
+				std::cout << "/>" << std::endl;
+			}
+			else
+			{
+				std::cout << ">" << tag->data << "</" << tag->name << ">" << std::endl;
+			}
+		}
+		else
+		{
+			std::cout << ">" << std::endl;
+			
+			for (auto c : tag->children)
+				print_r(c, indent + 1);
+
+			for (size_t i = 0; i < indent; ++i)
+				std::cout << "    ";
+
+			std::cout << "</" << tag->name << ">" << std::endl;
+		}
+	}
+
+	static void print(std::shared_ptr<document> doc)
+	{
+		if (!doc->header->name.empty())
+		{
+			std::cout << "<?" << doc->header->name;
+		
+			for (auto c : doc->header->attributes)
+				std::cout << " " << c.first << "=\"" << c.second << "\"";
+			std::cout << "?>" << std::endl;
+		}
+		for (auto c : doc->children)
+			print_r(c, 0);
+	}
+
+};

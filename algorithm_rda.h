@@ -196,6 +196,20 @@ namespace algorithm_rda
 			return (input.find(substr) != std::string::npos);
 		}
 
+
+		/////////////////////////////////////////////////////////////////////////
+		//
+		// Returns true if input contains the substring substr.
+		// Starts searching at index.
+		// If substr is empty, will always return true.
+		//
+		/////////////////////////////////////////////////////////////////////////
+		bool string_contains(const std::string& input, const std::string& substr, const size_t index)
+		{
+			return (input.find(substr, index) != std::string::npos);
+		}
+
+
 		/////////////////////////////////////////////////////////////////////////
 		//
 		// Returns true if input starts with the substring substr.
@@ -205,6 +219,18 @@ namespace algorithm_rda
 		bool string_starts_with(const std::string& input, const std::string& substr)
 		{
 			return (input.find(substr) == 0);
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		//
+		// Returns true if input starts with the substring substr.
+		// Starts searching at index.
+		// If substr is empty, will always return true.
+		//
+		/////////////////////////////////////////////////////////////////////////
+		bool string_starts_with(const std::string& input, const std::string& substr, const size_t index)
+		{
+			return (input.find(substr, index) == 0);
 		}
 
 		/////////////////////////////////////////////////////////////////////////

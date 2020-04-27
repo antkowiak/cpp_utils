@@ -106,94 +106,22 @@ namespace test_lw_xml
 
 	static void test_000(const size_t testNum, TestInput& input)
 	{
-		ASSERT_TRUE(lw_xml::contains_header(input.s1));
-		ASSERT_TRUE(lw_xml::contains_header(input.s2));
-		ASSERT_FALSE(lw_xml::contains_header(input.s3));
+		{
+			auto doc = lw_xml::parse(input.s3);
+			lw_xml::print(doc);
+		}
 	}
 
 	static void test_001(const size_t testNum, TestInput& input)
 	{
-		size_t index1 = 0;
-		ASSERT_TRUE(lw_xml::read_header_text(input.s1, index1) == std::string(R"(xml version="1.0" encoding="UTF-8")"));
-
-		size_t index2 = 0;
-		ASSERT_TRUE(lw_xml::read_header_text(input.s2, index2) == std::string(R"(xml version="1.0" encoding="UTF-8")"));
-
-		size_t index3 = 0;
-		ASSERT_TRUE(lw_xml::read_header_text(input.s3, index3) == std::string(""));
 	}
 
 	static void test_002(const size_t testNum, TestInput& input)
 	{
-		size_t index1 = 0;
-		lw_xml_tag header_tag1 = lw_xml::create_header_tag(input.s1, index1);
-		ASSERT_TRUE(header_tag1.name == std::string("xml"));
-		ASSERT_TRUE(header_tag1.attributes.size() == 2);
-		ASSERT_TRUE(header_tag1.attributes[0].first == std::string("version"));
-		ASSERT_TRUE(header_tag1.attributes[0].second == std::string("1.0"));
-		ASSERT_TRUE(header_tag1.attributes[1].first == std::string("encoding"));
-		ASSERT_TRUE(header_tag1.attributes[1].second == std::string("UTF-8"));
-
-		size_t index2 = 0;
-		lw_xml_tag header_tag2 = lw_xml::create_header_tag(input.s2, index2);
-		ASSERT_TRUE(header_tag2.name == std::string("xml"));
-		ASSERT_TRUE(header_tag2.attributes.size() == 2);
-		ASSERT_TRUE(header_tag2.attributes[0].first == std::string("version"));
-		ASSERT_TRUE(header_tag2.attributes[0].second == std::string("1.0"));
-		ASSERT_TRUE(header_tag2.attributes[1].first == std::string("encoding"));
-		ASSERT_TRUE(header_tag2.attributes[1].second == std::string("UTF-8"));
-
-		size_t index3 = 0;
-		lw_xml_tag header_tag3 = lw_xml::create_header_tag(input.s3, index3);
-		ASSERT_TRUE(header_tag3.name == std::string(""));
-		ASSERT_TRUE(header_tag3.attributes.size() == 0);
 	}
 
 	static void test_003(const size_t testNum, TestInput& input)
 	{
-		{
-			std::string tag_text = R"(<tag_name> tag_data </tag_name>)";
-			size_t index(0);
-			lw_xml_tag tag = lw_xml::create_tag(tag_text, index);
-			ASSERT_TRUE(tag.name == "tag_name");
-			ASSERT_TRUE(tag.attributes.empty());
-		}
-
-		{
-			std::string tag_text = R"(<tag_name>tag_data</tag_name>)";
-			size_t index(0);
-			lw_xml_tag tag = lw_xml::create_tag(tag_text, index);
-			ASSERT_TRUE(tag.name == "tag_name");
-			ASSERT_TRUE(tag.attributes.empty());
-		}
-
-		{
-			std::string tag_text = R"( <tag_name>tag_data</tag_name>)";
-			size_t index(0);
-			lw_xml_tag tag = lw_xml::create_tag(tag_text, index);
-			ASSERT_TRUE(tag.name == "tag_name");
-			ASSERT_TRUE(tag.attributes.empty());
-		}
-
-		{
-			std::string tag_text = R"(       <  tag_name >     tag_data    <  /tag_name >         )";
-			size_t index(0);
-			lw_xml_tag tag = lw_xml::create_tag(tag_text, index);
-			ASSERT_TRUE(tag.name == "tag_name");
-			ASSERT_TRUE(tag.attributes.empty());
-		}
-
-		{
-			std::string tag_text = R"(<tag_name attr1=attr1_text attr2="attr2_text"> tag_data </tag_name>)";
-			size_t index(0);
-			lw_xml_tag tag = lw_xml::create_tag(tag_text, index);
-			ASSERT_TRUE(tag.name == "tag_name");
-			ASSERT_TRUE(tag.attributes[0].first == "attr1");
-			ASSERT_TRUE(tag.attributes[0].second == "attr1_text");
-			ASSERT_TRUE(tag.attributes[1].first == "attr2");
-			ASSERT_TRUE(tag.attributes[1].second == "attr2_text");
-		}
-
 	}
 
 	static void test_004(const size_t testNum, TestInput& input)
