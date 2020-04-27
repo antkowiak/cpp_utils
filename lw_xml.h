@@ -190,13 +190,13 @@ namespace lw_xml
 	
 	/////////////////////////////////////////////////////////////////////////
 	//
-	// Attempts to create and return an xml tag object
+	// Attempts to create and return an xml node object
 	//
 	/////////////////////////////////////////////////////////////////////////
-	static std::shared_ptr<node> create_tag(const std::string& input, size_t& index)
+	static std::shared_ptr<node> create_node(const std::string& input)
 	{
-		// the tag object that will ultimately be returned
-		auto tag = std::make_shared<node>();
+		// the node object that will ultimately be returned
+		auto created_node = std::make_shared<node>();
 
 		std::string tag_text = input;
 
@@ -210,8 +210,8 @@ namespace lw_xml
 		// find the end of the "name" by reading until end of string or until whitespace is encountered
 		algorithm_rda::string_index_utils::advance_index_past_all_not(tag_text, end, tag_text.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
 
-		// assign the name of the tag object
-		tag->name = tag_text.substr(start, end - start);
+		// assign the name of the node object
+		created_node->name = tag_text.substr(start, end - start);
 
 		// go past any residual whitespace
 		size_t cur = end;
@@ -264,7 +264,7 @@ namespace lw_xml
 					if (!key.empty())
 					{
 						// then insert it into the vector of attributes
-						tag->attributes.push_back({ key, value });
+						created_node->attributes.push_back({ key, value });
 					}
 
 					// reset the key and value text
@@ -290,10 +290,10 @@ namespace lw_xml
 
 		// if the key was a valid string, then add the key=value pair to the attribute vector
 		if (!key.empty())
-			tag->attributes.push_back({ key, value });
+			created_node->attributes.push_back({ key, value });
 
-		// return the tag object
-		return tag;
+		// return the node object
+		return created_node;
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -314,20 +314,6 @@ namespace lw_xml
 	static bool is_self_closing_tag(const std::string& input)
 	{
 		return algorithm_rda::string_index_utils::string_ends_with(input, "/");
-	}
-
-	/////////////////////////////////////////////////////////////////////////
-	//
-	// Strip tag closing character '/' from tag names
-	//
-	/////////////////////////////////////////////////////////////////////////
-	static void strip_closing_tag_character(std::string& input)
-	{
-		std::string s;
-		for (auto c : input)
-			if (c != '/')
-				s += c;
-		input = s;
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -364,8 +350,7 @@ namespace lw_xml
 		{
 			std::string tag_text = read_tag_text(input, index);
 
-			size_t dummy(0);
-			auto tag = create_tag(tag_text, dummy);
+			auto tag = create_node(tag_text);
 			bool is_closing = is_closing_tag(tag->name, 0);
 			bool is_self_closing = is_self_closing_tag(tag->name);
 
@@ -377,7 +362,7 @@ namespace lw_xml
 			}
 			else if (is_self_closing)
 			{
-				strip_closing_tag_character(tag->name);
+				algorithm_rda::string_index_utils::strip_character(tag->name, '/');
 
 				if (!tag->name.empty())
 					parent->children.push_back(tag);
@@ -408,9 +393,7 @@ namespace lw_xml
 
 		size_t index(0);
 		std::string header_text = read_header_text(input, index);
-
-		size_t header_index(0);
-		doc->header = create_tag(header_text, header_index);
+		doc->header = create_node(header_text);
 
 		parse_recursive(doc, input, index);
 
