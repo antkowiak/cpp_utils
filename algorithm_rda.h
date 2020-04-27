@@ -187,6 +187,21 @@ namespace algorithm_rda
 
 		/////////////////////////////////////////////////////////////////////////
 		//
+		// Return a string with 'count' number of prefixes.
+		//
+		/////////////////////////////////////////////////////////////////////////
+		std::string string_indent(const std::string& prefix, const size_t count)
+		{
+			std::string str;
+
+			for (size_t i = 0; i < count; ++i)
+				str += prefix;
+
+			return str;
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		//
 		// Returns true if input contains the substring substr.
 		// If substr is empty, will always return true.
 		//

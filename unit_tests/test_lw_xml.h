@@ -107,17 +107,25 @@ namespace test_lw_xml
 	static void test_000(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::parse(input.s3);
-			lw_xml::print(doc);
+			auto doc = lw_xml::document(input.s1);
+			std::cout << doc;
 		}
 	}
 
 	static void test_001(const size_t testNum, TestInput& input)
 	{
+		{
+			auto doc = lw_xml::document(input.s2);
+			std::cout << doc;
+		}
 	}
 
 	static void test_002(const size_t testNum, TestInput& input)
 	{
+		{
+			auto doc = lw_xml::document(input.s3);
+			std::cout << doc;
+		}
 	}
 
 	static void test_003(const size_t testNum, TestInput& input)
