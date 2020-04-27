@@ -187,6 +187,40 @@ namespace algorithm_rda
 
 		/////////////////////////////////////////////////////////////////////////
 		//
+		// Returns true if input contains the substring substr.
+		// If substr is empty, will always return true.
+		//
+		/////////////////////////////////////////////////////////////////////////
+		bool string_contains(const std::string& input, const std::string& substr)
+		{
+			return (input.find(substr) != std::string::npos);
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		//
+		// Returns true if input starts with the substring substr.
+		// If substr is empty, will always return true.
+		//
+		/////////////////////////////////////////////////////////////////////////
+		bool string_starts_with(const std::string& input, const std::string& substr)
+		{
+			return (input.find(substr) == 0);
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		//
+		// Returns true if input ends with the substring substr.
+		// If substr is empty, will always return true.
+		//
+		/////////////////////////////////////////////////////////////////////////
+		bool string_ends_with(const std::string& input, const std::string& substr)
+		{
+			const size_t index(input.rfind(substr));
+			return ((index != std::string::npos) && (index == input.size() - substr.size()));
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		//
 		// Increments the index until it is at the index of the provided "until"
 		// substring, up until the max_index or input.size().
 		// This does not advance the index "past" the provided "until" characters.

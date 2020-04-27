@@ -1288,6 +1288,81 @@ namespace test_algorithm_rda
 		}
 	}
 
+	static void test_016(const size_t testNum, TestInput& input)
+	{
+		// string_contains
+		using algorithm_rda::string_index_utils::string_contains;
+
+		{
+			std::string s("");
+			ASSERT_TRUE(string_contains(s, ""), s);
+			ASSERT_FALSE(string_contains(s, " "), s);
+			ASSERT_FALSE(string_contains(s, "a"), s);
+		}
+
+		{
+			std::string s("abcdefgh");
+			ASSERT_TRUE(string_contains(s, "a"), s);
+			ASSERT_TRUE(string_contains(s, "ab"), s);
+			ASSERT_TRUE(string_contains(s, "bc"), s);
+			ASSERT_TRUE(string_contains(s, "h"), s);
+			ASSERT_TRUE(string_contains(s, "gh"), s);
+			ASSERT_TRUE(string_contains(s, "abcdefgh"), s);
+			ASSERT_TRUE(string_contains(s, ""), s);
+			ASSERT_FALSE(string_contains(s, "fghi"), s);
+		}
+	}
+
+	static void test_017(const size_t testNum, TestInput& input)
+	{
+		// string_starts_with
+		using algorithm_rda::string_index_utils::string_starts_with;
+
+		{	
+			std::string s("");
+			ASSERT_TRUE(string_starts_with(s, ""), s);
+			ASSERT_FALSE(string_starts_with(s, " "), s);
+			ASSERT_FALSE(string_starts_with(s, "a"), s);
+		}
+
+		{
+			std::string s("abcdefgh");
+			ASSERT_TRUE(string_starts_with(s, "a"), s);
+			ASSERT_TRUE(string_starts_with(s, "ab"), s);
+			ASSERT_FALSE(string_starts_with(s, "bc"), s);
+			ASSERT_FALSE(string_starts_with(s, "h"), s);
+			ASSERT_FALSE(string_starts_with(s, "gh"), s);
+			ASSERT_TRUE(string_starts_with(s, "abcdefgh"), s);
+			ASSERT_TRUE(string_starts_with(s, ""), s);
+			ASSERT_FALSE(string_starts_with(s, "fghi"), s);
+		}
+	}
+
+	static void test_018(const size_t testNum, TestInput& input)
+	{
+		// string_ends_with
+		using algorithm_rda::string_index_utils::string_ends_with;
+
+		{	
+			std::string s("");
+			ASSERT_TRUE(string_ends_with(s, ""), s);
+			ASSERT_FALSE(string_ends_with(s, " "), s);
+			ASSERT_FALSE(string_ends_with(s, "a"), s);
+		}
+
+		{
+			std::string s("abcdefgh");
+			ASSERT_FALSE(string_ends_with(s, "a"), s);
+			ASSERT_FALSE(string_ends_with(s, "ab"), s);
+			ASSERT_FALSE(string_ends_with(s, "bc"), s);
+			ASSERT_TRUE(string_ends_with(s, "h"), s);
+			ASSERT_TRUE(string_ends_with(s, "gh"), s);
+			ASSERT_TRUE(string_ends_with(s, "abcdefgh"), s);
+			ASSERT_TRUE(string_ends_with(s, ""), s);
+			ASSERT_FALSE(string_ends_with(s, "fghi"), s);
+		}
+	}
+
 	static void run_tests()
 	{
 		// vector to hold functions to unit tests
@@ -1310,6 +1385,9 @@ namespace test_algorithm_rda
 		test_vec.push_back(test_013);
 		test_vec.push_back(test_014);
 		test_vec.push_back(test_015);
+		test_vec.push_back(test_016);
+		test_vec.push_back(test_017);
+		test_vec.push_back(test_018);
 
 		// run each unit test
 		for (size_t i = 0; i < test_vec.size(); ++i)
