@@ -34,6 +34,8 @@ namespace unit_test_utils
 		}
 	}
 
+#pragma warning( push )
+#pragma warning( disable : 4505 ) // unreferenced local function has been removed
 	// call the function and fail if it throws an exception
 	static void ASSERT_NO_THROW(std::function<void(void)> f, const std::string& description = "")
 	{
@@ -108,4 +110,5 @@ namespace unit_test_utils
 			exit(EXIT_FAILURE);
 		}
 	}
+#pragma warning( pop )
 }

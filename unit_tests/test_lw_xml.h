@@ -9,6 +9,10 @@
 
 #include "../lw_xml.h"
 
+// unreferenced formal parameter
+#pragma warning( push )
+#pragma warning( disable : 4100 )
+
 namespace test_lw_xml
 {
 	using unit_test_utils::ASSERT_TRUE;
@@ -253,3 +257,5 @@ namespace test_lw_xml
 		}
 	}
 }
+
+#pragma warning( pop )

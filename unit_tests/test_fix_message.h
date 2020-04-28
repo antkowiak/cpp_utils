@@ -14,6 +14,12 @@
 #include "../benchmark.h"
 #include "../fix_message.h"
 
+// unreferenced formal parameter
+// local variable is initialized but not referenced
+#pragma warning( push )
+#pragma warning( disable : 4100 )
+#pragma warning( disable : 4189 )
+
 namespace test_fix_message
 {
 	using unit_test_utils::ASSERT_TRUE;
@@ -226,7 +232,7 @@ namespace test_fix_message
 #pragma warning( disable : 6262 ) // warning about using a lot of stack
 	static void test_007(const size_t testNum, TestInput& input)
 	{
-		benchmark bm("Total Benchmark time");
+		benchmark bm_total("Total Benchmark time");
 
 		// benchmarks
 		const size_t num_iterations = 1000;
@@ -364,5 +370,7 @@ namespace test_fix_message
 			teardown(i, input);
 		}
 	}
-#pragma warning(pop)
+#pragma warning( pop )
 }
+
+#pragma warning( pop )

@@ -54,18 +54,18 @@ namespace lw_xml
 		}
 
 		// returns a vector of all direct children
-		std::vector<std::shared_ptr<node> > get_children(const std::string& name) const
+		std::vector<std::shared_ptr<node> > get_children() const
 		{
 			return children;
 		}
 
 		// returns a vector of all direct children with a specified name
-		std::vector<std::shared_ptr<node> > get_children_by_name(const std::string& name) const
+		std::vector<std::shared_ptr<node> > get_children_by_name(const std::string& child_name) const
 		{
 			std::vector<std::shared_ptr<node> > v;
 
 			for (auto c : children)
-				if (c->name == name)
+				if (c->name == child_name)
 					v.push_back(c);
 
 			return v;
@@ -87,20 +87,20 @@ namespace lw_xml
 			}
 			else if (path.size() == 1)
 			{
-				auto children = get_children_by_name(path.front());
+				auto children_nodes = get_children_by_name(path.front());
 
-				for (auto c : children)
+				for (auto c : children_nodes)
 					output.push_back(c);
 			}
 			else
 			{
 				auto new_path(path);
 
-				auto children = get_children_by_name(path.front());
+				auto children_nodes = get_children_by_name(path.front());
 
 				new_path.erase(new_path.begin());
 
-				for (auto c : children)
+				for (auto c : children_nodes)
 					c->find_nodes_by_path(new_path, output);
 			}
 		}
@@ -434,7 +434,7 @@ namespace lw_xml
 		}
 
 		// Returns true if the provided string contains an "<?xml ?>" style xml header
-		bool contains_header(const std::string& input, size_t index = 0)
+		bool contains_header(const std::string& input)
 		{
 			return algorithm_rda::string_index_utils::string_contains(input, "<?");
 		}

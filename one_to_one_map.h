@@ -86,7 +86,7 @@ public:
 		return std::max({ m_map.erase(v1), m_map.erase(v2) });
 	}
 
-	virtual void swap(one_to_one_map<V>& other) { std::swap(m_map, other.m_map); }
+	virtual void swap(one_to_one_map<V>& rhs) { std::swap(m_map, rhs.m_map); }
 
 	// Lookup
 	virtual size_t count(const V& v) const { return m_map.count(v); }

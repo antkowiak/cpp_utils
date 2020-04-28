@@ -9,6 +9,10 @@
 
 #include "../one_to_one_map.h"
 
+// unreferenced formal parameter
+#pragma warning( push )
+#pragma warning( disable : 4100 )
+
 namespace test_one_to_one_map
 {
 	using unit_test_utils::ASSERT_TRUE;
@@ -270,3 +274,5 @@ namespace test_one_to_one_map
 		}
 	}
 }
+
+#pragma warning( pop )

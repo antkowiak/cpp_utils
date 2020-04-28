@@ -123,7 +123,7 @@ public:
 			erase_values(m_map, u) });
 	}
 
-	virtual void swap(bidirectional_map<T, U>& other) { std::swap(m_map, other.m_map); std::swap(m_map_r, other.m_map_r); }
+	virtual void swap(bidirectional_map<T, U>& rhs) { std::swap(m_map, rhs.m_map); std::swap(m_map_r, rhs.m_map_r); }
 
 	// Lookup
 	virtual size_t count(const T& t) const { return m_map.count(t); }

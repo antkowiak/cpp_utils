@@ -9,6 +9,10 @@
 
 #include "../algorithm_rda.h"
 
+// unreferenced formal parameter
+#pragma warning( push )
+#pragma warning( disable : 4100 )
+
 namespace test_algorithm_rda
 {
 	using unit_test_utils::ASSERT_TRUE;
@@ -1399,3 +1403,5 @@ namespace test_algorithm_rda
 		}
 	}
 }
+
+#pragma warning( pop )

@@ -9,6 +9,10 @@
 
 // TODO #include "../INSERT_TEXT_HERE.h"
 
+// unreferenced formal parameter
+#pragma warning( push )
+#pragma warning( disable : 4100 )
+
 namespace test_INSERT_TEXT_HERE // TODO
 {
 	using unit_test_utils::ASSERT_TRUE;
@@ -102,3 +106,5 @@ namespace test_INSERT_TEXT_HERE // TODO
 		}
 	}
 }
+
+#pragma warning( pop )

@@ -6,6 +6,10 @@
 
 #include "../toolean.h"
 
+// unreferenced formal parameter
+#pragma warning( push )
+#pragma warning( disable : 4100 )
+
 namespace test_toolean
 {
 	using unit_test_utils::ASSERT_TRUE;
@@ -146,3 +150,5 @@ namespace test_toolean
 	}
 
 }
+
+#pragma warning( pop )
