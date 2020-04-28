@@ -23,9 +23,44 @@ namespace lw_xml
 	class node
 	{	
 	public:
-		node() = default;
 
-		std::vector<std::shared_ptr<node> > get_children_by_name(const std::string& name)
+		std::string name;
+		std::string data;
+		std::vector<std::pair<std::string, std::string> > attributes;
+		std::vector<std::shared_ptr<node> > children;
+
+	public:
+
+		node() = default;
+		
+		virtual ~node() = default;
+
+		// returns the name of this node
+		std::string get_name() const
+		{
+			return name;
+		}
+
+		// returns the data of this node
+		std::string get_data() const
+		{
+			return data;
+		}
+
+		// returns all the attributes of this node
+		std::vector<std::pair<std::string, std::string> > get_attributes() const
+		{
+			return attributes;
+		}
+
+		// returns a vector of all direct children
+		std::vector<std::shared_ptr<node> > get_children(const std::string& name) const
+		{
+			return children;
+		}
+
+		// returns a vector of all direct children with a specified name
+		std::vector<std::shared_ptr<node> > get_children_by_name(const std::string& name) const
 		{
 			std::vector<std::shared_ptr<node> > v;
 			for (auto c : children)
@@ -34,33 +69,111 @@ namespace lw_xml
 			return v;
 		}
 
-		std::vector<std::shared_ptr<node> > find_nodes_by_path(const std::string& path)
+		// populates a vector of nodes with nodes that match the provided full path (path specified by '/' delimited string
+		void find_nodes_by_path(const std::string& path, std::vector<std::shared_ptr<node> >& output) const
 		{
 			std::vector<std::string> split_path = algorithm_rda::split_string_to_vector(path, "/");
-			return find_nodes_by_path(split_path);
+			find_nodes_by_path(split_path, output);
 		}
 
-		std::vector<std::shared_ptr<node> > find_nodes_by_path(const std::vector<std::string>& path)
+		// populates a vector of nodes with nodes that math the provided full path (path specified by vector)
+		void find_nodes_by_path(const std::vector<std::string>& path, std::vector<std::shared_ptr<node> > & output) const
 		{
-			std::vector<std::shared_ptr<node> > v;
+			if (path.empty())
+			{
+				return;
+			}
+			else if (path.size() == 1)
+			{
+				auto children = get_children_by_name(path.front());
 
-			// TODO.  Maybe pass the output by ref?
+				for (auto c : children)
+					output.push_back(c);
+			}
+			else
+			{
+				auto new_path(path);
 
-			return v;
+				auto children = get_children_by_name(path.front());
+
+				new_path.erase(new_path.begin());
+
+				for (auto c : children)
+					c->find_nodes_by_path(new_path, output);
+			}
 		}
 
-	public:
-		std::string name;
-		std::string data;
-		std::vector<std::pair<std::string, std::string> > attributes;
-		std::vector<std::shared_ptr<node> > children;
+		// populates a vector of {path, node} pairs that match all sub-child nodes that have the given name
+		void find_nodes_by_name(const std::string& node_name, std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > >& output) const
+		{
+			find_nodes_by_name(node_name, "", output);
+		}
 
-		virtual ~node() {}
+		// populates a vector of {path, node} pairs that match all sub-child nodes that have the given data
+		void find_nodes_by_data(const std::string& data_value, std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > >& output) const
+		{
+			find_nodes_by_data(data_value, "", output);
+		}
+
+	protected:
+
+		// populates a vector of {path, node} pairs that match all sub-child nodes that have the given name
+		void find_nodes_by_name(const std::string& node_name, std::string cur_path, std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > >& output) const
+		{
+			if (cur_path.empty())
+				cur_path += name;
+			else
+				cur_path += std::string("/") + name;
+
+			for (auto c : children)
+			{
+				if (c->name == node_name)
+				{
+					std::string path = cur_path;
+
+					if (path.empty())
+						path += c->name;
+					else
+						path += std::string("/") + c->name;
+
+					output.push_back(std::pair<std::string, std::shared_ptr<lw_xml::node> >(path, c));
+				}
+				
+				c->find_nodes_by_name(node_name, cur_path, output);
+			}
+		}
+
+		// populates a vector of {path, node} pairs that match all sub-child nodes that have the given data
+		void find_nodes_by_data(const std::string& data_value, std::string cur_path, std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > >& output) const
+		{
+			if (cur_path.empty())
+				cur_path += name;
+			else
+				cur_path += std::string("/") + name;
+
+			for (auto c : children)
+			{
+				if (c->data == data_value)
+				{
+					std::string path = cur_path;
+
+					if (path.empty())
+						path += c->name;
+					else
+						path += std::string("/") + c->name;
+
+					output.push_back(std::pair<std::string, std::shared_ptr<lw_xml::node> >(path, c));
+				}
+
+				c->find_nodes_by_data(data_value, cur_path, output);
+			}
+		}
 	};
 
 	class document : public node
 	{
 	public:
+
 		std::shared_ptr<node> header;
 
 	public:
@@ -72,6 +185,15 @@ namespace lw_xml
 		document(const std::string& input)
 		{
 			parse(input);
+		}
+
+		// destructor
+		virtual ~document() = default;
+
+		// returns the header node of the document
+		std::shared_ptr<node> get_header() const
+		{
+			return header;
 		}
 
 		// parse an xml document from string input
@@ -205,11 +327,7 @@ namespace lw_xml
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Attempts to create and return an xml node object
-		//
-		/////////////////////////////////////////////////////////////////////////
+		// Creates and return an xml node object
 		std::shared_ptr<node> create_node(const std::string& input)
 		{
 			// the node object that will ultimately be returned
@@ -313,22 +431,13 @@ namespace lw_xml
 			return created_node;
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Returns true if the provided string contains an "<?xml ?>" style xml header
-		//
-		/////////////////////////////////////////////////////////////////////////
 		bool contains_header(const std::string& input, size_t index = 0)
 		{
 			return algorithm_rda::string_index_utils::string_contains(input, "<?");
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Attempts to read and return the string of the xml header text contained
-		// between "<?" and "?>"
-		//
-		/////////////////////////////////////////////////////////////////////////
+		// Reads and returns the string of the xml header text contained between "<?" and "?>"
 		std::string read_header_text(const std::string& input, size_t& index)
 		{
 			if (!contains_header(input))
@@ -351,12 +460,7 @@ namespace lw_xml
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Attempts to read and return the string of the xml tag text contained
-		// between "<" and ">"
-		//
-		/////////////////////////////////////////////////////////////////////////
+		// Reads and returns the string of the xml tag text contained between "<" and ">"
 		std::string read_tag_text(const std::string& input, size_t& index)
 		{
 			// Advance past the opening "<" of the tag
@@ -372,39 +476,20 @@ namespace lw_xml
 			return tag_text;
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Returns true if this is a closing tag: </Blah>
-		//
-		/////////////////////////////////////////////////////////////////////////
+		// Returns true if this is a closing tag: ex: </Blah>
 		bool is_closing_tag(const std::string& input, const size_t start_index)
 		{
 			return algorithm_rda::string_index_utils::string_starts_with(input, "/", start_index);
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Returns true if this is a self-closing tag: <Blah/>
-		//
-		/////////////////////////////////////////////////////////////////////////
 		bool is_self_closing_tag(const std::string& input)
 		{
 			return algorithm_rda::string_index_utils::string_ends_with(input, "/");
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Returns true if there is tag data to read (as opposed to further nested tags.)
-		// Ex:  
-		//		<Blah>some data</Blah>			-> returns true
-		//
-		// Ex:
-		//
-		//		<Blah>							-> returns false
-		//			<Child>some data</Child>
-		//		</Blah>
-		//
-		/////////////////////////////////////////////////////////////////////////
+		// Ex: <Blah>some data</Blah> vs <Blah><Child>some data</Child></Blah>
 		bool is_tag_data_to_read(const std::string& input, size_t index)
 		{
 			// read (starting at index) for the next non-whitespace char.  If it isn't "<" then it is data
@@ -419,7 +504,5 @@ namespace lw_xml
 
 			return false;
 		}
-
 	};
-
 }

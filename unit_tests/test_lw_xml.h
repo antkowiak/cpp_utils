@@ -130,30 +130,100 @@ namespace test_lw_xml
 
 	static void test_003(const size_t testNum, TestInput& input)
 	{
+		{
+			auto doc = lw_xml::document(input.s1);
+			ASSERT_TRUE(doc.get_header()->get_name() == "xml");
+
+			ASSERT_TRUE(algorithm_rda::contains(doc.get_header()->get_attributes(), std::make_pair<std::string, std::string>("version", "1.0")));
+			ASSERT_TRUE(algorithm_rda::contains(doc.get_header()->get_attributes(), std::make_pair<std::string, std::string>("encoding", "UTF-8")));
+		}
 	}
 
 	static void test_004(const size_t testNum, TestInput& input)
 	{
+		{
+			auto doc = lw_xml::document(input.s2);
+			ASSERT_TRUE(doc.get_header()->get_name() == "xml");
+
+			ASSERT_TRUE(algorithm_rda::contains(doc.get_header()->get_attributes(), std::make_pair<std::string, std::string>("version", "1.0")));
+			ASSERT_TRUE(algorithm_rda::contains(doc.get_header()->get_attributes(), std::make_pair<std::string, std::string>("encoding", "UTF-8")));
+		}
 	}
 
 	static void test_005(const size_t testNum, TestInput& input)
 	{
+		{
+			auto doc = lw_xml::document(input.s3);
+
+			ASSERT_TRUE(doc.get_header()->get_name() == "");
+
+			ASSERT_TRUE(doc.get_header()->get_attributes().empty());
+		}
 	}
 
 	static void test_006(const size_t testNum, TestInput& input)
 	{
+		{
+			auto doc = lw_xml::document(input.s1);
+			
+			auto children = doc.get_children_by_name("");
+			ASSERT_TRUE(children.empty());
+
+			children = doc.get_children_by_name("note");
+			ASSERT_TRUE(children.size() == 1);
+
+			auto to = children[0]->get_children_by_name("to");
+			ASSERT_TRUE(to.size() == 1);
+			ASSERT_TRUE(to[0]->get_data() == "Tove");
+
+			auto from = children[0]->get_children_by_name("from");
+			ASSERT_TRUE(from.size() == 1);
+			ASSERT_TRUE(from[0]->get_data() == "Jani");
+
+			auto heading = children[0]->get_children_by_name("heading");
+			ASSERT_TRUE(heading.size() == 1);
+			ASSERT_TRUE(heading[0]->get_data() == "Reminder");
+
+			auto body = children[0]->get_children_by_name("body");
+			ASSERT_TRUE(body.size() == 1);
+			ASSERT_TRUE(body[0]->get_data() == "Dont forget me this weekend!");
+		}
 	}
 
 	static void test_007(const size_t testNum, TestInput& input)
 	{
+		{
+			auto doc = lw_xml::document(input.s2);
+
+			std::vector<std::shared_ptr<lw_xml::node> > nodes;
+			doc.find_nodes_by_path("breakfast_menu/food", nodes);
+
+			ASSERT_TRUE(nodes.size() == 5);
+		}
 	}
 
 	static void test_008(const size_t testNum, TestInput& input)
 	{
+		{
+			auto doc = lw_xml::document(input.s2);
+
+			std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > > nodes;
+			doc.find_nodes_by_name("calories", nodes);
+
+			ASSERT_TRUE(nodes.size() == 5);
+		}
 	}
 
 	static void test_009(const size_t testNum, TestInput& input)
 	{
+		{
+			auto doc = lw_xml::document(input.s2);
+
+			std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > > nodes;
+			doc.find_nodes_by_data("900", nodes);
+
+			ASSERT_TRUE(nodes.size() == 2);
+		}
 	}
 
 	static void run_tests()

@@ -37,6 +37,48 @@ namespace algorithm_rda
 			func(*maxIter);
 	}
 
+	// Find an item over an entire vector
+	template<typename T>
+	typename std::vector<T>::iterator find(const std::vector<T>& vec, const T& element)
+	{
+		return std::find(vec.begin(), vec.end(), element);
+	}
+
+	// Find an item over an entire vector
+	template<typename T>
+	typename std::vector<T>::const_iterator cfind(const std::vector<T>& vec, const T& element)
+	{
+		return std::find(vec.cbegin(), vec.cend(), element);
+	}
+
+	// Find an item over an entire list
+	template<typename T>
+	typename std::list<T>::iterator find(const std::list<T>& lst, const T& element)
+	{
+		return std::find(lst.begin(), lst.end(), element);
+	}
+
+	// Find an item over an entire list
+	template<typename T>
+	typename std::list<T>::const_iterator cfind(const std::list<T>& lst, const T& element)
+	{
+		return std::find(lst.cbegin(), lst.cend(), element);
+	}
+
+	// Check if a vector contains an element
+	template<typename T>
+	bool contains(const std::vector<T>& vec, const T& element)
+	{
+		return (cfind(vec, element) != vec.cend());
+	}
+
+	// Check if a list contains an element
+	template<typename T>
+	bool contains(const std::list<T>& lst, const T& element)
+	{
+		return (cfind(lst, element) != lst.cend());
+	}
+
 	// Split a collection into a vector of sub-collections, based on a provided delimiter object
 	template<typename T, typename V>
 	std::vector<T> split_to_vector(const T& data, const V& delim)
