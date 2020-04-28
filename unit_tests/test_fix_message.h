@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string.h>
+
 #include <chrono>
 #include <functional>
 #include <iostream>
@@ -61,13 +63,21 @@ namespace test_fix_message
 
 
 			str2_arr = (char*)malloc(strlen(str1_arr) + 1);
+#ifdef _WIN32
 			strncpy_s(str2_arr, strlen(str1_arr) + 1, str1_arr, strlen(str1_arr));
+#else
+			strncpy(str2_arr, str1_arr, strlen(str1_arr));
+#endif
 			str2_arr[strlen(str1_arr)] = 0;
 			fm_fromCharArray_arr.init(str2_arr);
 
 
 			str2_map = (char*)malloc(strlen(str1_map) + 1);
+#ifdef _WIN32
 			strncpy_s(str2_map, strlen(str1_map) + 1, str1_map, strlen(str1_map));
+#else
+			strncpy(str2_map, str1_map, strlen(str1_map));
+#endif
 			str2_map[strlen(str1_map)] = 0;
 			fm_fromCharArray_map.init(str2_map);
 		}
