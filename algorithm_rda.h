@@ -220,18 +220,10 @@ namespace algorithm_rda
 
 	namespace string_index_utils
 	{
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Whitespace characters.
-		//
-		/////////////////////////////////////////////////////////////////////////
 		const static std::vector<char> WHITESPACE_CHARS = { ' ', '\n', '\t', '\r' };
 
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Return a string with 'count' number of prefixes.
-		//
-		/////////////////////////////////////////////////////////////////////////
 		std::string string_indent(const std::string& prefix, const size_t count)
 		{
 			std::string str;
@@ -242,60 +234,31 @@ namespace algorithm_rda
 			return str;
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Returns true if input contains the substring substr.
-		// If substr is empty, will always return true.
-		//
-		/////////////////////////////////////////////////////////////////////////
+		// Returns true if input contains the substring substr. If substr is empty, will always return true.
 		bool string_contains(const std::string& input, const std::string& substr)
 		{
 			return (input.find(substr) != std::string::npos);
 		}
 
-
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Returns true if input contains the substring substr.
-		// Starts searching at index.
-		// If substr is empty, will always return true.
-		//
-		/////////////////////////////////////////////////////////////////////////
+		// Returns true if input contains the substring substr, starting at index.
 		bool string_contains(const std::string& input, const std::string& substr, const size_t index)
 		{
 			return (input.find(substr, index) != std::string::npos);
 		}
 
-
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Returns true if input starts with the substring substr.
-		// If substr is empty, will always return true.
-		//
-		/////////////////////////////////////////////////////////////////////////
+		// Returns true if input starts with the substring substr. If substr is empty, will always return true.
 		bool string_starts_with(const std::string& input, const std::string& substr)
 		{
 			return (input.find(substr) == 0);
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Returns true if input starts with the substring substr.
-		// Starts searching at index.
-		// If substr is empty, will always return true.
-		//
-		/////////////////////////////////////////////////////////////////////////
+		// Returns true if input starts with the substring substr. Starts searching at index.
 		bool string_starts_with(const std::string& input, const std::string& substr, const size_t index)
 		{
 			return (input.find(substr, index) == 0);
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
-		// Returns true if input ends with the substring substr.
-		// If substr is empty, will always return true.
-		//
-		/////////////////////////////////////////////////////////////////////////
+		// Returns true if input ends with the substring substr. If substr is empty, will always return true.
 		bool string_ends_with(const std::string& input, const std::string& substr)
 		{
 			const size_t index(input.rfind(substr));
@@ -417,11 +380,7 @@ namespace algorithm_rda
 			return read_and_advance_past_next(input, until, idx);
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Returns true if the provided character is a whitespace character
-		//
-		/////////////////////////////////////////////////////////////////////////
 		static bool is_whitespace(const char c)
 		{
 			return find(
@@ -430,31 +389,19 @@ namespace algorithm_rda
 				c) != WHITESPACE_CHARS.end();
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Returns true if the provided character is a quote
-		//
-		/////////////////////////////////////////////////////////////////////////
 		static bool is_quote(const char c)
 		{
 			return (c == '"');
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Returns true if the provided character is the equals sign
-		//
-		/////////////////////////////////////////////////////////////////////////
 		static bool is_equals(const char c)
 		{
 			return (c == '=');
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Strips all instances of strip_char from input.
-		//
-		/////////////////////////////////////////////////////////////////////////
 		static void strip_character(std::string& input, const char strip_char)
 		{
 			std::string s;
@@ -465,11 +412,7 @@ namespace algorithm_rda
 
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Strip (remove) all leading and trailing white space.
-		//
-		/////////////////////////////////////////////////////////////////////////
 		static void strip_leading_and_trailing_whitespace(std::string& input)
 		{
 			// remove all leading whitespace
@@ -481,11 +424,7 @@ namespace algorithm_rda
 				input = input.substr(0, input.size() - 1);
 		}
 
-		/////////////////////////////////////////////////////////////////////////
-		//
 		// Remove one leading quote and one trailing quote, if they exist.
-		//
-		/////////////////////////////////////////////////////////////////////////
 		static void strip_leading_and_trailing_quote(std::string& input)
 		{
 			// remove one leading quote, if starts with a quote
