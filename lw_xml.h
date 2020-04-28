@@ -63,9 +63,11 @@ namespace lw_xml
 		std::vector<std::shared_ptr<node> > get_children_by_name(const std::string& name) const
 		{
 			std::vector<std::shared_ptr<node> > v;
+
 			for (auto c : children)
 				if (c->name == name)
 					v.push_back(c);
+
 			return v;
 		}
 
