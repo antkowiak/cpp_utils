@@ -98,9 +98,21 @@ namespace json
 			bool found_point = false;
 			bool found_sci_notation = false;
 
-			for (size_t i = index ; i < input.size(); ++i)
+			// advance past white space
+			algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+
+			// start index
+			const size_t start_idx = index;
+
+			// advance past delimters
+			algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), json::JSON_DELIMITERS);
+
+			std::string num_str = input.substr(start_idx, index - start_idx);
+
+
+			for (size_t i = 0 ; i < num_str.size() ; ++i)
 			{
-				char c = input[i];
+				char c = num_str[i];
 
 				if (c == NEGATIVE && i != 0)
 					return false;
