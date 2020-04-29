@@ -72,12 +72,6 @@
     <ClInclude Include="unit_tests\test_fix_message.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
-    <ClInclude Include="lw_xml.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="unit_tests\test_lw_xml.h">
-      <Filter>Header Files\unit_tests</Filter>
-    </ClInclude>
     <ClInclude Include="unit_tests\test_algorithm_rda.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
@@ -86,6 +80,12 @@
     </ClInclude>
     <ClInclude Include="unit_tests\test_ymd.h">
       <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="unit_tests\test_xml.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="xml.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

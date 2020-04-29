@@ -7,13 +7,13 @@
 
 #include "unit_test_utils.h"
 
-#include "../lw_xml.h"
+#include "../xml.h"
 
 // unreferenced formal parameter
 #pragma warning( push )
 #pragma warning( disable : 4100 )
 
-namespace test_lw_xml
+namespace test_xml
 {
 	using unit_test_utils::ASSERT_TRUE;
 	using unit_test_utils::ASSERT_FALSE;
@@ -99,7 +99,7 @@ namespace test_lw_xml
 
 	static void setup(const size_t testNum, TestInput& input)
 	{
-		std::cout << "Running lw_xml test: " << testNum << std::endl;
+		std::cout << "Running xml test: " << testNum << std::endl;
 	}
 
 	static void teardown(const size_t testNum, TestInput& input)
@@ -111,7 +111,7 @@ namespace test_lw_xml
 	static void test_000(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::document(input.s1);
+			auto doc = xml::document(input.s1);
 			std::cout << doc;
 		}
 	}
@@ -119,7 +119,7 @@ namespace test_lw_xml
 	static void test_001(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::document(input.s2);
+			auto doc = xml::document(input.s2);
 			std::cout << doc;
 		}
 	}
@@ -127,7 +127,7 @@ namespace test_lw_xml
 	static void test_002(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::document(input.s3);
+			auto doc = xml::document(input.s3);
 			std::cout << doc;
 		}
 	}
@@ -135,7 +135,7 @@ namespace test_lw_xml
 	static void test_003(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::document(input.s1);
+			auto doc = xml::document(input.s1);
 			ASSERT_TRUE(doc.get_header()->get_name() == "xml");
 
 			ASSERT_TRUE(algorithm_rda::contains(doc.get_header()->get_attributes(), std::make_pair<std::string, std::string>("version", "1.0")));
@@ -146,7 +146,7 @@ namespace test_lw_xml
 	static void test_004(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::document(input.s2);
+			auto doc = xml::document(input.s2);
 			ASSERT_TRUE(doc.get_header()->get_name() == "xml");
 
 			ASSERT_TRUE(algorithm_rda::contains(doc.get_header()->get_attributes(), std::make_pair<std::string, std::string>("version", "1.0")));
@@ -157,7 +157,7 @@ namespace test_lw_xml
 	static void test_005(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::document(input.s3);
+			auto doc = xml::document(input.s3);
 
 			ASSERT_TRUE(doc.get_header()->get_name() == "");
 
@@ -168,7 +168,7 @@ namespace test_lw_xml
 	static void test_006(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::document(input.s1);
+			auto doc = xml::document(input.s1);
 			
 			auto children = doc.get_children_by_name("");
 			ASSERT_TRUE(children.empty());
@@ -197,9 +197,9 @@ namespace test_lw_xml
 	static void test_007(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::document(input.s2);
+			auto doc = xml::document(input.s2);
 
-			std::vector<std::shared_ptr<lw_xml::node> > nodes;
+			std::vector<std::shared_ptr<xml::node> > nodes;
 			doc.find_nodes_by_path("breakfast_menu/food", nodes);
 
 			ASSERT_TRUE(nodes.size() == 5);
@@ -209,9 +209,9 @@ namespace test_lw_xml
 	static void test_008(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::document(input.s2);
+			auto doc = xml::document(input.s2);
 
-			std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > > nodes;
+			std::vector<std::pair<std::string, std::shared_ptr<xml::node> > > nodes;
 			doc.find_nodes_by_name("calories", nodes);
 
 			ASSERT_TRUE(nodes.size() == 5);
@@ -221,9 +221,9 @@ namespace test_lw_xml
 	static void test_009(const size_t testNum, TestInput& input)
 	{
 		{
-			auto doc = lw_xml::document(input.s2);
+			auto doc = xml::document(input.s2);
 
-			std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > > nodes;
+			std::vector<std::pair<std::string, std::shared_ptr<xml::node> > > nodes;
 			doc.find_nodes_by_data("900", nodes);
 
 			ASSERT_TRUE(nodes.size() == 2);

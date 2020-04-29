@@ -1,6 +1,6 @@
 #pragma once
 
-// lw_xml.h - Light weight xml parser.
+// xml.h - Light weight xml parser.
 // Does not do any data validation, nor schemas.
 // Assumes input data is not well formed and correct.
 //
@@ -16,7 +16,7 @@
 
 #include "algorithm_rda.h"
 
-namespace lw_xml
+namespace xml
 {
 	static const size_t DEFAULT_XML_INDENT = 4;
 
@@ -106,13 +106,13 @@ namespace lw_xml
 		}
 
 		// populates a vector of {path, node} pairs that match all sub-child nodes that have the given name
-		void find_nodes_by_name(const std::string& node_name, std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > >& output) const
+		void find_nodes_by_name(const std::string& node_name, std::vector<std::pair<std::string, std::shared_ptr<xml::node> > >& output) const
 		{
 			find_nodes_by_name(node_name, "", output);
 		}
 
 		// populates a vector of {path, node} pairs that match all sub-child nodes that have the given data
-		void find_nodes_by_data(const std::string& data_value, std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > >& output) const
+		void find_nodes_by_data(const std::string& data_value, std::vector<std::pair<std::string, std::shared_ptr<xml::node> > >& output) const
 		{
 			find_nodes_by_data(data_value, "", output);
 		}
@@ -120,7 +120,7 @@ namespace lw_xml
 	protected:
 
 		// populates a vector of {path, node} pairs that match all sub-child nodes that have the given name
-		void find_nodes_by_name(const std::string& node_name, std::string cur_path, std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > >& output) const
+		void find_nodes_by_name(const std::string& node_name, std::string cur_path, std::vector<std::pair<std::string, std::shared_ptr<xml::node> > >& output) const
 		{
 			if (cur_path.empty())
 				cur_path += name;
@@ -138,7 +138,7 @@ namespace lw_xml
 					else
 						path += std::string("/") + c->name;
 
-					output.push_back(std::pair<std::string, std::shared_ptr<lw_xml::node> >(path, c));
+					output.push_back(std::pair<std::string, std::shared_ptr<xml::node> >(path, c));
 				}
 				
 				c->find_nodes_by_name(node_name, cur_path, output);
@@ -146,7 +146,7 @@ namespace lw_xml
 		}
 
 		// populates a vector of {path, node} pairs that match all sub-child nodes that have the given data
-		void find_nodes_by_data(const std::string& data_value, std::string cur_path, std::vector<std::pair<std::string, std::shared_ptr<lw_xml::node> > >& output) const
+		void find_nodes_by_data(const std::string& data_value, std::string cur_path, std::vector<std::pair<std::string, std::shared_ptr<xml::node> > >& output) const
 		{
 			if (cur_path.empty())
 				cur_path += name;
@@ -164,7 +164,7 @@ namespace lw_xml
 					else
 						path += std::string("/") + c->name;
 
-					output.push_back(std::pair<std::string, std::shared_ptr<lw_xml::node> >(path, c));
+					output.push_back(std::pair<std::string, std::shared_ptr<xml::node> >(path, c));
 				}
 
 				c->find_nodes_by_data(data_value, cur_path, output);
