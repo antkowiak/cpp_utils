@@ -334,6 +334,8 @@ namespace json
 		// constructor
 		null_node(const std::string& key_str, const std::string& input_data)
 		{
+			static_cast<void>(input_data); // intentionally unused
+
 			data_type = JsonDataType::JDT_NULL;
 			key = key_str;
 		}
