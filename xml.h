@@ -27,6 +27,7 @@ namespace xml
 		std::string name;
 		std::string data;
 		std::vector<std::pair<std::string, std::string> > attributes;
+		std::vector<std::string> comments;
 		std::vector<std::shared_ptr<node> > children;
 
 	public:
@@ -51,6 +52,12 @@ namespace xml
 		std::vector<std::pair<std::string, std::string> > get_attributes() const
 		{
 			return attributes;
+		}
+
+		// returns all the comments of this node
+		std::vector<std::string> get_comments() const
+		{
+			return comments;
 		}
 
 		// returns a vector of all direct children
@@ -212,6 +219,7 @@ namespace xml
 			this->name = doc->name;
 			this->data = doc->data;
 			this->attributes = doc->attributes;
+			this->comments = doc->comments;
 			this->children = doc->children;
 
 			this->header = doc->header;
@@ -231,6 +239,11 @@ namespace xml
 				ss << "?>" << std::endl;
 			}
 
+			// add any comments to the string
+			for (auto comment : comments)
+				ss << "<!--" << comment << "-->" << std::endl;
+
+			// recurse to children nodes
 			for (auto c : children)
 				to_string_recursive(ss, c, 0, indent_size);
 
@@ -253,7 +266,24 @@ namespace xml
 			{
 				std::string tag_text = read_tag_text(input, index);
 
+				std::vector<std::string> parsed_comments;
+
+				// parse any comments out of the current position of the xml document.
+				// add them to a vector of strings, to later be attached to this node.
+				while (is_comment_tag(tag_text) && index < input.size())
+				{
+					algorithm_rda::string_index_utils::strip_leading(tag_text, "!--");
+					algorithm_rda::string_index_utils::strip_trailing(tag_text, "--");
+					parsed_comments.push_back(tag_text);
+
+					tag_text = read_tag_text(input, index);
+				}
+
+				// create the node, and assign the comments
 				auto tag = create_node(tag_text);
+				tag->comments = parsed_comments;
+
+				// detect if this is a closing tag
 				bool is_closing = is_closing_tag(tag->name, 0);
 				bool is_self_closing = is_self_closing_tag(tag->name);
 
@@ -296,6 +326,13 @@ namespace xml
 			// compute the indent string to be "indent_size" number of spaces
 			const std::string indent_str = algorithm_rda::string_index_utils::string_indent(" ", indent_size);
 
+			// add any comments to the string
+			for (auto comment : tag->comments)
+			{
+				ss << algorithm_rda::string_index_utils::string_indent(indent_str, indent);
+				ss << "<!--" << comment << "-->" << std::endl;
+			}
+
 			// indent the line
 			ss << algorithm_rda::string_index_utils::string_indent(indent_str, indent);
 
@@ -330,7 +367,7 @@ namespace xml
 		}
 
 		// Creates and return an xml node object
-		std::shared_ptr<node> create_node(const std::string& input)
+		std::shared_ptr<node> create_node(const std::string& input) const
 		{
 			// the node object that will ultimately be returned
 			auto created_node = std::make_shared<node>();
@@ -434,13 +471,13 @@ namespace xml
 		}
 
 		// Returns true if the provided string contains an "<?xml ?>" style xml header
-		bool contains_header(const std::string& input)
+		bool contains_header(const std::string& input) const
 		{
 			return algorithm_rda::string_index_utils::string_contains(input, "<?");
 		}
 
 		// Reads and returns the string of the xml header text contained between "<?" and "?>"
-		std::string read_header_text(const std::string& input, size_t& index)
+		std::string read_header_text(const std::string& input, size_t& index) const
 		{
 			if (!contains_header(input))
 			{
@@ -463,7 +500,7 @@ namespace xml
 		}
 
 		// Reads and returns the string of the xml tag text contained between "<" and ">"
-		std::string read_tag_text(const std::string& input, size_t& index)
+		std::string read_tag_text(const std::string& input, size_t& index) const
 		{
 			// Advance past the opening "<" of the tag
 			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "<");
@@ -478,21 +515,31 @@ namespace xml
 			return tag_text;
 		}
 
+		// returns true if this is a comment tag: ex: <!-- Blah -->
+		bool is_comment_tag(const std::string& input) const
+		{
+			return (
+					algorithm_rda::string_index_utils::string_starts_with(input, "!--")
+					&&
+					algorithm_rda::string_index_utils::string_ends_with(input, "--")
+					);
+		}
+
 		// Returns true if this is a closing tag: ex: </Blah>
-		bool is_closing_tag(const std::string& input, const size_t start_index)
+		bool is_closing_tag(const std::string& input, const size_t start_index) const
 		{
 			return algorithm_rda::string_index_utils::string_starts_with(input, "/", start_index);
 		}
 
 		// Returns true if this is a self-closing tag: <Blah/>
-		bool is_self_closing_tag(const std::string& input)
+		bool is_self_closing_tag(const std::string& input) const
 		{
 			return algorithm_rda::string_index_utils::string_ends_with(input, "/");
 		}
 
 		// Returns true if there is tag data to read (as opposed to further nested tags.)
 		// Ex: <Blah>some data</Blah> vs <Blah><Child>some data</Child></Blah>
-		bool is_tag_data_to_read(const std::string& input, size_t index)
+		bool is_tag_data_to_read(const std::string& input, size_t index) const
 		{
 			// read (starting at index) for the next non-whitespace char.  If it isn't "<" then it is data
 			while (index < input.size())

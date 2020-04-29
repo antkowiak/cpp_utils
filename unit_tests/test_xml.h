@@ -25,9 +25,10 @@ namespace test_xml
 	{
 		const char * s1 = R"(
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- comment -->
 <note>
-<to>Tove</to>
-<from>Jani</from>
+<to>Tove</to><!--comment number 2-->
+<from>Jani</from><!--comment number 3-->
 <heading>Reminder< / heading>
 <body>Dont forget me this weekend!</body>
 </note>

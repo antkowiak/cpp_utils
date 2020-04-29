@@ -265,6 +265,24 @@ namespace algorithm_rda
 			return ((index != std::string::npos) && (index == input.size() - substr.size()));
 		}
 
+		// Strips the leading "strip_text" substring from input
+		void strip_leading(std::string& input, const std::string& strip_text)
+		{
+			if (string_starts_with(input, strip_text))
+			{
+				input = input.substr(strip_text.size(), input.size() - strip_text.size());
+			}
+		}
+
+		// Strips the trailing "strip_text" substring from input
+		void strip_trailing(std::string& input, const std::string& strip_text)
+		{
+			if (string_ends_with(input, strip_text))
+			{
+				input = input.substr(0, input.size() - strip_text.size());
+			}
+		}
+
 		/////////////////////////////////////////////////////////////////////////
 		//
 		// Increments the index until it is at the index of the provided "until"
