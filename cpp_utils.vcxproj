@@ -149,6 +149,7 @@
     <ClInclude Include="comparable.h" />
     <ClInclude Include="csv.h" />
     <ClInclude Include="fix_message.h" />
+    <ClInclude Include="json.h" />
     <ClInclude Include="lifetime.h" />
     <ClInclude Include="xml.h" />
     <ClInclude Include="one_to_one_map.h" />

@@ -2,9 +2,13 @@
 
 #include <algorithm>
 #include <list>
+#include <locale>
 #include <string>
 #include <utility>
 #include <vector>
+
+#pragma warning( push )
+#pragma warning( disable : 4505 ) // unreferenced local function has been removed
 
 namespace algorithm_rda
 {
@@ -453,5 +457,55 @@ namespace algorithm_rda
 			if (!input.empty() && is_quote(input[input.size() - 1]))
 				input = input.substr(0, input.size() - 1);
 		}
+
+		// Convert string to lower-case
+		static void to_lower_case(std::string& input)
+		{
+			std::for_each(
+				input.begin(),
+				input.end(),
+				[](char& c) { c = static_cast<char>(std::tolower(c)); }
+			);
+		}
+
+		// Convert string to lower-case
+		static std::string to_lower_case(const std::string& input)
+		{
+			std::string str(input);
+
+			std::for_each(
+				str.begin(),
+				str.end(),
+				[](char& c) { c = static_cast<char>(std::tolower(c)); }
+			);
+
+			return str;
+		}
+
+		// Convert string to upper-case
+		static void to_upper_case(std::string& input)
+		{
+			std::for_each(
+				input.begin(),
+				input.end(),
+				[](char& c) { c = static_cast<char>(std::toupper(c)); }
+			);
+		}
+
+		// Convert string to upper-case
+		static std::string to_upper_case(const std::string& input)
+		{
+			std::string str(input);
+
+			std::for_each(
+				str.begin(),
+				str.end(),
+				[](char& c) { c = static_cast<char>(std::toupper(c)); }
+			);
+
+			return str;
+		}
 	}
 }
+
+#pragma warning( pop )
