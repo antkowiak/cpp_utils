@@ -3,6 +3,8 @@
 // Simple representation of a year-month-day data structure
 
 #include <algorithm>
+#include <chrono>
+#include <ctime>
 #include <sstream>
 #include <string>
 
@@ -234,6 +236,38 @@ public:
 		}
 
 		return 0;
+	}
+
+	// returns YMD for today, local time
+	static YMD today_local()
+	{
+		std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+		time_t now_time = std::chrono::system_clock::to_time_t(now);
+#ifdef _WIN32
+		tm local;
+		localtime_s(&local, &now_time);
+#else
+		tm local = *localtime(&now_time);
+#endif
+		YMD today(1900 + local.tm_year, 1 + local.tm_mon, local.tm_mday);
+
+		return today;
+	}
+
+	// returns YMD for today, UTC
+	static YMD today_utc()
+	{
+		std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+		time_t now_time = std::chrono::system_clock::to_time_t(now);
+#ifdef _WIN32
+		tm utc;
+		gmtime_s(&utc, &now_time);
+#else
+		tm utc = *gmtime(&now_time);
+#endif
+		YMD today(1900 + utc.tm_year, 1 + utc.tm_mon, utc.tm_mday);
+
+		return today;
 	}
 
 	// convert to string

@@ -88,26 +88,122 @@ namespace test_ymd
 
 	static void test_004(const size_t testNum, TestInput& input)
 	{
+		YMD ymd(2001, 1, 31);
+		ASSERT_TRUE(ymd.to_string() == "2001-01-31");
+		ymd.add_months(2);
+		ASSERT_TRUE(ymd.to_string() == "2001-03-31");
+		ymd.subtract_months(2);
+		ASSERT_TRUE(ymd.to_string() == "2001-01-31");
+		ymd.add_months(1);
+		ASSERT_TRUE(ymd.to_string() == "2001-02-28");
+		ymd.subtract_months(1);
+		ASSERT_TRUE(ymd.to_string() == "2001-01-28");
 	}
 
 	static void test_005(const size_t testNum, TestInput& input)
 	{
+		YMD ymd(2004, 1, 31);
+		ASSERT_TRUE(ymd.to_string() == "2004-01-31");
+		ymd.add_months(2);
+		ASSERT_TRUE(ymd.to_string() == "2004-03-31");
+		ymd.subtract_months(2);
+		ASSERT_TRUE(ymd.to_string() == "2004-01-31");
+		ymd.add_months(1);
+		ASSERT_TRUE(ymd.to_string() == "2004-02-29");
+		ymd.subtract_months(1);
+		ASSERT_TRUE(ymd.to_string() == "2004-01-29");
 	}
 
 	static void test_006(const size_t testNum, TestInput& input)
 	{
+		YMD ymd(2001, 1, 31);
+		ASSERT_TRUE(ymd.to_string() == "2001-01-31");
+		ymd.add_years(1);
+		ASSERT_TRUE(ymd.to_string() == "2002-01-31");
+		ymd.add_years(2);
+		ASSERT_TRUE(ymd.to_string() == "2004-01-31");
+		ymd.add_months(1);
+		ASSERT_TRUE(ymd.to_string() == "2004-02-29");
+		ymd.add_years(1);
+		ASSERT_TRUE(ymd.to_string() == "2005-02-28");
 	}
 
 	static void test_007(const size_t testNum, TestInput& input)
 	{
+		YMD ymd(2001, 12, 31);
+		ASSERT_TRUE(ymd.to_string() == "2001-12-31");
+		ymd.add_days(1);
+		ASSERT_TRUE(ymd.to_string() == "2002-01-01");
+		ymd.add_days(-1);
+		ASSERT_TRUE(ymd.to_string() == "2001-12-31");
+		ymd.add_months(-2);
+		ASSERT_TRUE(ymd.to_string() == "2001-10-31");
+		ymd.add_months(-1);
+		ASSERT_TRUE(ymd.to_string() == "2001-09-30");
+		ymd.add_months(8);
+		ASSERT_TRUE(ymd.to_string() == "2002-05-30");
+		ymd.add_days(1);
+		ASSERT_TRUE(ymd.to_string() == "2002-05-31");
+		ymd.add_days(1);
+		ASSERT_TRUE(ymd.to_string() == "2002-06-01");
+		ymd.add_years(10);
+		ASSERT_TRUE(ymd.to_string() == "2012-06-01");
+		ymd.add_months(12 * 10);
+		ASSERT_TRUE(ymd.to_string() == "2022-06-01");
 	}
 
 	static void test_008(const size_t testNum, TestInput& input)
 	{
+		ASSERT_TRUE(YMD::days_in_month(1, 1999) == 31);
+		ASSERT_TRUE(YMD::days_in_month(2, 1900) == 28);
+		ASSERT_TRUE(YMD::days_in_month(2, 1999) == 28);
+		ASSERT_TRUE(YMD::days_in_month(2, 2000) == 29);
+		ASSERT_TRUE(YMD::days_in_month(2, 2001) == 28);
+		ASSERT_TRUE(YMD::days_in_month(2, 2004) == 29);
+		ASSERT_TRUE(YMD::days_in_month(2, 2008) == 29);
+		ASSERT_TRUE(YMD::days_in_month(3, 1999) == 31);
+		ASSERT_TRUE(YMD::days_in_month(4, 1999) == 30);
+		ASSERT_TRUE(YMD::days_in_month(5, 1999) == 31);
+		ASSERT_TRUE(YMD::days_in_month(6, 1999) == 30);
+		ASSERT_TRUE(YMD::days_in_month(7, 1999) == 31);
+		ASSERT_TRUE(YMD::days_in_month(8, 1999) == 31);
+		ASSERT_TRUE(YMD::days_in_month(9, 1999) == 30);
+		ASSERT_TRUE(YMD::days_in_month(10, 1999) == 31);
+		ASSERT_TRUE(YMD::days_in_month(11, 1999) == 30);
+		ASSERT_TRUE(YMD::days_in_month(12, 1999) == 31);
+
+		ASSERT_TRUE(YMD::is_leap_year(2000) == true);
+		ASSERT_TRUE(YMD::is_leap_year(2001) == false);
+		ASSERT_TRUE(YMD::is_leap_year(2002) == false);
+		ASSERT_TRUE(YMD::is_leap_year(2003) == false);
+		ASSERT_TRUE(YMD::is_leap_year(2004) == true);
+		ASSERT_TRUE(YMD::is_leap_year(2005) == false);
 	}
 
 	static void test_009(const size_t testNum, TestInput& input)
 	{
+		YMD ymd1 = YMD::today_utc();
+		YMD ymd2(ymd1);
+		++ymd2;
+		ASSERT_TRUE(ymd2 > ymd1);
+		ASSERT_TRUE(ymd2 != ymd1);
+		ASSERT_TRUE(ymd2 >= ymd1);
+		ASSERT_FALSE(ymd2 < ymd1);
+		ASSERT_FALSE(ymd2 <= ymd1);
+		
+		--ymd2;
+		ASSERT_TRUE(ymd1 == ymd2);
+
+		ymd2.add_months(1);
+		ASSERT_TRUE(ymd2 > ymd1);
+
+		ymd1.add_years(1);
+		ASSERT_TRUE(ymd1 > ymd2);
+
+		YMD ymd3 = YMD::today_local();
+		YMD ymd4 = ymd3;
+
+		ASSERT_TRUE(ymd3 == ymd4);
 	}
 
 	static void run_tests()
