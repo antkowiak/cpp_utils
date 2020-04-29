@@ -23,6 +23,32 @@ namespace test_json
 
 	struct TestInput
 	{
+		std::string str1 = R"(
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "isAlive": true,
+  "age": 27,
+  "address": {
+    "streetAddress": "21 2nd Street",
+    "city": "New York",
+    "state": "NY",
+    "postalCode": "10021-3100"
+  },
+  "phoneNumbers": [
+    {
+      "type": "home",
+      "number": "212 555-1234"
+    },
+    {
+      "type": "office",
+      "number": "646 555-4567"
+    }
+  ],
+  "children": [],
+  "spouse": null
+}
+)";
 	};
 
 	static void setup(const size_t testNum, TestInput& input)
@@ -38,6 +64,11 @@ namespace test_json
 
 	static void test_000(const size_t testNum, TestInput& input)
 	{
+		auto j = json::parse(input.str1);
+
+		std::cout << j->to_string();
+		// TODO - It doesn't quite work yet. Step through with debugger.
+		return;
 	}
 
 	static void test_001(const size_t testNum, TestInput& input)

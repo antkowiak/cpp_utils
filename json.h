@@ -8,8 +8,13 @@
 
 #include "algorithm_rda.h"
 
+
+
 namespace json
 {
+	static const std::vector<char> JSON_DELIMITERS { ' ', '\n', '\t', '\r', ':', ',', '{', '}', '[', ']' };
+	static const std::vector<char> JSON_DELIMITERS_NON_WHITESPACE { ':', ',', '{', '}', '[', ']' };
+
 	enum class JsonDataType
 	{
 		JDT_UNDEFINED,
@@ -20,6 +25,13 @@ namespace json
 		JDT_OBJECT,
 		JDT_NULL
 	};
+
+	// forward declarations
+	static std::string read_key(const std::string& input, size_t& index);
+	static JsonDataType determine_next_type(const std::string& input, size_t index);
+	static bool is_comma_next(const std::string& input, size_t index);
+	static bool is_object_close_next(const std::string& input, size_t index);
+	static bool is_array_close_next(const std::string& input, size_t index);
 
 	class node
 	{
@@ -38,6 +50,14 @@ namespace json
 		}
 	};
 
+	// forward declaration
+	static void add_object_or_array_data(
+		std::vector<std::shared_ptr<node> >& object_data,
+		const JsonDataType data_type,
+		const std::string& key_name,
+		const std::string& input,
+		size_t& index);
+
 	class number_node : public node
 	{
 	public:
@@ -47,11 +67,11 @@ namespace json
 		number_node() = delete;
 
 		// constructor
-		number_node(const std::string& key_str, const std::string& input_data)
+		number_node(const std::string& key_str, const std::string& input, size_t & index)
 		{
 			data_type = JsonDataType::JDT_NUMBER;
 			key = key_str;
-			data = parse_data(input_data);
+			data = read_data(input, index);
 		}
 
 		// return a string representation of the node
@@ -68,7 +88,7 @@ namespace json
 		}
 
 		// returns true if the data is appropriate for this type
-		static bool is_type(std::string input_data)
+		static bool is_type_next(const std::string& input, size_t index)
 		{
 			static std::vector<char> DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 			static char NEGATIVE = '-';
@@ -78,11 +98,9 @@ namespace json
 			bool found_point = false;
 			bool found_sci_notation = false;
 
-			algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(input_data);
-
-			for (size_t i(0); i < input_data.size(); ++i)
+			for (size_t i = index ; i < input.size(); ++i)
 			{
-				char c = input_data[i];
+				char c = input[i];
 
 				if (c == NEGATIVE && i != 0)
 					return false;
@@ -108,11 +126,21 @@ namespace json
 			return true;
 		}
 
-		// parse the data
-		static double parse_data(std::string input_data)
+		// read the data
+		static double read_data(const std::string & input, size_t & index)
 		{
-			algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(input_data);
-			return atof(input_data.c_str());
+			static std::vector<char> NUMBER_CHARS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '.', 'e', 'E' };
+
+			algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), NUMBER_CHARS);
+
+			if (index < input.size())
+			{
+				const size_t start_idx = index;
+				algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), NUMBER_CHARS);
+				return atof(input.substr(start_idx, index - start_idx).c_str());
+			}
+
+			return 0.0f;
 		}
 	};
 
@@ -125,11 +153,11 @@ namespace json
 		string_node() = delete;
 
 		// constructor
-		string_node(const std::string& key_str, const std::string& input_data)
+		string_node(const std::string& key_str, const std::string& input, size_t& index)
 		{
 			data_type = JsonDataType::JDT_STRING;
 			key = key_str;
-			data = parse_data(input_data);
+			data = read_data(input, index);
 		}
 
 		// return a string representation of the node
@@ -146,20 +174,60 @@ namespace json
 		}
 
 		// returns true if the data is appropriate for this type
-		static bool is_type(std::string input_data)
+		static bool is_type_next(const std::string& input, size_t index)
 		{
-			algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(input_data);
-
-			return (algorithm_rda::string_index_utils::string_starts_with(input_data, "\"") &&
-				algorithm_rda::string_index_utils::string_ends_with(input_data, "\""));
+			if (index < input.size())
+				return (!algorithm_rda::contains(json::JSON_DELIMITERS, input[index]));
+			
+			return false;
 		}
 
-		// parse the data
-		static std::string parse_data(std::string input_data)
+		// read the data
+		static std::string read_data(const std::string& input, size_t& index)
 		{
-			algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(input_data);
-			algorithm_rda::string_index_utils::strip_leading_and_trailing_quote(input_data);
-			return input_data;
+			algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+
+			if (index < input.size())
+			{
+				if (input[index] == '"') // has quotes
+				{
+					// start at the quote
+					const size_t start_idx = index;
+
+					// advance past this quote, and the next quote
+					algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "\"");
+					algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "\"");
+
+					// take the output from quote to quote
+					std::string output = input.substr(start_idx, index - start_idx);
+
+					// strip off outside quotes
+					algorithm_rda::string_index_utils::strip_leading_and_trailing_quote(output);
+
+					return output;
+				}
+				else // does not have quotes. technically invalid json, but we'll try anyway!
+				{
+					// start here
+					const size_t start_idx = index;
+
+					// advance up until past the next json delimiter (that isn't white space)  ex: { ',' '[' ']' '{' '}' }
+					algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), json::JSON_DELIMITERS_NON_WHITESPACE);
+
+					// if index advanced
+					if (index > start_idx)
+					{
+						// decrement back so we don't consume the delimiter
+						--index;
+
+						std::string output = input.substr(start_idx, index - start_idx);
+						algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(output);
+						return output;
+					}
+				}
+			}
+
+			return "";
 		}
 	};
 
@@ -172,11 +240,11 @@ namespace json
 		boolean_node() = delete;
 
 		// constructor
-		boolean_node(const std::string& key_str, const std::string& input_data)
+		boolean_node(const std::string& key_str, const std::string& input, size_t& index)
 		{
 			data_type = JsonDataType::JDT_BOOLEAN;
 			key = key_str;
-			data = parse_data(input_data);
+			data = read_data(input, index);
 		}
 
 		// return a string representation of the node
@@ -196,21 +264,42 @@ namespace json
 		}
 
 		// returns true if the data is appropriate for this type
-		static bool is_type(std::string input_data)
+		static bool is_type_next(const std::string& input, size_t index)
 		{
-			algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(input_data);
-			algorithm_rda::string_index_utils::to_lower_case(input_data);
+			static std::vector<std::string> VALID_VALUES { "true", "True", "TRUE", "false", "False", "FALSE" };
 
-			return (input_data == "true" || input_data == "false");
+			// return true if the next text is one of the valid values, followed by delimiter
+
+			for (auto text : VALID_VALUES)
+				if (index + text.size() > input.size() &&
+					algorithm_rda::string_index_utils::string_starts_with(input, text, index) &&
+					algorithm_rda::contains(json::JSON_DELIMITERS, input[index + text.size()]))
+					return true;
+
+			return false;
 		}
 
-		// parse the data
-		static bool parse_data(std::string input_data)
+		// read the data
+		static bool read_data(const std::string& input, size_t& index)
 		{
-			algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(input_data);
-			algorithm_rda::string_index_utils::to_lower_case(input_data);
+			static std::vector<std::string> TRUE_VALUES{ "true", "True", "TRUE" };
+		
+			// advance past all whitespace
+			algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
 
-			return (input_data == "true");
+			bool output = false;
+
+			// check if the value is true followed by a JSON Delimiter character
+			for (auto text : TRUE_VALUES)
+				if (index + text.size() > input.size() &&
+					algorithm_rda::string_index_utils::string_starts_with(input, text, index) &&
+					algorithm_rda::contains(json::JSON_DELIMITERS, input[index + text.size()]))
+					output = true;
+
+			// advance past the boolean value
+			algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), json::JSON_DELIMITERS);
+
+			return output;
 		}
 	};
 
@@ -223,11 +312,11 @@ namespace json
 		array_node() = delete;
 
 		// constructor
-		array_node(const std::string& key_str, const std::string& input_data)
+		array_node(const std::string& key_str, const std::string& input, size_t& index)
 		{
 			data_type = JsonDataType::JDT_ARRAY;
 			key = key_str;
-			data = parse_data(input_data);
+			data = read_data(input, index);
 		}
 
 		// return a string representation of the node
@@ -253,18 +342,30 @@ namespace json
 		}
 
 		// returns true if the data is appropriate for this type
-		static bool is_type(std::string input_data)
+		static bool is_type_next(const std::string& input, size_t index)
 		{
-			algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(input_data);
-			return algorithm_rda::string_index_utils::string_starts_with(input_data, "[");
+			if (index < input.size())
+				return (input[index] == '[');
+
+			return false;
 		}
 
-		// parse the data
-		static std::vector<std::shared_ptr<node> > parse_data(std::string input_data)
+		// read the data
+		static std::vector<std::shared_ptr<node> > read_data(const std::string& input, size_t& index)
 		{
 			std::vector<std::shared_ptr<node> > array_data;
 
-			// TODO - Make nodes that have "" empty keys to put into "array_data"
+			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "[");
+
+			while (index < input.size() && !is_array_close_next(input, index))
+			{
+				JsonDataType next_type = determine_next_type(input, index);
+
+				add_object_or_array_data(array_data, next_type, "", input, index);
+
+				if (index < input.size() && is_comma_next(input, index))
+					algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), ",");
+			}
 
 			return array_data;
 		}
@@ -279,11 +380,11 @@ namespace json
 		object_node() = delete;
 
 		// constructor
-		object_node(const std::string& key_str, const std::string& input_data)
+		object_node(const std::string& key_str, const std::string& input, size_t& index)
 		{
 			data_type = JsonDataType::JDT_OBJECT;
 			key = key_str;
-			data = parse_data(input_data);
+			data = read_data(input, index);
 		}
 
 		// return a string representation of the node
@@ -309,18 +410,33 @@ namespace json
 		}
 
 		// returns true if the data is appropriate for this type
-		static bool is_type(std::string input_data)
+		static bool is_type_next(const std::string& input, size_t index)
 		{
-			algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(input_data);
-			return algorithm_rda::string_index_utils::string_starts_with(input_data, "{");
+			if (index < input.size())
+				return (input[index] == '{');
+
+			return false;
 		}
 
-		// parse the data
-		static std::vector<std::shared_ptr<node> > parse_data(std::string input_data)
+		// read the data
+		static std::vector<std::shared_ptr<node> > read_data(const std::string& input, size_t& index)
 		{
 			std::vector<std::shared_ptr<node> > object_data;
+			
+			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "{");
 
-			// TODO -- need to look for and preserve "key" names for objects
+			while (index < input.size() && !is_object_close_next(input, index))
+			{
+				const std::string key_name = read_key(input, index);
+				algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), ":");
+
+				JsonDataType next_type = determine_next_type(input, index);
+
+				add_object_or_array_data(object_data, next_type, key_name, input, index);
+
+				if (index < input.size() && is_comma_next(input, index))
+					algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), ",");
+			}
 
 			return object_data;
 		}
@@ -332,12 +448,11 @@ namespace json
 		null_node() = delete;
 
 		// constructor
-		null_node(const std::string& key_str, const std::string& input_data)
-		{
-			static_cast<void>(input_data); // intentionally unused
-
+		null_node(const std::string& key_str, const std::string& input, size_t& index)
+		{		
 			data_type = JsonDataType::JDT_NULL;
 			key = key_str;
+			read_data(input, index);
 		}
 
 		// return a string representation of the node
@@ -354,11 +469,172 @@ namespace json
 		}
 
 		// returns true if the data is appropriate for this type
-		static bool is_type(std::string input_data)
+		static bool is_type_next(const std::string& input, size_t index)
 		{
-			algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(input_data);
+			// return true if the next text is "null" followed by a JSON delimiter
+			std::string text = "null";
+			
+			if (index + text.size() > input.size() &&
+				algorithm_rda::string_index_utils::string_starts_with(input, text, index) &&
+				algorithm_rda::contains(json::JSON_DELIMITERS, input[index + text.size()]))
+				return true;
 
-			return (input_data == "null");
+			return false;
+		}
+
+		// read the data
+		static void read_data(const std::string& input, size_t& index)
+		{
+			// advance past all whitespace
+			algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+
+			// advance past the 'null' value until the next delimiter
+			algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), json::JSON_DELIMITERS);
+
+			// nothing to return
 		}
 	};
+
+	static std::string read_key(const std::string& input, size_t& index)
+	{
+		// advance past any white space
+		algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+
+		// return if we reached the end of input
+		if (index >= input.size())
+			return "";
+
+		// if the next character is a quote
+		if (input[index] == '"')
+		{
+			++index;
+			size_t start_idx = index;
+
+			// advance the index until next quote is found
+			algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), "\"");
+			
+			// cache the text of the key
+			std::string output = input.substr(start_idx, index - start_idx);
+
+			// increment past the quote
+			++index;
+
+			// return the key
+			return output;
+		}
+
+		// if the code reaches here, the json is not well formed. the key name was not enclosed in quotes.
+		size_t start_idx = index;
+
+		// advance until next delimiter
+		algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), json::JSON_DELIMITERS);
+
+		// return substring up until (but not including) the next delimiter
+		return input.substr(start_idx, index - start_idx - 1);	
+	}
+
+	static JsonDataType determine_next_type(const std::string& input, size_t index)
+	{
+		algorithm_rda::string_index_utils::advance_index_past_all(
+			input,
+			index,
+			input.size(),
+			algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+		
+		if (index < input.size())
+		{
+			if (object_node::is_type_next(input, index))
+				return JsonDataType::JDT_OBJECT;
+
+			if (array_node::is_type_next(input, index))
+				return JsonDataType::JDT_ARRAY;
+
+			if (null_node::is_type_next(input, index))
+				return JsonDataType::JDT_NULL;
+
+			if (boolean_node::is_type_next(input, index))
+				return JsonDataType::JDT_BOOLEAN;
+
+			if (number_node::is_type_next(input, index))
+				return JsonDataType::JDT_NUMBER;
+
+			if (string_node::is_type_next(input, index))
+				return JsonDataType::JDT_STRING;;
+		}
+		
+		return JsonDataType::JDT_UNDEFINED;
+	}
+
+	static bool is_array_close_next(const std::string& input, size_t index)
+	{
+		// advance past any white space
+		algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+		return (index < input.size() && input[index] == ']');
+	}
+
+	static bool is_object_close_next(const std::string& input, size_t index)
+	{
+		// advance past any white space
+		algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+		return (index < input.size() && input[index] == '}');
+	}
+
+	static bool is_comma_next(const std::string& input, size_t index)
+	{
+		// advance past any white space
+		algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+		return (index < input.size() && input[index] == ',');
+	}
+
+	static void add_object_or_array_data(
+		std::vector<std::shared_ptr<node> >& object_data,
+		const JsonDataType data_type,
+		const std::string& key_name,
+		const std::string& input,
+		size_t& index)
+	{
+		switch (data_type)
+		{
+			case JsonDataType::JDT_NUMBER:
+			{
+				object_data.push_back(std::make_shared<number_node>(key_name, input, index));
+				break;
+			}
+			case JsonDataType::JDT_STRING:
+			{
+				object_data.push_back(std::make_shared<string_node>(key_name, input, index));
+				break;
+			}
+			case JsonDataType::JDT_BOOLEAN:
+			{
+				object_data.push_back(std::make_shared<boolean_node>(key_name, input, index));
+				break;
+			}
+			case JsonDataType::JDT_ARRAY:
+			{
+				object_data.push_back(std::make_shared<array_node>(key_name, input, index));
+				break;
+			}
+			case JsonDataType::JDT_OBJECT:
+			{
+				object_data.push_back(std::make_shared<object_node>(key_name, input, index));
+				break;
+			}
+			case JsonDataType::JDT_NULL:
+			{
+				object_data.push_back(std::make_shared<null_node>(key_name, input, index));
+				break;
+			}
+		}
+	}
+
+	std::shared_ptr<node> parse(const std::string& input)
+	{
+		size_t index = 0;
+
+		if (determine_next_type(input, index) != JsonDataType::JDT_OBJECT)
+			return nullptr;
+
+		return std::make_shared<object_node>("", input, index);
+	}
 }
