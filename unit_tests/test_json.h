@@ -66,7 +66,7 @@ namespace test_json
 	{
 		auto j = json::parse(input.str1);
 
-		std::cout << j->to_string();
+		std::cout << j->to_string() << std::endl;
 		// TODO - It doesn't quite work yet. Step through with debugger.
 		return;
 	}
