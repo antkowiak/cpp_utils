@@ -194,7 +194,8 @@ namespace json
 					// start at the quote
 					const size_t start_idx = index;
 
-					// advance past this quote
+					// advance past this quote, and the next
+					algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "\"");
 					algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "\"");
 
 					// take the output from quote to quote
