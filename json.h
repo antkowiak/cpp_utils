@@ -194,8 +194,7 @@ namespace json
 					// start at the quote
 					const size_t start_idx = index;
 
-					// advance past this quote, and the next quote
-					algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "\"");
+					// advance past this quote
 					algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "\"");
 
 					// take the output from quote to quote
@@ -271,7 +270,7 @@ namespace json
 			// return true if the next text is one of the valid values, followed by delimiter
 
 			for (auto text : VALID_VALUES)
-				if (index + text.size() > input.size() &&
+				if (index + text.size() < input.size() &&
 					algorithm_rda::string_index_utils::string_starts_with(input, text, index) &&
 					algorithm_rda::contains(json::JSON_DELIMITERS, input[index + text.size()]))
 					return true;
@@ -360,6 +359,9 @@ namespace json
 			while (index < input.size() && !is_array_close_next(input, index))
 			{
 				JsonDataType next_type = determine_next_type(input, index);
+
+				if (next_type == JsonDataType::JDT_UNDEFINED)
+					break;
 
 				add_object_or_array_data(array_data, next_type, "", input, index);
 
@@ -471,10 +473,12 @@ namespace json
 		// returns true if the data is appropriate for this type
 		static bool is_type_next(const std::string& input, size_t index)
 		{
+			algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+
 			// return true if the next text is "null" followed by a JSON delimiter
 			std::string text = "null";
 			
-			if (index + text.size() > input.size() &&
+			if (index + text.size() < input.size() &&
 				algorithm_rda::string_index_utils::string_starts_with(input, text, index) &&
 				algorithm_rda::contains(json::JSON_DELIMITERS, input[index + text.size()]))
 				return true;

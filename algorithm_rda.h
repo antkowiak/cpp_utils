@@ -259,7 +259,7 @@ namespace algorithm_rda
 		// Returns true if input starts with the substring substr. Starts searching at index.
 		bool string_starts_with(const std::string& input, const std::string& substr, const size_t index)
 		{
-			return (input.find(substr, index) == 0);
+			return (input.find(substr, index) == index);
 		}
 
 		// Returns true if input ends with the substring substr. If substr is empty, will always return true.
