@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdlib>
 #include <functional>
 #include <iostream>
 #include <string>
@@ -110,5 +111,24 @@ namespace unit_test_utils
 			exit(EXIT_FAILURE);
 		}
 	}
+
+	// check if two floating point numbers are "equal" (e.g. are close enough)
+	static void ASSERT_FLOAT_EQUALS(const double d1, const double d2, const std::string& description = "")
+	{
+		static const double EPSILON = 0.0001f;
+
+		const double delta = abs(d1 - d2);
+
+		if (delta > EPSILON)
+		{
+			std::cout << "ASSERT_FLOAT_EQUALS() Failure. d1=" << d1 << " d2=" << d2;
+			if (description != "")
+				std::cout << " Description: " << description;
+			std::cout << std::endl;
+
+			exit(EXIT_FAILURE);
+		}
+	}
+
 #pragma warning( pop )
 }
