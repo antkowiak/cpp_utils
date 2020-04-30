@@ -5,3 +5,4 @@
 3) finish json parser
 4) Maybe FIX exchange simulator
 5) Add to_pretty_string() for json.
+6) Add distinction between int and float
