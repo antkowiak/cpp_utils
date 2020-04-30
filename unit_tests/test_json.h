@@ -136,217 +136,73 @@ namespace test_json
 		{
 			std::string s = R"({"testNum":42.})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, 42.0f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), 42.0f, s);
 		}
 
 		{
 			std::string s = R"({"testNum":-42.})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, -42.0f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), -42.0f, s);
 		}
 
 		{
 			std::string s = R"({"testNum":42.0202})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, 42.0202f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), 42.0202f, s);
 		}
 
 		{
 			std::string s = R"({"testNum":-42.0202})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, -42.0202f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), -42.0202f, s);
 		}
 
 		{
 			std::string s = R"({"testNum":4.202e5})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, 4.202e5f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), 4.202e5f, s);
 		}
 
 		{
 			std::string s = R"({"testNum":-4.202e5})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, -4.202e5f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), -4.202e5f, s);
 		}
 
 		{
 			std::string s = R"({"testNum":4.202e-5})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, 4.202e-5f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), 4.202e-5f, s);
 		}
 
 		{
 			std::string s = R"({"testNum":-4.202e-5})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, -4.202e-5f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), -4.202e-5f, s);
 		}
 
 		{
 			std::string s = R"({"testNum":4.202E5})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, 4.202E5f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), 4.202E5, s);
 		}
 
 		{
 			std::string s = R"({"testNum":-4.202E5})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, -4.202E5f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), -4.202E5, s);
 		}
 
 		{
 			std::string s = R"({"testNum":4.202E-5})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, 4.202E-5f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), 4.202E-5, s);
 		}
 
 		{
 			std::string s = R"({"testNum":-4.202E-5})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
-				ASSERT_FLOAT_EQUALS(casted->data, -4.202E-5f);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("testNum"), -4.202E-5, s);
 		}
 
 	}
@@ -372,73 +228,37 @@ namespace test_json
 		{
 			std::string s = R"({"test":true})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			ASSERT_TRUE(obj->data.size() == 1);
-			auto casted = std::dynamic_pointer_cast<json::boolean_node>(obj->data[0]);
-			ASSERT_TRUE(casted->key == "test");
-			ASSERT_TRUE(casted->data_type == json::JsonDataType::JDT_BOOLEAN);
-			ASSERT_TRUE(casted->data == true);
+			ASSERT_TRUE(j->get_boolean_by_path("test") == true, s);
 		}
 
 		{
 			std::string s = R"({"test":True})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			ASSERT_TRUE(obj->data.size() == 1);
-			auto casted = std::dynamic_pointer_cast<json::boolean_node>(obj->data[0]);
-			ASSERT_TRUE(casted->key == "test");
-			ASSERT_TRUE(casted->data_type == json::JsonDataType::JDT_BOOLEAN);
-			ASSERT_TRUE(casted->data == true);
+			ASSERT_TRUE(j->get_boolean_by_path("test") == true, s);
 		}
 
 		{
 			std::string s = R"({"test":TRUE})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			ASSERT_TRUE(obj->data.size() == 1);
-			auto casted = std::dynamic_pointer_cast<json::boolean_node>(obj->data[0]);
-			ASSERT_TRUE(casted->key == "test");
-			ASSERT_TRUE(casted->data_type == json::JsonDataType::JDT_BOOLEAN);
-			ASSERT_TRUE(casted->data == true);
+			ASSERT_TRUE(j->get_boolean_by_path("test") == true, s);
 		}
 
 		{
 			std::string s = R"({"test":false})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			ASSERT_TRUE(obj->data.size() == 1);
-			auto casted = std::dynamic_pointer_cast<json::boolean_node>(obj->data[0]);
-			ASSERT_TRUE(casted->key == "test");
-			ASSERT_TRUE(casted->data_type == json::JsonDataType::JDT_BOOLEAN);
-			ASSERT_TRUE(casted->data == false);
+			ASSERT_TRUE(j->get_boolean_by_path("test") == false, s);
 		}
 
 		{
 			std::string s = R"({"test":False})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			ASSERT_TRUE(obj->data.size() == 1);
-			auto casted = std::dynamic_pointer_cast<json::boolean_node>(obj->data[0]);
-			ASSERT_TRUE(casted->key == "test");
-			ASSERT_TRUE(casted->data_type == json::JsonDataType::JDT_BOOLEAN);
-			ASSERT_TRUE(casted->data == false);
+			ASSERT_TRUE(j->get_boolean_by_path("test") == false, s);
 		}
 
 		{
 			std::string s = R"({"test":FALSE})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			ASSERT_TRUE(obj->data.size() == 1);
-			auto casted = std::dynamic_pointer_cast<json::boolean_node>(obj->data[0]);
-			ASSERT_TRUE(casted->key == "test");
-			ASSERT_TRUE(casted->data_type == json::JsonDataType::JDT_BOOLEAN);
-			ASSERT_TRUE(casted->data == false);
+			ASSERT_TRUE(j->get_boolean_by_path("test") == false, s);
 		}
 	}
 
@@ -446,87 +266,36 @@ namespace test_json
 	{
 		// test strings
 
-		{
-			std::string s = R"({"test1":"teststring1","test2":"teststring2", "test3" : " test string3  "})";
-			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			ASSERT_TRUE(obj->data.size() == 3);
+		std::string s = R"({"test1":"teststring1","test2":"teststring2", "test3" : " test string3  "})";
+		auto j = json::parse(s);
 
-			auto casted1 = std::dynamic_pointer_cast<json::string_node>(obj->data[0]);
-			ASSERT_TRUE(casted1->key == "test1");
-			ASSERT_TRUE(casted1->data_type == json::JsonDataType::JDT_STRING);
-			ASSERT_TRUE(casted1->data == "teststring1");
-
-			auto casted2 = std::dynamic_pointer_cast<json::string_node>(obj->data[1]);
-			ASSERT_TRUE(casted2->key == "test2");
-			ASSERT_TRUE(casted2->data_type == json::JsonDataType::JDT_STRING);
-			ASSERT_TRUE(casted2->data == "teststring2");
-
-			auto casted3 = std::dynamic_pointer_cast<json::string_node>(obj->data[2]);
-			ASSERT_TRUE(casted3->key == "test3");
-			ASSERT_TRUE(casted3->data_type == json::JsonDataType::JDT_STRING);
-			ASSERT_TRUE(casted3->data == " test string3  ");
-		}
-
+		ASSERT_TRUE(j->get_string_by_path("test1") == "teststring1", s);
+		ASSERT_TRUE(j->get_string_by_path("test2") == "teststring2", s);
+		ASSERT_TRUE(j->get_string_by_path("test3") == " test string3  ", s);
 	}
 
 	static void test_007(const size_t testNum, TestInput& input)
 	{
 		// test mal-formed strings
+		std::string s = R"({"test1":teststring1,"test2":teststring2, "test3" :  test string3  })";
+		auto j = json::parse(s);
 
-		{
-			std::string s = R"({"test1":teststring1,"test2":teststring2, "test3" :  test string3  })";
-			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			ASSERT_TRUE(obj->data.size() == 3);
-
-			auto casted1 = std::dynamic_pointer_cast<json::string_node>(obj->data[0]);
-			ASSERT_TRUE(casted1->key == "test1");
-			ASSERT_TRUE(casted1->data_type == json::JsonDataType::JDT_STRING);
-			ASSERT_TRUE(casted1->data == "teststring1");
-
-			auto casted2 = std::dynamic_pointer_cast<json::string_node>(obj->data[1]);
-			ASSERT_TRUE(casted2->key == "test2");
-			ASSERT_TRUE(casted2->data_type == json::JsonDataType::JDT_STRING);
-			ASSERT_TRUE(casted2->data == "teststring2");
-
-			auto casted3 = std::dynamic_pointer_cast<json::string_node>(obj->data[2]);
-			ASSERT_TRUE(casted3->key == "test3");
-			ASSERT_TRUE(casted3->data_type == json::JsonDataType::JDT_STRING);
-			ASSERT_TRUE(casted3->data == "test string3");
-		}
+		ASSERT_TRUE(j->get_string_by_path("test1") == "teststring1", s);
+		ASSERT_TRUE(j->get_string_by_path("test2") == "teststring2", s);
+		ASSERT_TRUE(j->get_string_by_path("test3") == "test string3", s);
 	}
 
 	static void test_008(const size_t testNum, TestInput& input)
 	{
 		{
 			// test malformed keys, and malformed string
-			std::string s = R"({test1:true,test2:  test string2, test3 : null , test4  : 30.1})";
+			std::string s = R"({test1:true,test2:  test string2, test3 : null , test4  : 30.1, test5:789})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			ASSERT_TRUE(obj->data.size() == 4);
 
-			auto casted1 = std::dynamic_pointer_cast<json::boolean_node>(obj->data[0]);
-			ASSERT_TRUE(casted1->key == "test1");
-			ASSERT_TRUE(casted1->data_type == json::JsonDataType::JDT_BOOLEAN);
-			ASSERT_TRUE(casted1->data == true);
-		
-			auto casted2 = std::dynamic_pointer_cast<json::string_node>(obj->data[1]);
-			ASSERT_TRUE(casted2->key == "test2");
-			ASSERT_TRUE(casted2->data_type == json::JsonDataType::JDT_STRING);
-			ASSERT_TRUE(casted2->data == "test string2");
-
-			auto casted3 = std::dynamic_pointer_cast<json::null_node>(obj->data[2]);
-			ASSERT_TRUE(casted3->key == "test3");
-			ASSERT_TRUE(casted3->data_type == json::JsonDataType::JDT_NULL);
-
-			auto casted4 = std::dynamic_pointer_cast<json::float_node>(obj->data[3]);
-			ASSERT_TRUE(casted4->key == "test4");
-			ASSERT_TRUE(casted4->data_type == json::JsonDataType::JDT_FLOAT);
-			ASSERT_FLOAT_EQUALS(casted4->data, 30.1f);
+			ASSERT_TRUE(j->get_boolean_by_path("test1") == true, s);
+			ASSERT_TRUE(j->get_string_by_path("test2") == "test string2", s);
+			ASSERT_FLOAT_EQUALS(j->get_float_by_path("test4"), 30.1, s);
+			ASSERT_TRUE(j->get_integer_by_path("test5") == 789, s);
 		}
 	}
 
@@ -562,109 +331,37 @@ namespace test_json
 		{
 			std::string s = R"({"testNum":0})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
-				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
-				ASSERT_TRUE(casted->data == 0);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_TRUE(j->get_integer_by_path("testNum") == 0, s);
 		}
 
 		{
 			std::string s = R"({"testNum":1})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
-				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
-				ASSERT_TRUE(casted->data == 1);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_TRUE(j->get_integer_by_path("testNum") == 1, s);
 		}
 
 		{
 			std::string s = R"({"testNum":-1})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
-				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
-				ASSERT_TRUE(casted->data == -1);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_TRUE(j->get_integer_by_path("testNum") == -1, s);
 		}
 
 		{
 			std::string s = R"({"testNum": 42 })";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
-				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
-				ASSERT_TRUE(casted->data == 42);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_TRUE(j->get_integer_by_path("testNum") == 42, s);
 		}
 
 		{
 			std::string s = R"({"testNum":-42})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
-				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
-				ASSERT_TRUE(casted->data == -42);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_TRUE(j->get_integer_by_path("testNum") == -42, s);
 		}
 
 		{
 			std::string s = R"({"testNum":-910109})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
-			bool found = false;
-
-			for (auto n : obj->data)
-			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
-				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
-				ASSERT_TRUE(casted->data == -910109);
-				found = true;
-			}
-
-			ASSERT_TRUE(found);
+			ASSERT_TRUE(j->get_integer_by_path("testNum") == -910109, s);
 		}
 	}
 
