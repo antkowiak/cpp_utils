@@ -78,7 +78,7 @@ public:
 
 		if (allocate_mem && m_inputLen > 0)
 		{
-			m_buffer = (char*)malloc(m_inputLen + 1);
+			m_buffer = static_cast<char *>(malloc(m_inputLen + 1));
 			memcpy(m_buffer, input, m_inputLen);
 			m_buffer[m_inputLen] = 0;
 		}
@@ -100,16 +100,16 @@ public:
 			fieldEnd = fieldStart;
 			while (!is_equals(*fieldEnd))
 				++fieldEnd;
-			*fieldEnd = (char)EOL;
+			*fieldEnd = EOL;
 
 			dataStart = fieldEnd + 1;
 			dataEnd = dataStart;
 
 			while (!is_delim(*dataEnd))
 				++dataEnd;
-			*dataEnd = (char)EOL;
+			*dataEnd = EOL;
 
-			size_t field = atoi(fieldStart);
+			size_t field = static_cast<size_t>(atoi(fieldStart));
 			if (field > 0 && field <= MAX_FIX_ID)
 				internal_store_field(field, dataStart);
 

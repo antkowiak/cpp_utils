@@ -1124,6 +1124,10 @@ namespace json
 				object_data.push_back(std::make_shared<null_node>(key_name, input, index));
 				break;
 			}
+			default:
+			{
+				break;
+			}
 		}
 	}
 

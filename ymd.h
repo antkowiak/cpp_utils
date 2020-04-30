@@ -233,6 +233,9 @@ public:
 
 			case 2:
 				return is_leap_year(yr) ? 29 : 28;
+
+			default:
+				break;
 		}
 
 		return 0;

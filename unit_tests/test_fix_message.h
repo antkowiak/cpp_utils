@@ -68,7 +68,7 @@ namespace test_fix_message
 			fm_fromString_map.init(str3_arr);
 
 
-			str2_arr = (char*)malloc(strlen(str1_arr) + 1);
+			str2_arr = static_cast<char*>(malloc(strlen(str1_arr) + 1));
 #ifdef _WIN32
 			strncpy_s(str2_arr, strlen(str1_arr) + 1, str1_arr, strlen(str1_arr));
 #else
@@ -78,7 +78,7 @@ namespace test_fix_message
 			fm_fromCharArray_arr.init(str2_arr);
 
 
-			str2_map = (char*)malloc(strlen(str1_map) + 1);
+			str2_map = static_cast<char*>(malloc(strlen(str1_map) + 1));
 #ifdef _WIN32
 			strncpy_s(str2_map, strlen(str1_map) + 1, str1_map, strlen(str1_map));
 #else
