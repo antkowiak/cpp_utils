@@ -16,6 +16,7 @@ namespace json
 	enum class JsonDataType
 	{
 		JDT_UNDEFINED,
+		JDT_INTEGER,
 		JDT_FLOAT,
 		JDT_STRING,
 		JDT_BOOLEAN,
@@ -63,18 +64,18 @@ namespace json
 		const std::string& input,
 		size_t& index);
 
-	class float_node : public node
+	class integer_node : public node
 	{
 	public:
-		double data = 0.0f;
+		long data = 0;
 
 	public:
-		float_node() = delete;
+		integer_node() = delete;
 
 		// constructor
-		float_node(const std::string& key_str, const std::string& input, size_t & index)
+		integer_node(const std::string& key_str, const std::string& input, size_t& index)
 		{
-			data_type = JsonDataType::JDT_FLOAT;
+			data_type = JsonDataType::JDT_INTEGER;
 			key = key_str;
 			data = read_data(input, index);
 		}
@@ -89,6 +90,101 @@ namespace json
 
 			ss << std::to_string(data);
 			
+			return ss.str();
+		}
+
+		// return a pretty string representation of the node
+		virtual std::string to_pretty_string(const size_t indent = 0) const
+		{
+			const std::string indent_str = algorithm_rda::string_index_utils::string_indent("    ", indent);
+
+			std::stringstream ss;
+
+			if (key.empty())
+				ss << indent_str << std::to_string(data);
+			else
+				ss << indent_str << "\"" << key << "\": " << std::to_string(data);
+
+			return ss.str();
+		}
+
+		// returns true if the data is appropriate for this type
+		static bool is_type_next(const std::string& input, size_t index)
+		{
+			static std::vector<char> DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+			static char NEGATIVE = '-';
+
+			// advance past white space
+			algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+
+			// start index
+			const size_t start_idx = index;
+
+			// advance past delimters
+			algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), json::JSON_DELIMITERS);
+
+			std::string num_str = input.substr(start_idx, index - start_idx);
+
+			for (size_t i = 0 ; i < num_str.size() ; ++i)
+			{
+				char c = num_str[i];
+
+				if (c == NEGATIVE && i != 0)
+					// negative sign must be the first character
+					return false;
+
+				if (c != NEGATIVE && !algorithm_rda::contains(DIGITS, c))
+					// all other characters must be digits
+					return false;
+			}
+
+			return true;
+		}
+
+		// read the data
+		static long read_data(const std::string & input, size_t & index)
+		{
+			static std::vector<char> INTEGER_CHARS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-' };
+
+			algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), INTEGER_CHARS);
+
+			if (index < input.size())
+			{
+				const size_t start_idx = index;
+				algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), INTEGER_CHARS);
+				return atol(input.substr(start_idx, index - start_idx).c_str());
+			}
+
+			return 0;
+		}
+	};
+
+	class float_node : public node
+	{
+	public:
+		double data = 0.0f;
+
+	public:
+		float_node() = delete;
+
+		// constructor
+		float_node(const std::string& key_str, const std::string& input, size_t& index)
+		{
+			data_type = JsonDataType::JDT_FLOAT;
+			key = key_str;
+			data = read_data(input, index);
+		}
+
+		// return a string representation of the node
+		virtual std::string to_string() const
+		{
+			std::stringstream ss;
+
+			if (!key.empty())
+				ss << "\"" << key << "\":";
+
+			ss << std::to_string(data);
+
 			return ss.str();
 		}
 
@@ -130,14 +226,16 @@ namespace json
 			std::string num_str = input.substr(start_idx, index - start_idx);
 
 
-			for (size_t i = 0 ; i < num_str.size() ; ++i)
+			for (size_t i = 0; i < num_str.size(); ++i)
 			{
 				char c = num_str[i];
 
 				if (c == NEGATIVE)
+				{
 					// negative sign must be the first character OR followed by SCI Notation 'e', 'E'
-					return (i == 0 || algorithm_rda::contains(SCI_NOTATION, num_str[i-1]));
-
+					if (i != 0 && !algorithm_rda::contains(SCI_NOTATION, num_str[i - 1]))
+						return false;
+				}
 				else if (c == POINT)
 				{
 					// can only have one decimal point
@@ -150,7 +248,6 @@ namespace json
 
 					found_point = true;
 				}
-
 				else if (algorithm_rda::contains(SCI_NOTATION, c))
 				{
 					// can't have two 'e' sci notation characters in one string
@@ -163,17 +260,18 @@ namespace json
 
 					found_sci_notation = true;
 				}
-
 				else if (!algorithm_rda::contains(DIGITS, c))
+				{
 					// all other characters must be digits
 					return false;
+				}
 			}
 
 			return true;
 		}
 
 		// read the data
-		static double read_data(const std::string & input, size_t & index)
+		static double read_data(const std::string& input, size_t& index)
 		{
 			static std::vector<char> FLOAT_CHARS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '.', 'e', 'E' };
 
@@ -708,6 +806,9 @@ namespace json
 			if (boolean_node::is_type_next(input, index))
 				return JsonDataType::JDT_BOOLEAN;
 
+			if (integer_node::is_type_next(input, index))
+				return JsonDataType::JDT_INTEGER;
+
 			if (float_node::is_type_next(input, index))
 				return JsonDataType::JDT_FLOAT;
 
@@ -748,6 +849,11 @@ namespace json
 	{
 		switch (data_type)
 		{
+			case JsonDataType::JDT_INTEGER:
+			{
+				object_data.push_back(std::make_shared<integer_node>(key_name, input, index));
+				break;
+			}
 			case JsonDataType::JDT_FLOAT:
 			{
 				object_data.push_back(std::make_shared<float_node>(key_name, input, index));

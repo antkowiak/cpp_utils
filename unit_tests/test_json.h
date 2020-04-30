@@ -54,7 +54,7 @@ namespace test_json
 }
 )";
 
-		std::string str2 = R"({"firstName":"John","lastName":"Smith","isAlive":true,"isDead":false,"emptyStr":"","age":27.000000,"address":{"streetAddress":"21 2nd Street","city":"New York","state":"NY","postalCode":"10021-3100"},"phoneNumbers":[{"type":"home","number":"212 555-1234"},{"type":"office","number":"646 555-4567"}],"children":[],"spouse":null})";
+		std::string str2 = R"({"firstName":"John","lastName":"Smith","isAlive":true,"isDead":false,"emptyStr":"","age":27,"address":{"streetAddress":"21 2nd Street","city":"New York","state":"NY","postalCode":"10021-3100"},"phoneNumbers":[{"type":"home","number":"212 555-1234"},{"type":"office","number":"646 555-4567"}],"children":[],"spouse":null})";
 
 		std::string str3 = R"(
 {
@@ -557,6 +557,117 @@ namespace test_json
 		ASSERT_TRUE(s == j->to_string());
 	}
 
+	static void test_011(const size_t testNum, TestInput& input)
+	{
+		{
+			std::string s = R"({"testNum":0})";
+			auto j = json::parse(s);
+			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
+			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
+			bool found = false;
+
+			for (auto n : obj->data)
+			{
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
+				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
+				ASSERT_TRUE(casted->data == 0);
+				found = true;
+			}
+
+			ASSERT_TRUE(found);
+		}
+
+		{
+			std::string s = R"({"testNum":1})";
+			auto j = json::parse(s);
+			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
+			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
+			bool found = false;
+
+			for (auto n : obj->data)
+			{
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
+				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
+				ASSERT_TRUE(casted->data == 1);
+				found = true;
+			}
+
+			ASSERT_TRUE(found);
+		}
+
+		{
+			std::string s = R"({"testNum":-1})";
+			auto j = json::parse(s);
+			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
+			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
+			bool found = false;
+
+			for (auto n : obj->data)
+			{
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
+				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
+				ASSERT_TRUE(casted->data == -1);
+				found = true;
+			}
+
+			ASSERT_TRUE(found);
+		}
+
+		{
+			std::string s = R"({"testNum": 42 })";
+			auto j = json::parse(s);
+			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
+			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
+			bool found = false;
+
+			for (auto n : obj->data)
+			{
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
+				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
+				ASSERT_TRUE(casted->data == 42);
+				found = true;
+			}
+
+			ASSERT_TRUE(found);
+		}
+
+		{
+			std::string s = R"({"testNum":-42})";
+			auto j = json::parse(s);
+			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
+			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
+			bool found = false;
+
+			for (auto n : obj->data)
+			{
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
+				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
+				ASSERT_TRUE(casted->data == -42);
+				found = true;
+			}
+
+			ASSERT_TRUE(found);
+		}
+
+		{
+			std::string s = R"({"testNum":-910109})";
+			auto j = json::parse(s);
+			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
+			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
+			bool found = false;
+
+			for (auto n : obj->data)
+			{
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_INTEGER);
+				auto casted = std::dynamic_pointer_cast<json::integer_node>(n);
+				ASSERT_TRUE(casted->data == -910109);
+				found = true;
+			}
+
+			ASSERT_TRUE(found);
+		}
+	}
+
 	static void run_tests()
 	{
 		// vector to hold functions to unit tests
@@ -574,6 +685,7 @@ namespace test_json
 		test_vec.push_back(test_008);
 		test_vec.push_back(test_009);
 		test_vec.push_back(test_010);
+		test_vec.push_back(test_011);
 
 		// run each unit test
 		for (size_t i = 0; i < test_vec.size(); ++i)
