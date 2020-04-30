@@ -562,7 +562,9 @@ namespace json
 			while (index < input.size() && !is_object_close_next(input, index))
 			{
 				const std::string key_name = read_key(input, index);
-				algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), ":");
+
+				if (!key_name.empty())
+					algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), ":");
 
 				JsonDataType next_type = determine_next_type(input, index);
 

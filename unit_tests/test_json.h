@@ -546,17 +546,15 @@ namespace test_json
 			auto j = json::parse(input.str3);
 			std::cout << j->to_pretty_string() << std::endl;
 		}
-
-		{
-			// TODO this nested empty object doesn't work yet
-			auto j = json::parse(R"({{}})");
-			std::cout << j->to_pretty_string() << std::endl;
-		}
-
 	}
 
 	static void test_010(const size_t testNum, TestInput& input)
 	{
+		// test nested objects and arrays
+		std::string s = R"({{[{[[[{{{"nullObj":null}}}]]]}]}})";
+		auto j = json::parse(R"({{[{[[[{{{"nullObj":null}}}]]]}]}})");
+		std::cout << j->to_pretty_string() << std::endl;
+		ASSERT_TRUE(s == j->to_string());
 	}
 
 	static void run_tests()
