@@ -48,6 +48,13 @@ namespace json
 		{
 			return "";
 		}
+
+		// return a pretty string representation of the node
+		virtual std::string to_pretty_string(const size_t indent = 0) const
+		{
+			static_cast<void>(indent); // unused
+			return "";
+		}
 	};
 
 	// forward declaration
@@ -84,6 +91,21 @@ namespace json
 
 			ss << std::to_string(data);
 			
+			return ss.str();
+		}
+
+		// return a pretty string representation of the node
+		virtual std::string to_pretty_string(const size_t indent = 0) const
+		{
+			const std::string indent_str = algorithm_rda::string_index_utils::string_indent("    ", indent);
+
+			std::stringstream ss;
+
+			if (key.empty())
+				ss << indent_str << std::to_string(data);
+			else
+				ss << indent_str << "\"" << key << "\": " << std::to_string(data);
+
 			return ss.str();
 		}
 
@@ -199,6 +221,21 @@ namespace json
 			return ss.str();
 		}
 
+		// return a pretty string representation of the node
+		virtual std::string to_pretty_string(const size_t indent = 0) const
+		{
+			const std::string indent_str = algorithm_rda::string_index_utils::string_indent("    ", indent);
+
+			std::stringstream ss;
+
+			if (key.empty())
+				ss << indent_str << "\"" << data << "\"";
+			else
+				ss << indent_str << "\"" << key << "\": \"" << data << "\"";
+
+			return ss.str();
+		}
+
 		// returns true if the data is appropriate for this type
 		static bool is_type_next(const std::string& input, size_t index)
 		{
@@ -286,6 +323,21 @@ namespace json
 			return ss.str();
 		}
 
+		// return a pretty string representation of the node
+		virtual std::string to_pretty_string(const size_t indent = 0) const
+		{
+			const std::string indent_str = algorithm_rda::string_index_utils::string_indent("    ", indent);
+
+			std::stringstream ss;
+
+			if (key.empty())
+				ss << indent_str << (data ? "true" : "false");
+			else
+				ss << indent_str << "\"" << key << "\": " << (data ? "true" : "false");
+
+			return ss.str();
+		}
+
 		// returns true if the data is appropriate for this type
 		static bool is_type_next(const std::string& input, size_t index)
 		{
@@ -364,6 +416,33 @@ namespace json
 			return ss.str();
 		}
 
+		// return a pretty string representation of the node
+		virtual std::string to_pretty_string(const size_t indent = 0) const
+		{
+			const std::string indent_str = algorithm_rda::string_index_utils::string_indent("    ", indent);
+
+			std::stringstream ss;
+
+			if (!key.empty())
+				ss << indent_str << "\"" << key << "\":" << std::endl;
+
+			ss << indent_str << "[" << std::endl;
+
+			for (size_t i = 0; i < data.size(); ++i)
+			{
+				ss << data[i]->to_pretty_string(indent + 1);
+
+				if (i + 1 != data.size())
+					ss << ",";
+
+				ss << std::endl;
+			}
+
+			ss << indent_str << "]";
+
+			return ss.str();
+		}
+
 		// returns true if the data is appropriate for this type
 		static bool is_type_next(const std::string& input, size_t index)
 		{
@@ -437,6 +516,33 @@ namespace json
 			return ss.str();
 		}
 
+		// return a pretty string representation of the node
+		virtual std::string to_pretty_string(const size_t indent = 0) const
+		{
+			const std::string indent_str = algorithm_rda::string_index_utils::string_indent("    ", indent);
+
+			std::stringstream ss;
+
+			if (!key.empty())
+				ss << indent_str << "\"" << key << "\":" << std::endl;
+
+			ss << indent_str << "{" << std::endl;
+
+			for (size_t i = 0; i < data.size(); ++i)
+			{
+				ss << data[i]->to_pretty_string(indent + 1);
+
+				if (i + 1 != data.size())
+					ss << ",";
+
+				ss << std::endl;
+			}
+
+			ss << indent_str << "}";
+
+			return ss.str();
+		}
+
 		// returns true if the data is appropriate for this type
 		static bool is_type_next(const std::string& input, size_t index)
 		{
@@ -494,6 +600,21 @@ namespace json
 				ss << "\"" << key << "\":";
 
 			ss << "null";
+
+			return ss.str();
+		}
+
+		// return a pretty string representation of the node
+		virtual std::string to_pretty_string(const size_t indent = 0) const
+		{
+			const std::string indent_str = algorithm_rda::string_index_utils::string_indent("    ", indent);
+
+			std::stringstream ss;
+
+			if (key.empty())
+				ss << indent_str << "null";
+			else
+				ss << indent_str << "\"" << key << "\" : null";
 
 			return ss.str();
 		}

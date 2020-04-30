@@ -532,6 +532,27 @@ namespace test_json
 
 	static void test_009(const size_t testNum, TestInput& input)
 	{
+		{
+			auto j = json::parse(input.str1);
+			std::cout << j->to_pretty_string() << std::endl;
+		}
+
+		{
+			auto j = json::parse(input.str2);
+			std::cout << j->to_pretty_string() << std::endl;
+		}
+	
+		{
+			auto j = json::parse(input.str3);
+			std::cout << j->to_pretty_string() << std::endl;
+		}
+
+		{
+			// TODO this nested empty object doesn't work yet
+			auto j = json::parse(R"({{}})");
+			std::cout << j->to_pretty_string() << std::endl;
+		}
+
 	}
 
 	static void test_010(const size_t testNum, TestInput& input)
