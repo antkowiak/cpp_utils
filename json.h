@@ -29,9 +29,6 @@ namespace json
 		JDT_NULL
 	};
 
-	// Forward Declaration
-	static JsonDataType determine_next_type(const std::string& input, size_t index);
-
 	// Json node base class
 	class node
 	{
@@ -138,7 +135,8 @@ namespace json
 		}
 	};
 
-	// Forward Declaration
+	// Forward Declarations
+	static JsonDataType determine_next_type(const std::string& input, size_t index);
 	static void add_object_or_array_data(std::vector<std::shared_ptr<node> >& object_data, const JsonDataType data_type, const std::string& key_name, const std::string& input, size_t& index);
 
 	// Json node to represent an integer (JDT_INTEGER, long)
