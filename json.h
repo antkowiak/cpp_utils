@@ -8,8 +8,6 @@
 
 #include "algorithm_rda.h"
 
-
-
 namespace json
 {
 	static const std::vector<char> JSON_DELIMITERS { ' ', '\n', '\t', '\r', ':', ',', '{', '}', '[', ']' };
@@ -18,7 +16,7 @@ namespace json
 	enum class JsonDataType
 	{
 		JDT_UNDEFINED,
-		JDT_NUMBER,
+		JDT_FLOAT,
 		JDT_STRING,
 		JDT_BOOLEAN,
 		JDT_ARRAY,
@@ -65,18 +63,18 @@ namespace json
 		const std::string& input,
 		size_t& index);
 
-	class number_node : public node
+	class float_node : public node
 	{
 	public:
 		double data = 0.0f;
 
 	public:
-		number_node() = delete;
+		float_node() = delete;
 
 		// constructor
-		number_node(const std::string& key_str, const std::string& input, size_t & index)
+		float_node(const std::string& key_str, const std::string& input, size_t & index)
 		{
-			data_type = JsonDataType::JDT_NUMBER;
+			data_type = JsonDataType::JDT_FLOAT;
 			key = key_str;
 			data = read_data(input, index);
 		}
@@ -177,14 +175,14 @@ namespace json
 		// read the data
 		static double read_data(const std::string & input, size_t & index)
 		{
-			static std::vector<char> NUMBER_CHARS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '.', 'e', 'E' };
+			static std::vector<char> FLOAT_CHARS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '.', 'e', 'E' };
 
-			algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), NUMBER_CHARS);
+			algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), FLOAT_CHARS);
 
 			if (index < input.size())
 			{
 				const size_t start_idx = index;
-				algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), NUMBER_CHARS);
+				algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), FLOAT_CHARS);
 				return atof(input.substr(start_idx, index - start_idx).c_str());
 			}
 
@@ -710,8 +708,8 @@ namespace json
 			if (boolean_node::is_type_next(input, index))
 				return JsonDataType::JDT_BOOLEAN;
 
-			if (number_node::is_type_next(input, index))
-				return JsonDataType::JDT_NUMBER;
+			if (float_node::is_type_next(input, index))
+				return JsonDataType::JDT_FLOAT;
 
 			if (string_node::is_type_next(input, index))
 				return JsonDataType::JDT_STRING;;
@@ -750,9 +748,9 @@ namespace json
 	{
 		switch (data_type)
 		{
-			case JsonDataType::JDT_NUMBER:
+			case JsonDataType::JDT_FLOAT:
 			{
-				object_data.push_back(std::make_shared<number_node>(key_name, input, index));
+				object_data.push_back(std::make_shared<float_node>(key_name, input, index));
 				break;
 			}
 			case JsonDataType::JDT_STRING:

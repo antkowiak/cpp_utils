@@ -113,7 +113,7 @@ namespace test_json
 
 	static void test_003(const size_t testNum, TestInput& input)
 	{
-		// unit test the floating pint number parsing
+		// unit test the floating point number parsing
 
 		{
 			std::string s = R"({"testNum":0.0})";
@@ -124,8 +124,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, 0.0f);
 				found = true;
 			}
@@ -142,8 +142,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, 42.0f);
 				found = true;
 			}
@@ -160,8 +160,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, -42.0f);
 				found = true;
 			}
@@ -178,8 +178,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, 42.0202f);
 				found = true;
 			}
@@ -196,8 +196,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, -42.0202f);
 				found = true;
 			}
@@ -214,8 +214,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, 4.202e5f);
 				found = true;
 			}
@@ -232,8 +232,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, -4.202e5f);
 				found = true;
 			}
@@ -250,8 +250,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, 4.202e-5f);
 				found = true;
 			}
@@ -268,8 +268,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, -4.202e-5f);
 				found = true;
 			}
@@ -286,8 +286,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, 4.202E5f);
 				found = true;
 			}
@@ -304,8 +304,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, -4.202E5f);
 				found = true;
 			}
@@ -322,8 +322,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, 4.202E-5f);
 				found = true;
 			}
@@ -340,8 +340,8 @@ namespace test_json
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_NUMBER);
-				auto casted = std::dynamic_pointer_cast<json::number_node>(n);
+				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, -4.202E-5f);
 				found = true;
 			}
@@ -523,9 +523,9 @@ namespace test_json
 			ASSERT_TRUE(casted3->key == "test3");
 			ASSERT_TRUE(casted3->data_type == json::JsonDataType::JDT_NULL);
 
-			auto casted4 = std::dynamic_pointer_cast<json::number_node>(obj->data[3]);
+			auto casted4 = std::dynamic_pointer_cast<json::float_node>(obj->data[3]);
 			ASSERT_TRUE(casted4->key == "test4");
-			ASSERT_TRUE(casted4->data_type == json::JsonDataType::JDT_NUMBER);
+			ASSERT_TRUE(casted4->data_type == json::JsonDataType::JDT_FLOAT);
 			ASSERT_FLOAT_EQUALS(casted4->data, 30.1f);
 		}
 	}
