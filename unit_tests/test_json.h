@@ -672,8 +672,7 @@ namespace test_json
 	{
 		std::string s = R"({ obj: {"testNum":42}})";
 		auto j = json::parse(s);
-		long l = j->get_integer_by_path("obj/testNum");
-		return;
+		ASSERT_TRUE(j->get_integer_by_path("obj/testNum") == 42);
 	}
 
 	static void run_tests()

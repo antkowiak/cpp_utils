@@ -778,17 +778,14 @@ namespace json
 					if (c->key == path[i])
 					{
 						if (i + 1 == path.size())
-						{
-							found = true;
 							retValue = c;
-							break;
-						}
 						else if (c->data_type == JsonDataType::JDT_OBJECT)
-						{
-							found = true;
 							level = std::dynamic_pointer_cast<object_node>(c)->data;
-							break;
-						}
+						else
+							return nullptr;
+
+						found = true;
+						break;
 					}
 				}
 
