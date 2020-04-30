@@ -747,6 +747,119 @@ namespace json
 		}
 	};
 
+	class document : public object_node
+	{
+	public:
+		document() = delete;
+		
+		document(const std::string& key_str, const std::string& input, size_t& index)
+			: object_node(key_str, input, index)
+		{
+		}
+
+		std::shared_ptr<node> get_node_by_path(const std::string& path) const
+		{
+			std::vector<std::string> split_path = algorithm_rda::split_string_to_vector(path, "/");
+			return get_node_by_path(split_path);
+		}
+
+		std::shared_ptr<node> get_node_by_path(const std::vector<std::string> & path) const
+		{
+			std::shared_ptr<node> retValue = nullptr;
+
+			auto level = data;
+
+			for (size_t i = 0 ; i < path.size() ; ++i)
+			{
+				bool found = false;
+
+				for (auto c : level)
+				{
+					if (c->key == path[i])
+					{
+						if (i + 1 == path.size())
+						{
+							found = true;
+							retValue = c;
+							break;
+						}
+						else if (c->data_type == JsonDataType::JDT_OBJECT)
+						{
+							found = true;
+							level = std::dynamic_pointer_cast<object_node>(c)->data;
+							break;
+						}
+					}
+				}
+
+				if (!found)
+					break;
+			}
+
+			return retValue;
+		}
+
+		std::shared_ptr<array_node> get_array_by_path(const std::string& path) const
+		{
+			std::shared_ptr<node> n = get_node_by_path(path);
+
+			if (n == nullptr || n->data_type != JsonDataType::JDT_ARRAY)
+				return nullptr;
+
+			return std::dynamic_pointer_cast<array_node>(n);
+		}
+
+		std::shared_ptr<object_node> get_object_by_path(const std::string& path) const
+		{
+			std::shared_ptr<node> n = get_node_by_path(path);
+
+			if (n == nullptr || n->data_type != JsonDataType::JDT_OBJECT)
+				return nullptr;
+
+			return std::dynamic_pointer_cast<object_node>(n);
+		}
+
+		std::string get_string_by_path(const std::string& path) const
+		{
+			std::shared_ptr<node> n = get_node_by_path(path);
+
+			if (n == nullptr || n->data_type != JsonDataType::JDT_STRING)
+				return "";
+
+			return std::dynamic_pointer_cast<string_node>(n)->data;
+		}
+
+		long get_integer_by_path(const std::string& path) const
+		{
+			std::shared_ptr<node> n = get_node_by_path(path);
+
+			if (n == nullptr || n->data_type != JsonDataType::JDT_INTEGER)
+				return 0;
+
+			return std::dynamic_pointer_cast<integer_node>(n)->data;
+		}
+
+		double get_float_by_path(const std::string& path) const
+		{
+			std::shared_ptr<node> n = get_node_by_path(path);
+
+			if (n == nullptr || n->data_type != JsonDataType::JDT_FLOAT)
+				return 0.0f;
+
+			return std::dynamic_pointer_cast<float_node>(n)->data;
+		}
+
+		bool get_boolean_by_path(const std::string& path) const
+		{
+			std::shared_ptr<node> n = get_node_by_path(path);
+
+			if (n == nullptr || n->data_type != JsonDataType::JDT_BOOLEAN)
+				return false;
+
+			return std::dynamic_pointer_cast<boolean_node>(n)->data;
+		}
+	};
+
 	static std::string read_key(const std::string& input, size_t& index)
 	{
 		// advance past any white space
@@ -888,13 +1001,13 @@ namespace json
 		}
 	}
 
-	std::shared_ptr<node> parse(const std::string& input)
+	static std::shared_ptr<document> parse(const std::string& input)
 	{
 		size_t index = 0;
 
 		if (determine_next_type(input, index) != JsonDataType::JDT_OBJECT)
 			return nullptr;
 
-		return std::make_shared<object_node>("", input, index);
+		return std::make_shared<document>("", input, index);
 	}
 }

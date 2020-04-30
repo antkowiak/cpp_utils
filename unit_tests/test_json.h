@@ -668,6 +668,14 @@ namespace test_json
 		}
 	}
 
+	static void test_012(const size_t testNum, TestInput& input)
+	{
+		std::string s = R"({ obj: {"testNum":42}})";
+		auto j = json::parse(s);
+		long l = j->get_integer_by_path("obj/testNum");
+		return;
+	}
+
 	static void run_tests()
 	{
 		// vector to hold functions to unit tests
@@ -686,6 +694,7 @@ namespace test_json
 		test_vec.push_back(test_009);
 		test_vec.push_back(test_010);
 		test_vec.push_back(test_011);
+		test_vec.push_back(test_012);
 
 		// run each unit test
 		for (size_t i = 0; i < test_vec.size(); ++i)
