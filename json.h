@@ -29,12 +29,8 @@ namespace json
 		JDT_NULL
 	};
 
-	// Forward Declarations
-	static std::string read_key(const std::string& input, size_t& index);
+	// Forward Declaration
 	static JsonDataType determine_next_type(const std::string& input, size_t index);
-	static bool is_comma_next(const std::string& input, size_t index);
-	static bool is_object_close_next(const std::string& input, size_t index);
-	static bool is_array_close_next(const std::string& input, size_t index);
 
 	// Json node base class
 	class node
@@ -65,6 +61,80 @@ namespace json
 		{
 			static_cast<void>(indent); // unused
 			return "";
+		}
+
+	protected:
+
+		// Reads and returns the key for a {"key" : "value"} pair
+		static std::string read_key(const std::string& input, size_t& index)
+		{
+			// advance past any white space
+			algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+
+			// return if we reached the end of input
+			if (index >= input.size())
+				return "";
+
+			// if the next character is a quote
+			if (input[index] == '"')
+			{
+				// increment past the quote
+				++index;
+
+				// cache the starting index of the key string
+				size_t start_idx = index;
+
+				// advance the index until next quote is found
+				algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), "\"");
+
+				// cache the text of the key
+				std::string output = input.substr(start_idx, index - start_idx);
+
+				// increment past the quote
+				++index;
+
+				// return the key
+				return output;
+			}
+
+			// if the code reaches here, the json is not well formed. the key name was not enclosed in quotes. attempt to parse anyway
+			size_t start_idx = index;
+
+			// advance until next delimiter
+			algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), json::JSON_DELIMITERS);
+
+			// return substring up until (but not including) the next delimiter
+			return input.substr(start_idx, index - start_idx);
+		}
+
+		// Determine if the input string indicates an array is ending at the index ']'
+		static bool is_array_close_next(const std::string& input, size_t index)
+		{
+			// advance past any white space
+			algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+
+			// look for the array closing character ']'
+			return (index < input.size() && input[index] == ']');
+		}
+
+		// Determine if the input string indicates an object is ending at the index '}'
+		static bool is_object_close_next(const std::string& input, size_t index)
+		{
+			// advance past any white space
+			algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+
+			// look for the object closing character '}'
+			return (index < input.size() && input[index] == '}');
+		}
+
+		// Determine if the input string indicates a comma ',' separating objects
+		static bool is_comma_next(const std::string& input, size_t index)
+		{
+			// advance past any white space
+			algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
+
+			// look for the comma ',' character
+			return (index < input.size() && input[index] == ',');
 		}
 	};
 
@@ -971,48 +1041,6 @@ namespace json
 		}
 	};
 
-	// Reads and returns the key for a {"key" : "value"} pair
-	static std::string read_key(const std::string& input, size_t& index)
-	{
-		// advance past any white space
-		algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
-
-		// return if we reached the end of input
-		if (index >= input.size())
-			return "";
-
-		// if the next character is a quote
-		if (input[index] == '"')
-		{
-			// increment past the quote
-			++index;
-
-			// cache the starting index of the key string
-			size_t start_idx = index;
-
-			// advance the index until next quote is found
-			algorithm_rda::string_index_utils::advance_index_until_next(input, index, input.size(), "\"");
-			
-			// cache the text of the key
-			std::string output = input.substr(start_idx, index - start_idx);
-
-			// increment past the quote
-			++index;
-
-			// return the key
-			return output;
-		}
-
-		// if the code reaches here, the json is not well formed. the key name was not enclosed in quotes. attempt to parse anyway
-		size_t start_idx = index;
-
-		// advance until next delimiter
-		algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), json::JSON_DELIMITERS);
-
-		// return substring up until (but not including) the next delimiter
-		return input.substr(start_idx, index - start_idx);	
-	}
-
 	// Determine the next Json node to parse out of the input string, starting at index
 	static JsonDataType determine_next_type(const std::string& input, size_t index)
 	{
@@ -1050,36 +1078,6 @@ namespace json
 
 		// none of the nodes match the next input. probably mal-formed json.
 		return JsonDataType::JDT_UNDEFINED;
-	}
-
-	// Determine if the input string indicates an array is ending at the index ']'
-	static bool is_array_close_next(const std::string& input, size_t index)
-	{
-		// advance past any white space
-		algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
-
-		// look for the array closing character ']'
-		return (index < input.size() && input[index] == ']');
-	}
-
-	// Determine if the input string indicates an object is ending at the index '}'
-	static bool is_object_close_next(const std::string& input, size_t index)
-	{
-		// advance past any white space
-		algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
-
-		// look for the object closing character '}'
-		return (index < input.size() && input[index] == '}');
-	}
-
-	// Determine if the input string indicates a comma ',' separating objects
-	static bool is_comma_next(const std::string& input, size_t index)
-	{
-		// advance past any white space
-		algorithm_rda::string_index_utils::advance_index_past_all(input, index, input.size(), algorithm_rda::string_index_utils::WHITESPACE_CHARS);
-
-		// look for the comma ',' character
-		return (index < input.size() && input[index] == ',');
 	}
 
 	// Factory method to create and add the next node
