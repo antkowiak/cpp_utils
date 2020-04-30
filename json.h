@@ -115,26 +115,37 @@ namespace json
 				char c = num_str[i];
 
 				if (c == NEGATIVE)
-				{
 					// negative sign must be the first character OR followed by SCI Notation 'e', 'E'
-					return (i == 0 || algorithm_rda::contains(SCI_NOTATION, c));
-				}
+					return (i == 0 || algorithm_rda::contains(SCI_NOTATION, num_str[i-1]));
 
 				else if (c == POINT)
 				{
+					// can only have one decimal point
 					if (found_point)
 						return false;
+
+					// decimal point cannot be after 'e' sci notation
+					if (found_sci_notation)
+						return false;
+
 					found_point = true;
 				}
 
 				else if (algorithm_rda::contains(SCI_NOTATION, c))
 				{
+					// can't have two 'e' sci notation characters in one string
 					if (found_sci_notation)
 						return false;
+
+					// can't be the first character
+					if (i == 0)
+						return false;
+
 					found_sci_notation = true;
 				}
 
 				else if (!algorithm_rda::contains(DIGITS, c))
+					// all other characters must be digits
 					return false;
 			}
 
