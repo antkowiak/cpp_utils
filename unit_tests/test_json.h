@@ -372,6 +372,29 @@ namespace test_json
 		ASSERT_TRUE(j->get_integer_by_path("obj/testNum") == 42);
 	}
 
+	static void test_013(const size_t testNum, TestInput& input)
+	{
+		{
+			std::string s = R"({ "wrap" : { "a":null, "b": 999, "c" : [1, 2, 3], obj: {"testNum":42}}})";
+			auto j = json::parse(s);
+
+			ASSERT_TRUE(j->get_integer_by_path("wrap/obj/testNum") == 42);
+			ASSERT_TRUE(j->get_integer_by_path("wrap/b") == 999);
+
+			auto arr = j->get_array_by_path("wrap/c");
+			ASSERT_FALSE(arr->data.empty());
+			ASSERT_TRUE(arr->data.size() == 3);
+
+			ASSERT_TRUE(arr->data[0]->data_type == json::JsonDataType::JDT_INTEGER);
+			ASSERT_TRUE(arr->data[1]->data_type == json::JsonDataType::JDT_INTEGER);
+			ASSERT_TRUE(arr->data[2]->data_type == json::JsonDataType::JDT_INTEGER);
+
+			ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(arr->data[0])->data == 1);
+			ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(arr->data[1])->data == 2);
+			ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(arr->data[2])->data == 3);
+		}
+	}
+
 	static void run_tests()
 	{
 		// vector to hold functions to unit tests
@@ -391,6 +414,7 @@ namespace test_json
 		test_vec.push_back(test_010);
 		test_vec.push_back(test_011);
 		test_vec.push_back(test_012);
+		test_vec.push_back(test_013);
 
 		// run each unit test
 		for (size_t i = 0; i < test_vec.size(); ++i)

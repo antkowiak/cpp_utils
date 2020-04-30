@@ -5,6 +5,9 @@
 #include <iostream>
 #include <string>
 
+#pragma warning( push )
+#pragma warning( disable : 4505 ) // unreferenced local function has been removed
+
 namespace unit_test_utils
 {
 	// assert the expression is true
@@ -35,8 +38,6 @@ namespace unit_test_utils
 		}
 	}
 
-#pragma warning( push )
-#pragma warning( disable : 4505 ) // unreferenced local function has been removed
 	// call the function and fail if it throws an exception
 	static void ASSERT_NO_THROW(std::function<void(void)> f, const std::string& description = "")
 	{
@@ -130,5 +131,23 @@ namespace unit_test_utils
 		}
 	}
 
-#pragma warning( pop )
+	// check if two floating point numbers are NOT "equal" (e.g. are NOT close enough)
+	static void ASSERT_FLOAT_NOT_EQUALS(const double d1, const double d2, const std::string& description = "")
+	{
+		static const double EPSILON = 0.0001f;
+
+		const double delta = abs(d1 - d2);
+
+		if (delta < EPSILON)
+		{
+			std::cout << "ASSERT_FLOAT_NOT_EQUALS() Failure. d1=" << d1 << " d2=" << d2;
+			if (description != "")
+				std::cout << " Description: " << description;
+			std::cout << std::endl;
+
+			exit(EXIT_FAILURE);
+		}
+	}
 }
+
+#pragma warning( pop )
