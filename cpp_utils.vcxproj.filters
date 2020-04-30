@@ -103,5 +103,6 @@
     <None Include="README.md" />
     <None Include="TODO.md" />
     <None Include=".gitignore" />
+    <None Include="Makefile" />
   </ItemGroup>
 </Project>

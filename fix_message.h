@@ -26,8 +26,8 @@ protected:
 	static bool is_delim(const char c) { return ((c == EOL) || (c == SOH) || (c == PIPE) || (c == CARRET)); }
 	static bool is_equals(const char c) { return (c == EQUALS); }
 
-	virtual void internal_store_field(const int field, char* addr) = 0;
-	virtual const char* internal_retrieve_field(const int field) const = 0;
+	virtual void internal_store_field(const size_t field, char* addr) = 0;
+	virtual const char* internal_retrieve_field(const size_t field) const = 0;
 
 public:
 
@@ -109,7 +109,7 @@ public:
 				++dataEnd;
 			*dataEnd = (char)EOL;
 
-			int field = atoi(fieldStart);
+			size_t field = atoi(fieldStart);
 			if (field > 0 && field <= MAX_FIX_ID)
 				internal_store_field(field, dataStart);
 
@@ -117,7 +117,7 @@ public:
 		}
 	}
 
-	const char* get_field(const int field) const
+	const char* get_field(const size_t field) const
 	{
 		if (field > 0 && field <= MAX_FIX_ID)
 			return internal_retrieve_field(field);
@@ -137,12 +137,12 @@ protected:
 	const char* data[MAX_FIX_ID] = { nullptr };
 
 protected:
-	virtual void internal_store_field(const int field, char* addr)
+	virtual void internal_store_field(const size_t field, char* addr)
 	{
 		data[field] = addr;
 	}
 
-	virtual const char* internal_retrieve_field(const int field) const
+	virtual const char* internal_retrieve_field(const size_t field) const
 	{
 		return data[field];
 	}
@@ -158,15 +158,15 @@ public:
 	fix_message_map& operator = (const fix_message_map&) = delete;
 
 protected:
-	std::map<int, const char*> data;
+	std::map<size_t, const char*> data;
 
 protected:
-	virtual void internal_store_field(const int field, char* addr)
+	virtual void internal_store_field(const size_t field, char* addr)
 	{
 		data[field] = addr;
 	}
 
-	virtual const char* internal_retrieve_field(const int field) const
+	virtual const char* internal_retrieve_field(const size_t field) const
 	{
 		auto i(data.find(field));
 		if (i != data.end())
