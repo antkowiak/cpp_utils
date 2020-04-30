@@ -28,6 +28,8 @@ namespace test_json
   "firstName": "John",
   "lastName": "Smith",
   "isAlive": true,
+  "isDead": false,
+  "emptyStr": "",
   "age": 27,
   "address": {
     "streetAddress": "21 2nd Street",
@@ -49,6 +51,8 @@ namespace test_json
   "spouse": null
 }
 )";
+
+		std::string str2 = R"({"firstName":"John","lastName":"Smith","isAlive":true,"isDead":false,"emptyStr":"","age":27.000000,"address":{"streetAddress":"21 2nd Street","city":"New York","state":"NY","postalCode":"10021-3100"},"phoneNumbers":[{"type":"home","number":"212 555-1234"},{"type":"office","number":"646 555-4567"}],"children":[],"spouse":null})";
 	};
 
 	static void setup(const size_t testNum, TestInput& input)
@@ -65,14 +69,15 @@ namespace test_json
 	static void test_000(const size_t testNum, TestInput& input)
 	{
 		auto j = json::parse(input.str1);
-
 		std::cout << j->to_string() << std::endl;
-		// TODO - It doesn't quite work yet. Step through with debugger.
 		return;
 	}
 
 	static void test_001(const size_t testNum, TestInput& input)
 	{
+		auto j = json::parse(input.str2);
+		std::cout << j->to_string() << std::endl;
+		return;
 	}
 
 	static void test_002(const size_t testNum, TestInput& input)

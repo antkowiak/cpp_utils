@@ -114,8 +114,11 @@ namespace json
 			{
 				char c = num_str[i];
 
-				if (c == NEGATIVE && i != 0)
-					return false;
+				if (c == NEGATIVE)
+				{
+					// negative sign must be the first character OR followed by SCI Notation 'e', 'E'
+					return (i == 0 || algorithm_rda::contains(SCI_NOTATION, c));
+				}
 
 				else if (c == POINT)
 				{
@@ -303,7 +306,7 @@ namespace json
 
 			// check if the value is true followed by a JSON Delimiter character
 			for (auto text : TRUE_VALUES)
-				if (index + text.size() > input.size() &&
+				if (index + text.size() < input.size() &&
 					algorithm_rda::string_index_utils::string_starts_with(input, text, index) &&
 					algorithm_rda::contains(json::JSON_DELIMITERS, input[index + text.size()]))
 					output = true;
