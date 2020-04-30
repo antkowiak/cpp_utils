@@ -1,6 +1,6 @@
 
 test_cpp_utils : Makefile main.cpp *.h unit_tests/*.h
-	g++ -g -std=c++14 \
+	g++ -g -std=c++14 -Wpedantic \
 	-Waddress -Waligned-new -Walloc-zero -Walloca -Wno-aggressive-loop-optimizations -Warray-bounds		\
 	-Warray-bounds=2 -Wno-attributes -Wbool-compare -Wbool-operation -Wno-builtin-declaration-mismatch	\
 	-Wno-builtin-macro-redefined -Wc++14-compat -Wcast-align -Wcast-qual -Wchar-subscripts -Wchkp		\

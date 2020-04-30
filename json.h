@@ -1078,7 +1078,7 @@ namespace json
 		return JsonDataType::JDT_UNDEFINED;
 	}
 
-	// Factory method to create and add the next node
+	// Helper/factory method to create and add the next node
 	static void add_object_or_array_data(
 		std::vector<std::shared_ptr<node> >& object_data,
 		const JsonDataType data_type,

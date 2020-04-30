@@ -2,7 +2,7 @@
 
 // xml.h - Light weight xml parser.
 // Does not do any data validation, nor schemas.
-// Assumes input data is not well formed and correct.
+// Assumes input data is not mal-formed and is correct.
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
