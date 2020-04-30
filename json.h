@@ -243,9 +243,6 @@ namespace json
 					// if index advanced
 					if (index > start_idx)
 					{
-						// decrement back so we don't consume the delimiter
-						--index;
-
 						std::string output = input.substr(start_idx, index - start_idx);
 						algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(output);
 						return output;
@@ -565,7 +562,7 @@ namespace json
 		algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), json::JSON_DELIMITERS);
 
 		// return substring up until (but not including) the next delimiter
-		return input.substr(start_idx, index - start_idx - 1);	
+		return input.substr(start_idx, index - start_idx);	
 	}
 
 	static JsonDataType determine_next_type(const std::string& input, size_t index)
