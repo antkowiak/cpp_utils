@@ -129,13 +129,15 @@ namespace json
 			{
 				char c = num_str[i];
 
-				if (c == NEGATIVE && i != 0)
-					// negative sign must be the first character
+				if (c == NEGATIVE) // negative sign must be the first character
+				{
+					if (i != 0)
+						return false;
+				}
+				else if (!algorithm_rda::contains(DIGITS, c)) // all other characters must be digits
+				{
 					return false;
-
-				if (c != NEGATIVE && !algorithm_rda::contains(DIGITS, c))
-					// all other characters must be digits
-					return false;
+				}
 			}
 
 			return true;
@@ -224,7 +226,6 @@ namespace json
 			algorithm_rda::string_index_utils::advance_index_past_all_not(input, index, input.size(), json::JSON_DELIMITERS);
 
 			std::string num_str = input.substr(start_idx, index - start_idx);
-
 
 			for (size_t i = 0; i < num_str.size(); ++i)
 			{
