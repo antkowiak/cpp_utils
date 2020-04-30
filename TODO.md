@@ -6,3 +6,4 @@
 4) Maybe FIX exchange simulator
 5) Add to_pretty_string() for json.
 6) Add distinction between int and float
+7) Fix boolean "false" bug (isAlive in test)
