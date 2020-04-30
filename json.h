@@ -382,6 +382,8 @@ namespace json
 					algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), ",");
 			}
 
+			algorithm_rda::string_index_utils::advance_index_past_next(input, index, input.size(), "]");
+
 			return array_data;
 		}
 	};
