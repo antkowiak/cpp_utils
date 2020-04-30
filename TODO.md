@@ -7,3 +7,4 @@
 5) Add to_pretty_string() for json.
 6) Add distinction between int and float
 7) Fix boolean "false" bug (isAlive in test)
+8) Floating put with scientific notation can have another negative sign. Fix in validation.
