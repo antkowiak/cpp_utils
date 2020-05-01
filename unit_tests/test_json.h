@@ -118,13 +118,13 @@ namespace test_json
 		{
 			std::string s = R"({"testNum":0.0})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
+			ASSERT_TRUE(j->type == json::JsonDataType::JDT_OBJECT);
 			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
 			bool found = false;
 
 			for (auto n : obj->data)
 			{
-				ASSERT_TRUE(n->data_type == json::JsonDataType::JDT_FLOAT);
+				ASSERT_TRUE(n->type == json::JsonDataType::JDT_FLOAT);
 				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, 0.0f);
 				found = true;
@@ -213,12 +213,12 @@ namespace test_json
 
 		std::string s = R"({"test":null})";
 		auto j = json::parse(s);
-		ASSERT_TRUE(j->data_type == json::JsonDataType::JDT_OBJECT);
+		ASSERT_TRUE(j->type == json::JsonDataType::JDT_OBJECT);
 		auto obj = std::dynamic_pointer_cast<json::object_node>(j);
 		ASSERT_TRUE(obj->data.size() == 1);
 		auto casted = std::dynamic_pointer_cast<json::null_node>(obj->data[0]);
 		ASSERT_TRUE(casted->key == "test");
-		ASSERT_TRUE(casted->data_type == json::JsonDataType::JDT_NULL);
+		ASSERT_TRUE(casted->type == json::JsonDataType::JDT_NULL);
 	}
 
 	static void test_005(const size_t testNum, TestInput& input)
@@ -234,13 +234,13 @@ namespace test_json
 		{
 			std::string s = R"({"test":True})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->get_boolean_by_path("test") == true, s);
+			ASSERT_TRUE(j->get_boolean_by_path("test") == false, s);
 		}
 
 		{
 			std::string s = R"({"test":TRUE})";
 			auto j = json::parse(s);
-			ASSERT_TRUE(j->get_boolean_by_path("test") == true, s);
+			ASSERT_TRUE(j->get_boolean_by_path("test") == false, s);
 		}
 
 		{
@@ -385,14 +385,28 @@ namespace test_json
 			ASSERT_FALSE(arr->data.empty());
 			ASSERT_TRUE(arr->data.size() == 3);
 
-			ASSERT_TRUE(arr->data[0]->data_type == json::JsonDataType::JDT_INTEGER);
-			ASSERT_TRUE(arr->data[1]->data_type == json::JsonDataType::JDT_INTEGER);
-			ASSERT_TRUE(arr->data[2]->data_type == json::JsonDataType::JDT_INTEGER);
+			ASSERT_TRUE(arr->data[0]->type == json::JsonDataType::JDT_INTEGER);
+			ASSERT_TRUE(arr->data[1]->type == json::JsonDataType::JDT_INTEGER);
+			ASSERT_TRUE(arr->data[2]->type == json::JsonDataType::JDT_INTEGER);
 
 			ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(arr->data[0])->data == 1);
 			ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(arr->data[1])->data == 2);
 			ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(arr->data[2])->data == 3);
 		}
+	}
+
+	static void test_014(const size_t testNum, TestInput& input)
+	{
+		auto j = json::parse(R"(
+{ "escape" : { "test": "bs- \\ quote- \""}}
+)");
+		std::string out = j->get_string_by_path("escape/test");
+		std::cout << j->to_string() << std::endl;
+		std::cout << j->to_pretty_string() << std::endl;
+
+		ASSERT_TRUE(out == "bs- \\ quote- \"");
+
+		return;
 	}
 
 	static void run_tests()
@@ -415,6 +429,7 @@ namespace test_json
 		test_vec.push_back(test_011);
 		test_vec.push_back(test_012);
 		test_vec.push_back(test_013);
+		test_vec.push_back(test_014);
 
 		// run each unit test
 		for (size_t i = 0; i < test_vec.size(); ++i)
