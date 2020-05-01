@@ -5,3 +5,4 @@
 /.vs
 /x64
 test_cpp_utils
+*.swp
