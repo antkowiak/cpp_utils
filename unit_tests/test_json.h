@@ -409,6 +409,61 @@ namespace test_json
 		return;
 	}
 
+	static void test_015(const size_t testNum, TestInput& input)
+	{
+		auto j = json::parse(R"(
+{ "one" : 1, "two" : 2}
+)");
+	
+		j->add_child(std::make_shared<json::integer_node>("three", 3));
+		j->add_child(std::make_shared<json::integer_node>("zero", 0), 0);
+		j->add_child(std::make_shared<json::boolean_node>("four", false), 10);
+		
+		ASSERT_TRUE(j->get_integer_by_path("zero") == 0);
+		ASSERT_TRUE(j->get_integer_by_path("one") == 1);
+		ASSERT_TRUE(j->get_integer_by_path("two") == 2);
+		ASSERT_TRUE(j->get_integer_by_path("three") == 3);
+		ASSERT_TRUE(j->get_boolean_by_path("four") == false);
+
+		j->remove_child(1);
+		ASSERT_TRUE(j->get_integer_by_path("one") != 1);
+
+		j->remove_child("two");
+		ASSERT_TRUE(j->get_integer_by_path("two") != 2);
+
+		return;
+	}
+
+	static void test_016(const size_t testNum, TestInput& input)
+	{
+		auto j = json::parse(R"(
+{ "a" : [ 1, 2, 3 ] }
+)");
+
+		auto a = j->get_array_by_path("a");
+		ASSERT_TRUE(a != nullptr);
+
+		std::cout << a->to_string() << std::endl;
+
+		a->add_child(std::make_shared<json::integer_node>("", 0), 0);
+		a->add_child(std::make_shared<json::integer_node>("", 4));
+
+		ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(a->data[0])->data == 0);
+		ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(a->data[4])->data == 4);
+
+		std::cout << a->to_string() << std::endl;
+
+		a->remove_child(0);
+		ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(a->data[0])->data == 1);
+
+		a->remove_child(0);
+		ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(a->data[0])->data == 2);
+
+		std::cout << a->to_string() << std::endl;
+
+		return;
+	}
+
 	static void run_tests()
 	{
 		// vector to hold functions to unit tests
@@ -430,6 +485,8 @@ namespace test_json
 		test_vec.push_back(test_012);
 		test_vec.push_back(test_013);
 		test_vec.push_back(test_014);
+		test_vec.push_back(test_015);
+		test_vec.push_back(test_016);
 
 		// run each unit test
 		for (size_t i = 0; i < test_vec.size(); ++i)

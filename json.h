@@ -2,6 +2,7 @@
 
 #include <exception>
 #include <iostream>
+#include <limits>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -768,6 +769,24 @@ namespace json
 
 			return ss.str();
 		}
+
+		// add a child node
+		void add_child(std::shared_ptr<node> child, const size_t index = std::numeric_limits<size_t>::max())
+		{
+			if (child != nullptr)
+			{
+				child->key = "";
+				const size_t position = std::min(index, data.size());
+				data.insert(data.cbegin() + position, child);
+			}
+		}
+
+		// remove a child node by index
+		void remove_child(const size_t index)
+		{
+			if (index < data.size())
+				data.erase(data.cbegin() + index);
+		}
 	};
 
 	// node to store string data type
@@ -918,6 +937,32 @@ namespace json
 			ss << indent_str << "}";
 
 			return ss.str();
+		}
+
+		// add a child node
+		void add_child(std::shared_ptr<node> child, const size_t index = std::numeric_limits<size_t>::max())
+		{
+			if (child != nullptr)
+			{
+				const size_t position = std::min(index, data.size());
+				data.insert(data.cbegin() + position, child);
+			}
+		}
+
+		// remove a child node by key name
+		void remove_child(const std::string& key_name)
+		{
+			auto iter = std::find_if(data.cbegin(), data.cend(), [key_name](std::shared_ptr<node> n) { return key_name == n->key; });
+
+			if (iter != data.cend())
+				data.erase(iter);
+		}
+
+		// remove a child node by index
+		void remove_child(const size_t index)
+		{
+			if (index < data.size())
+				data.erase(data.cbegin() + index);
 		}
 
 		// return a json node specified by a string path: "path/to/node"
