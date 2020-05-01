@@ -498,6 +498,13 @@ namespace json
 			key = key_;
 		}
 
+		// constructor
+		null_node(const std::string& key_)
+		{
+			type = JsonDataType::JDT_NULL;
+			key = key_;
+		}
+
 		// return a string representation of the node
 		virtual std::string to_string() const
 		{
@@ -541,6 +548,14 @@ namespace json
 			type = JsonDataType::JDT_BOOLEAN;
 			key = key_;
 			data = parse_boolean(tokens, token_index);
+		}
+
+		// constructor
+		boolean_node(const std::string& key_, const bool value)
+		{
+			type = JsonDataType::JDT_BOOLEAN;
+			key = key_;
+			data = value;
 		}
 
 		// return a string representation of the node
@@ -591,6 +606,14 @@ namespace json
 			data = parse_integer(tokens, token_index);
 		}
 
+		// constructor
+		integer_node(const std::string& key_, const long value)
+		{
+			type = JsonDataType::JDT_INTEGER;
+			key = key_;
+			data = value;
+		}
+
 		// return a string representation of the node
 		virtual std::string to_string() const
 		{
@@ -636,6 +659,14 @@ namespace json
 			data = parse_float(tokens, token_index);
 		}
 
+		// constructor
+		float_node(const std::string& key_, const double value)
+		{
+			type = JsonDataType::JDT_FLOAT;
+			key = key_;
+			data = value;
+		}
+
 		// return a string representation of the node
 		virtual std::string to_string() const
 		{
@@ -679,6 +710,14 @@ namespace json
 			type = JsonDataType::JDT_ARRAY;
 			key = key_;
 			data = parse_array(tokens, token_index);
+		}
+
+		// constructor
+		array_node(const std::string& key_, const std::vector<std::shared_ptr<node> >& value)
+		{
+			type = JsonDataType::JDT_ARRAY;
+			key = key_;
+			data = value;
 		}
 
 		// return a string representation of the node
@@ -745,6 +784,14 @@ namespace json
 			type = JsonDataType::JDT_STRING;
 			key = key_;
 			data = parse_string(tokens, token_index);
+		}
+		
+		// constructor
+		string_node(const std::string& key_, const std::string& value)
+		{
+			type = JsonDataType::JDT_STRING;
+			key = key_;
+			data = value;
 		}
 
 		// return a string representation of the node
@@ -814,6 +861,14 @@ namespace json
 			type = JsonDataType::JDT_OBJECT;
 			key = key_;
 			data = parse_object(tokens, token_index);
+		}
+
+		// constructor
+		object_node(const std::string& key_, const std::vector<std::shared_ptr<node> >& value)
+		{
+			type = JsonDataType::JDT_OBJECT;
+			key = key_;
+			data = value;
 		}
 
 		// return a string representation of the node
