@@ -1353,4 +1353,4 @@ namespace json
 		return std::make_shared<node_object>("", tokens, token_index);
 	}
 
-}
+} // end namespace json
