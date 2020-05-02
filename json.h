@@ -23,8 +23,9 @@ namespace json
 		JDT_ARRAY,		// vector<shared_ptr<node>>
 		JDT_OBJECT,		// vector<shared_ptr<node>>
 		JDT_STRING		// std::string
-	};
+	}; // end enum JsondataType
 
+	// helper methods for determining and validating json data types
 	namespace data_validator_helpers
 	{
 		// returns true if input at index starts with a given character
@@ -114,8 +115,9 @@ namespace json
 
 			return (before_pos < after_pos);
 		}
-	}
+	} // end namespace data_validator_helpers
 
+	// methods for determining and validating json data types
 	namespace data_validators
 	{
 		// returns true if input represents a null json type
@@ -327,8 +329,9 @@ namespace json
 
 			return false;
 		}
-	}
+	} // end namespace data_validators
 
+	// helper methods for parsing json data
 	namespace parse_helpers
 	{
 		// inspect input to determine the json data type it corresponds to
@@ -448,7 +451,7 @@ namespace json
 
 			return tokens;
 		}
-	}
+	} // end namespace parse_helpers
 
 	// base class for json data nodes
 	class node
@@ -473,16 +476,7 @@ namespace json
 			static_cast<void>(indent); // unused
 			return "";
 		}
-	};
-
-	// Forward declarations of parsing functions
-	static std::string parse_key(const std::vector<std::string>& tokens, size_t& token_index);
-	static bool parse_boolean(const std::vector<std::string>& tokens, size_t& token_index);
-	static long parse_integer(const std::vector<std::string>& tokens, size_t& token_index);
-	static double parse_float(const std::vector<std::string>& tokens, size_t& token_index);
-	static std::vector<std::shared_ptr<node> > parse_array(const std::vector<std::string>& tokens, size_t& token_index);
-	static std::vector<std::shared_ptr<node> > parse_object(const std::vector<std::string>& tokens, size_t& token_index);
-	static std::string parse_string(const std::vector<std::string>& tokens, size_t& token_index);
+	}; // end class node
 
 	// node to store null data type
 	class null_node : public node
@@ -533,7 +527,7 @@ namespace json
 
 			return ss.str();
 		}
-	};
+	}; // end class null_node
 
 	// node to store boolean data type
 	class boolean_node : public node
@@ -589,7 +583,18 @@ namespace json
 
 			return ss.str();
 		}
-	};
+
+	protected:
+
+		// parse and return a boolean value
+		static bool parse_boolean(const std::vector<std::string>& tokens, size_t& token_index)
+		{
+			if (token_index < tokens.size())
+				return (tokens[token_index] == "true");
+
+			return false;
+		}
+	}; // end class boolean_node
 
 	// node to store integer number data type
 	class integer_node : public node
@@ -642,7 +647,18 @@ namespace json
 
 			return ss.str();
 		}
-	};
+
+	protected:
+
+		// parse and return an integer number value
+		static long parse_integer(const std::vector<std::string>& tokens, size_t& token_index)
+		{
+			if (token_index < tokens.size())
+				return (atol(tokens[token_index].c_str()));
+
+			return 0;
+		}
+	}; // end class integer_node
 
 	// node to store floating point number data type
 	class float_node : public node
@@ -695,7 +711,114 @@ namespace json
 
 			return ss.str();
 		}
-	};
+
+	protected:
+
+		// parse and return a floating point number value
+		static double parse_float(const std::vector<std::string>& tokens, size_t& token_index)
+		{
+			if (token_index < tokens.size())
+				return (atof(tokens[token_index].c_str()));
+
+			return 0.0f;
+		}
+	}; // end class float_node
+
+	// node to store string data type
+	class string_node : public node
+	{
+	public:
+
+		// string data
+		std::string data = "";
+
+		// constructor
+		string_node(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
+		{
+			type = JsonDataType::JDT_STRING;
+			key = key_;
+			data = parse_string(tokens, token_index);
+		}
+
+		// constructor
+		string_node(const std::string& key_, const std::string& value)
+		{
+			type = JsonDataType::JDT_STRING;
+			key = key_;
+			data = value;
+		}
+
+		// return a string representation of the node
+		virtual std::string to_string() const
+		{
+			std::stringstream ss;
+
+			if (!key.empty())
+				ss << "\"" << key << "\":";
+
+			ss << "\"" << add_escape_characters(data) << "\"";
+
+			return ss.str();
+		}
+
+		// return a pretty string representation of the node
+		virtual std::string to_pretty_string(const size_t indent = 0) const
+		{
+			const std::string indent_str = algorithm_rda::string_index_utils::string_indent("    ", indent);
+
+			std::stringstream ss;
+
+			if (key.empty())
+				ss << indent_str << "\"" << add_escape_characters(data) << "\"";
+			else
+				ss << indent_str << "\"" << key << "\": \"" << add_escape_characters(data) << "\"";
+
+			return ss.str();
+		}
+
+	protected:
+
+		// escape all backslash and quote characters with a backslash
+		static std::string add_escape_characters(const std::string& input)
+		{
+			std::string output;
+
+			if (!input.empty())
+			{
+				size_t index = input.size();
+
+				do
+				{
+					--index;
+					char c = input[index];
+
+					output.insert(0, std::string(1, c));
+					if (c == '\\' || c == '"')
+						output.insert(0, "\\");
+				} while (index > 0);
+			}
+			return output;
+		}
+
+		// parse and return a string value
+		static std::string parse_string(const std::vector<std::string>& tokens, size_t& token_index)
+		{
+			std::string output;
+
+			if (token_index < tokens.size())
+			{
+				output = tokens[token_index];
+
+				if (data_validator_helpers::starts_with(output, '"', 0) && data_validator_helpers::ends_with(output, '"'))
+					algorithm_rda::string_index_utils::strip_leading_and_trailing_quote(output);
+			}
+
+			return output;
+		}
+	}; // end class string_node
+
+	// Forward declarations of parsing helper/factory
+	static void add_object_or_array_data(std::vector<std::shared_ptr<node> >& object_data, const JsonDataType data_type, const std::string& key_name, const std::vector<std::string>& tokens, size_t& token_index);
 
 	// node to store array data type
 	class array_node : public node
@@ -787,84 +910,44 @@ namespace json
 			if (index < data.size())
 				data.erase(data.cbegin() + index);
 		}
-	};
-
-	// node to store string data type
-	class string_node : public node
-	{
-	public:
-
-		// string data
-		std::string data = "";
-
-		// constructor
-		string_node(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
-		{
-			type = JsonDataType::JDT_STRING;
-			key = key_;
-			data = parse_string(tokens, token_index);
-		}
-		
-		// constructor
-		string_node(const std::string& key_, const std::string& value)
-		{
-			type = JsonDataType::JDT_STRING;
-			key = key_;
-			data = value;
-		}
-
-		// return a string representation of the node
-		virtual std::string to_string() const
-		{
-			std::stringstream ss;
-
-			if (!key.empty())
-				ss << "\"" << key << "\":";
-
-			ss << "\"" << add_escape_characters(data) << "\"";
-
-			return ss.str();
-		}
-
-		// return a pretty string representation of the node
-		virtual std::string to_pretty_string(const size_t indent = 0) const
-		{
-			const std::string indent_str = algorithm_rda::string_index_utils::string_indent("    ", indent);
-
-			std::stringstream ss;
-
-			if (key.empty())
-				ss << indent_str << "\"" << add_escape_characters(data) << "\"";
-			else
-				ss << indent_str << "\"" << key << "\": \"" << add_escape_characters(data) << "\"";
-
-			return ss.str();
-		}
 
 	protected:
 
-		// escape all backslash and quote characters with a backslash
-		static std::string add_escape_characters(const std::string& input)
+		// parse and return an array of objects
+		static std::vector<std::shared_ptr<node> > parse_array(const std::vector<std::string>& tokens, size_t& token_index)
 		{
-			std::string output;
+			std::vector<std::shared_ptr<node> > nodes;
 
-			if (!input.empty())
+			if (token_index > tokens.size() || !data_validators::is_type_array(tokens[token_index]))
+				return nodes;
+
+			++token_index;
+
+			for (; token_index < tokens.size(); ++token_index)
 			{
-				size_t index = input.size();
+				const std::string token = tokens[token_index];
 
-				do
-				{
-					--index;
-					char c = input[index];
+				// continue the next loop iteration after encountering ac omma
+				if (data_validators::is_comma(token))
+					continue;
 
-					output.insert(0, std::string(1, c));
-					if (c == '\\' || c == '"')
-						output.insert(0, "\\");					
-				} while (index > 0);
+				// bail out of the loop at the close of the array
+				if (data_validators::is_close_array(token))
+					break;
+
+				// determine the data type
+				const JsonDataType next_type = parse_helpers::determine_data_type(token);
+
+				// bail out of the loop if the data type is undefined
+				if (next_type == JsonDataType::JDT_UNDEFINED)
+					break;
+
+				add_object_or_array_data(nodes, next_type, "", tokens, token_index);
 			}
-			return output;
+
+			return nodes;
 		}
-	};
+	}; // end class array_node
 
 	// node to store object data type
 	class object_node : public node
@@ -1071,7 +1154,83 @@ namespace json
 
 			return std::dynamic_pointer_cast<boolean_node>(n)->data;
 		}
-	};
+
+	protected:
+
+		// parse and return an object
+		static std::vector<std::shared_ptr<node> > parse_object(const std::vector<std::string>& tokens, size_t& token_index)
+			{
+				std::vector<std::shared_ptr<node> > nodes;
+
+				if (token_index > tokens.size() || !data_validators::is_type_object(tokens[token_index]))
+					return nodes;
+
+				++token_index;
+
+				for (; token_index < tokens.size(); ++token_index)
+				{
+					std::string token = tokens[token_index];
+
+					// continue the next loop iteration after encountering ac omma
+					if (data_validators::is_comma(token))
+						continue;
+
+					// bail out of the loop at the close of the object
+					if (data_validators::is_close_object(token))
+						break;
+
+					std::string key_name = "";
+
+					// attempt to read a key
+					if (data_validators::is_key(token))
+					{
+						key_name = parse_key(tokens, token_index);
+
+						// if there are no more tokens, or we didn't read a colon, then we must have failed to read a key. instead assume it is malfored data.
+						if (token_index + 1 > tokens.size() || !data_validators::is_colon(tokens[token_index]))
+						{
+							// use an empty key
+							key_name = "";
+						}
+						else
+						{
+							// we successfully read a key name and a colon, so update the token to the next
+							++token_index;
+							token = tokens[token_index];
+						}
+					}
+
+					// determine the data type
+					const JsonDataType type = parse_helpers::determine_data_type(token);
+
+					// bail out of the loop if the data type is undefined
+					if (type == JsonDataType::JDT_UNDEFINED)
+						break;
+
+					add_object_or_array_data(nodes, type, key_name, tokens, token_index);
+				}
+
+				return nodes;
+			}
+
+		// parse the key name of a {"key":"value"} pair
+		static std::string parse_key(const std::vector<std::string>& tokens, size_t& token_index)
+		{
+			std::string output;
+
+			if (token_index < tokens.size())
+			{
+				output = tokens[token_index];
+
+				if (data_validator_helpers::starts_with(output, '"', 0) && data_validator_helpers::ends_with(output, '"'))
+					algorithm_rda::string_index_utils::strip_leading_and_trailing_quote(output);
+
+				++token_index;
+			}
+
+			return output;
+		}
+	}; // end class object_node
 
 	// factory method to construct an appropriate node object and add it to the object_data container
 	static void add_object_or_array_data(
@@ -1128,158 +1287,6 @@ namespace json
 				break;
 			}
 		}
-	}
-
-	// parse the key name of a {"key":"value"} pair
-	static std::string parse_key(const std::vector<std::string>& tokens, size_t& token_index)
-	{
-		std::string output;
-
-		if (token_index < tokens.size())
-		{
-			output = tokens[token_index];
-
-			if (data_validator_helpers::starts_with(output, '"', 0) && data_validator_helpers::ends_with(output, '"'))
-				algorithm_rda::string_index_utils::strip_leading_and_trailing_quote(output);
-
-			++token_index;
-		}
-
-		return output;
-	}
-
-	// parse and return a boolean value
-	static bool parse_boolean(const std::vector<std::string>& tokens, size_t& token_index)
-	{
-		if (token_index < tokens.size())
-			return (tokens[token_index] == "true");
-
-		return false;
-	}
-
-	// parse and return an integer number value
-	static long parse_integer(const std::vector<std::string>& tokens, size_t& token_index)
-	{
-		if (token_index < tokens.size())
-			return (atol(tokens[token_index].c_str()));
-
-		return 0;
-	}
-
-	// parse and return a floating point number value
-	static double parse_float(const std::vector<std::string>& tokens, size_t& token_index)
-	{
-		if (token_index < tokens.size())
-			return (atof(tokens[token_index].c_str()));
-
-		return 0.0f;
-	}
-
-	// parse and return an array of objects
-	static std::vector<std::shared_ptr<node> > parse_array(const std::vector<std::string>& tokens, size_t& token_index)
-	{
-		std::vector<std::shared_ptr<node> > nodes;
-
-		if (token_index > tokens.size() || !data_validators::is_type_array(tokens[token_index]))
-			return nodes;
-
-		++token_index;
-
-		for (; token_index < tokens.size(); ++token_index)
-		{
-			const std::string token = tokens[token_index];
-
-			// continue the next loop iteration after encountering ac omma
-			if (data_validators::is_comma(token))
-				continue;
-
-			// bail out of the loop at the close of the array
-			if (data_validators::is_close_array(token))
-				break;
-
-			// determine the data type
-			const JsonDataType next_type = parse_helpers::determine_data_type(token);
-
-			// bail out of the loop if the data type is undefined
-			if (next_type == JsonDataType::JDT_UNDEFINED)
-				break;
-
-			add_object_or_array_data(nodes, next_type, "", tokens, token_index);
-		}
-
-		return nodes;
-	}
-
-	// parse and return an object
-	static std::vector<std::shared_ptr<node> > parse_object(const std::vector<std::string>& tokens, size_t& token_index)
-	{
-		std::vector<std::shared_ptr<node> > nodes;
-
-		if (token_index > tokens.size() || !data_validators::is_type_object(tokens[token_index]))
-			return nodes;
-
-		++token_index;
-
-		for (; token_index < tokens.size(); ++token_index)
-		{
-			std::string token = tokens[token_index];
-
-			// continue the next loop iteration after encountering ac omma
-			if (data_validators::is_comma(token))
-				continue;
-
-			// bail out of the loop at the close of the object
-			if (data_validators::is_close_object(token))
-				break;
-
-			std::string key_name = "";
-			
-			// attempt to read a key
-			if (data_validators::is_key(token))
-			{
-				key_name = parse_key(tokens, token_index);
-
-				// if there are no more tokens, or we didn't read a colon, then we must have failed to read a key. instead assume it is malfored data.
-				if (token_index + 1 > tokens.size() || !data_validators::is_colon(tokens[token_index]))
-				{
-					// use an empty key
-					key_name = "";
-				}
-				else
-				{
-					// we successfully read a key name and a colon, so update the token to the next
-					++token_index;
-					token = tokens[token_index];
-				}
-			}
-
-			// determine the data type
-			const JsonDataType type = parse_helpers::determine_data_type(token);
-
-			// bail out of the loop if the data type is undefined
-			if (type == JsonDataType::JDT_UNDEFINED)
-				break;
-
-			add_object_or_array_data(nodes, type, key_name, tokens, token_index);
-		}
-
-		return nodes;
-	}
-
-	// parse and return a string value
-	static std::string parse_string(const std::vector<std::string>& tokens, size_t& token_index)
-	{
-		std::string output;
-
-		if (token_index < tokens.size())
-		{
-			output = tokens[token_index];
-
-			if (data_validator_helpers::starts_with(output, '"', 0) && data_validator_helpers::ends_with(output, '"'))
-				algorithm_rda::string_index_utils::strip_leading_and_trailing_quote(output);
-		}
-
-		return output;
 	}
 
 	// parse a json string and return a smart pointer to the object data
