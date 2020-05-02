@@ -8,7 +8,6 @@
 // 2020-05-02
 //
 
-#include <exception>
 #include <iostream>
 #include <limits>
 #include <sstream>
