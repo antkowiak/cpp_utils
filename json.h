@@ -2,7 +2,10 @@
 
 //
 // Simple JSON parser utility.
+//
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+// 2020-05-02
 //
 
 #include <exception>
@@ -28,6 +31,7 @@ namespace json
 		JDT_ARRAY,		// vector<shared_ptr<node>>
 		JDT_OBJECT,		// vector<shared_ptr<node>>
 		JDT_STRING		// std::string
+
 	}; // end enum JsondataType
 
 	// helper methods for determining and validating json data types
@@ -120,6 +124,7 @@ namespace json
 
 			return (before_pos < after_pos);
 		}
+
 	} // end namespace data_validator_helpers
 
 	// methods for determining and validating json data types
@@ -334,6 +339,7 @@ namespace json
 
 			return false;
 		}
+
 	} // end namespace data_validators
 
 	// helper methods for parsing json data
@@ -456,6 +462,7 @@ namespace json
 
 			return tokens;
 		}
+
 	} // end namespace parse_helpers
 
 	// base class for json data nodes
@@ -481,6 +488,7 @@ namespace json
 			static_cast<void>(indent); // unused
 			return "";
 		}
+	
 	}; // end class node
 
 	// node to store null data type
@@ -532,6 +540,7 @@ namespace json
 
 			return ss.str();
 		}
+	
 	}; // end class node_null
 
 	// node to store boolean data type
@@ -599,6 +608,7 @@ namespace json
 
 			return false;
 		}
+	
 	}; // end class node_boolean
 
 	// node to store integer number data type
@@ -663,6 +673,7 @@ namespace json
 
 			return 0;
 		}
+	
 	}; // end class node_integer
 
 	// node to store floating point number data type
@@ -727,6 +738,7 @@ namespace json
 
 			return 0.0f;
 		}
+
 	}; // end class node_float
 
 	// node to store string data type
@@ -820,9 +832,10 @@ namespace json
 
 			return output;
 		}
+	
 	}; // end class node_string
 
-	// forward declarations of parsing helper/factory (used by both node_array and node_object classes)
+	// forward declaration of parsing helper/factory (used by both node_array and node_object classes)
 	static void add_object_or_array_data(std::vector<std::shared_ptr<node> >& object_data, const JsonDataType data_type, const std::string& key_name, const std::vector<std::string>& tokens, size_t& token_index);
 
 	// node to store array data type
@@ -952,7 +965,8 @@ namespace json
 
 			return nodes;
 		}
-	}; // end class node_array
+	
+}; // end class node_array
 
 	// node to store object data type
 	class node_object : public node
@@ -1196,59 +1210,59 @@ namespace json
 
 		// parse and return an object
 		static std::vector<std::shared_ptr<node> > parse_object(const std::vector<std::string>& tokens, size_t& token_index)
+		{
+			std::vector<std::shared_ptr<node> > nodes;
+
+			if (token_index > tokens.size() || !data_validators::is_type_object(tokens[token_index]))
+				return nodes;
+
+			++token_index;
+
+			for (; token_index < tokens.size(); ++token_index)
 			{
-				std::vector<std::shared_ptr<node> > nodes;
+				std::string token = tokens[token_index];
 
-				if (token_index > tokens.size() || !data_validators::is_type_object(tokens[token_index]))
-					return nodes;
+				// continue the next loop iteration after encountering ac omma
+				if (data_validators::is_comma(token))
+					continue;
 
-				++token_index;
+				// bail out of the loop at the close of the object
+				if (data_validators::is_close_object(token))
+					break;
 
-				for (; token_index < tokens.size(); ++token_index)
+				std::string key_name = "";
+
+				// attempt to read a key
+				if (data_validators::is_key(token))
 				{
-					std::string token = tokens[token_index];
+					key_name = parse_key(tokens, token_index);
 
-					// continue the next loop iteration after encountering ac omma
-					if (data_validators::is_comma(token))
-						continue;
-
-					// bail out of the loop at the close of the object
-					if (data_validators::is_close_object(token))
-						break;
-
-					std::string key_name = "";
-
-					// attempt to read a key
-					if (data_validators::is_key(token))
+					// if there are no more tokens, or we didn't read a colon, then we must have failed to read a key. instead assume it is malfored data.
+					if (token_index + 1 > tokens.size() || !data_validators::is_colon(tokens[token_index]))
 					{
-						key_name = parse_key(tokens, token_index);
-
-						// if there are no more tokens, or we didn't read a colon, then we must have failed to read a key. instead assume it is malfored data.
-						if (token_index + 1 > tokens.size() || !data_validators::is_colon(tokens[token_index]))
-						{
-							// use an empty key
-							key_name = "";
-						}
-						else
-						{
-							// we successfully read a key name and a colon, so update the token to the next
-							++token_index;
-							token = tokens[token_index];
-						}
+						// use an empty key
+						key_name = "";
 					}
-
-					// determine the data type
-					const JsonDataType type = parse_helpers::determine_data_type(token);
-
-					// bail out of the loop if the data type is undefined
-					if (type == JsonDataType::JDT_UNDEFINED)
-						break;
-
-					add_object_or_array_data(nodes, type, key_name, tokens, token_index);
+					else
+					{
+						// we successfully read a key name and a colon, so update the token to the next
+						++token_index;
+						token = tokens[token_index];
+					}
 				}
 
-				return nodes;
+				// determine the data type
+				const JsonDataType type = parse_helpers::determine_data_type(token);
+
+				// bail out of the loop if the data type is undefined
+				if (type == JsonDataType::JDT_UNDEFINED)
+					break;
+
+				add_object_or_array_data(nodes, type, key_name, tokens, token_index);
 			}
+
+			return nodes;
+		}
 
 		// parse the key name of a {"key":"value"} pair
 		static std::string parse_key(const std::vector<std::string>& tokens, size_t& token_index)
@@ -1267,6 +1281,7 @@ namespace json
 
 			return output;
 		}
+
 	}; // end class node_object
 
 	// factory method to construct an appropriate node object and add it to the object_data container
@@ -1311,6 +1326,7 @@ namespace json
 			}
 			case JsonDataType::JDT_STRING:
 			{
+				// JDT_STRING should be the last 'case' considered in this list, since it can match any string.
 				object_data.push_back(std::make_shared<node_string>(key_name, tokens, token_index));
 				break;
 			}
@@ -1337,4 +1353,5 @@ namespace json
 		size_t token_index = 0;
 		return std::make_shared<node_object>("", tokens, token_index);
 	}
+
 }
