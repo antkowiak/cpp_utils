@@ -1,5 +1,10 @@
 #pragma once
 
+//
+// Simple JSON parser utility.
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <exception>
 #include <iostream>
 #include <limits>
@@ -12,7 +17,7 @@
 
 namespace json
 {
-	// enumeration of json node types
+	// enumeration of json node data types
 	enum class JsonDataType
 	{
 		JDT_UNDEFINED,
@@ -1089,6 +1094,23 @@ namespace json
 			return retValue;
 		}
 
+		// returns true if there exists a node specified by path
+		bool does_node_exist(const std::string& path) const
+		{
+			return (get_node_by_path(path) != nullptr);
+		}
+
+		// returns the json node type specified by path
+		JsonDataType get_node_type_by_path(const std::string& path) const
+		{
+			auto n = get_node_by_path(path);
+
+			if (n == nullptr)
+				return JsonDataType::JDT_UNDEFINED;
+			else
+				return n->type;
+		}
+
 		// return a json array_node object specified by path
 		std::shared_ptr<array_node> get_array_by_path(const std::string& path) const
 		{
@@ -1142,6 +1164,21 @@ namespace json
 				return 0.0f;
 
 			return std::dynamic_pointer_cast<float_node>(n)->data;
+		}
+
+		// return a float specified by the path of a json object, which an be either integer or floating point number
+		double get_number_by_path(const std::string& path) const
+		{
+			std::shared_ptr<node> n = get_node_by_path(path);
+
+			if (n == nullptr) // || n->type != JsonDataType::JDT_FLOAT)
+				return 0.0f;
+			else if (n->type == JsonDataType::JDT_INTEGER)
+				return std::dynamic_pointer_cast<integer_node>(n)->data;
+			else if (n->type == JsonDataType::JDT_FLOAT)
+				return std::dynamic_pointer_cast<float_node>(n)->data;
+			else
+				return 0.0f;
 		}
 
 		// return a boolean specified by the path from a json object
@@ -1233,12 +1270,7 @@ namespace json
 	}; // end class object_node
 
 	// factory method to construct an appropriate node object and add it to the object_data container
-	static void add_object_or_array_data(
-		std::vector<std::shared_ptr<node> >& object_data,
-		const JsonDataType data_type,
-		const std::string& key_name,
-		const std::vector<std::string>& tokens,
-		size_t& token_index)
+	static void add_object_or_array_data(std::vector<std::shared_ptr<node> >& object_data, const JsonDataType data_type, const std::string& key_name, const std::vector<std::string>& tokens, size_t& token_index)
 	{
 		// switch on the data type. create the appropriate node and add it to the object_dtaa.
 		switch (data_type)

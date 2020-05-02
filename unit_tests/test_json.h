@@ -370,6 +370,9 @@ namespace test_json
 		std::string s = R"({ obj: {"testNum":42}})";
 		auto j = json::parse(s);
 		ASSERT_TRUE(j->get_integer_by_path("obj/testNum") == 42);
+
+		ASSERT_TRUE(j->get_node_type_by_path("obj/testNum") == json::JsonDataType::JDT_INTEGER);
+		ASSERT_FLOAT_EQUALS(j->get_number_by_path("obj/testNum"), 42.0f);
 	}
 
 	static void test_013(const size_t testNum, TestInput& input)
@@ -460,8 +463,6 @@ namespace test_json
 		ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(a->data[0])->data == 2);
 
 		std::cout << a->to_string() << std::endl;
-
-		return;
 	}
 
 	static void run_tests()
