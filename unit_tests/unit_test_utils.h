@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <cmath>
 #include <functional>
 #include <iostream>
 #include <string>
@@ -118,7 +119,7 @@ namespace unit_test_utils
 	{
 		static const double EPSILON = 0.0001f;
 
-		const double delta = abs(d1 - d2);
+		const double delta = std::abs(d1 - d2);
 
 		if (delta > EPSILON)
 		{
@@ -136,7 +137,7 @@ namespace unit_test_utils
 	{
 		static const double EPSILON = 0.0001f;
 
-		const double delta = abs(d1 - d2);
+		const double delta = std::abs(d1 - d2);
 
 		if (delta < EPSILON)
 		{
