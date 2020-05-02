@@ -1,5 +1,6 @@
+all : gnu clang
 
-test_cpp_utils : Makefile main.cpp *.h unit_tests/*.h
+gnu : Makefile main.cpp *.h unit_tests/*.h
 	g++ -g -std=c++14 -Wpedantic \
 	-Waddress -Waligned-new -Walloc-zero -Walloca -Wno-aggressive-loop-optimizations -Warray-bounds		\
 	-Warray-bounds=2 -Wno-attributes -Wbool-compare -Wbool-operation -Wno-builtin-declaration-mismatch	\
@@ -27,11 +28,18 @@ test_cpp_utils : Makefile main.cpp *.h unit_tests/*.h
 	-Wunused-value -Wunused-const-variable -Wunused-const-variable=2 -Wunused-but-set-parameter		\
 	-Wunused-but-set-variable -Wvariadic-macros -Wvector-operation-performance -Wvla			\
 	-Wvolatile-register-var -Wwrite-strings -Whsa								\
-	main.cpp -o test_cpp_utils
+	main.cpp -o test_cpp_utils_gnu
+
+run_gnu : 
+	chmod 755 test_cpp_utils_gnu
+	./test_cpp_utils_gnu
+
+clang : Makefile main.cpp *.h unit_tests/*.h
+	clang++ -g -std=c++14 main.cpp -o test_cpp_utils_clang
+
+run_clang : 
+	chmod 755 test_cpp_utils_clang
+	./test_cpp_utils_clang
 
 clean :
-	\rm -f test_cpp_utils
-
-run : test_cpp_utils
-	chmod 755 test_cpp_utils
-	./test_cpp_utils
+	\rm -f test_cpp_utils_gnu test_cpp_utils_clang
