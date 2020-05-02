@@ -119,13 +119,13 @@ namespace test_json
 			std::string s = R"({"testNum":0.0})";
 			auto j = json::parse(s);
 			ASSERT_TRUE(j->type == json::JsonDataType::JDT_OBJECT);
-			auto obj = std::dynamic_pointer_cast<json::object_node>(j);
+			auto obj = std::dynamic_pointer_cast<json::node_object>(j);
 			bool found = false;
 
 			for (auto n : obj->data)
 			{
 				ASSERT_TRUE(n->type == json::JsonDataType::JDT_FLOAT);
-				auto casted = std::dynamic_pointer_cast<json::float_node>(n);
+				auto casted = std::dynamic_pointer_cast<json::node_float>(n);
 				ASSERT_FLOAT_EQUALS(casted->data, 0.0f);
 				found = true;
 			}
@@ -214,9 +214,9 @@ namespace test_json
 		std::string s = R"({"test":null})";
 		auto j = json::parse(s);
 		ASSERT_TRUE(j->type == json::JsonDataType::JDT_OBJECT);
-		auto obj = std::dynamic_pointer_cast<json::object_node>(j);
+		auto obj = std::dynamic_pointer_cast<json::node_object>(j);
 		ASSERT_TRUE(obj->data.size() == 1);
-		auto casted = std::dynamic_pointer_cast<json::null_node>(obj->data[0]);
+		auto casted = std::dynamic_pointer_cast<json::node_null>(obj->data[0]);
 		ASSERT_TRUE(casted->key == "test");
 		ASSERT_TRUE(casted->type == json::JsonDataType::JDT_NULL);
 	}
@@ -392,9 +392,9 @@ namespace test_json
 			ASSERT_TRUE(arr->data[1]->type == json::JsonDataType::JDT_INTEGER);
 			ASSERT_TRUE(arr->data[2]->type == json::JsonDataType::JDT_INTEGER);
 
-			ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(arr->data[0])->data == 1);
-			ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(arr->data[1])->data == 2);
-			ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(arr->data[2])->data == 3);
+			ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(arr->data[0])->data == 1);
+			ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(arr->data[1])->data == 2);
+			ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(arr->data[2])->data == 3);
 		}
 	}
 
@@ -418,9 +418,9 @@ namespace test_json
 { "one" : 1, "two" : 2}
 )");
 	
-		j->add_child(std::make_shared<json::integer_node>("three", 3));
-		j->add_child(std::make_shared<json::integer_node>("zero", 0), 0);
-		j->add_child(std::make_shared<json::boolean_node>("four", false), 10);
+		j->add_child(std::make_shared<json::node_integer>("three", 3));
+		j->add_child(std::make_shared<json::node_integer>("zero", 0), 0);
+		j->add_child(std::make_shared<json::node_boolean>("four", false), 10);
 		
 		ASSERT_TRUE(j->get_integer_by_path("zero") == 0);
 		ASSERT_TRUE(j->get_integer_by_path("one") == 1);
@@ -448,19 +448,19 @@ namespace test_json
 
 		std::cout << a->to_string() << std::endl;
 
-		a->add_child(std::make_shared<json::integer_node>("", 0), 0);
-		a->add_child(std::make_shared<json::integer_node>("", 4));
+		a->add_child(std::make_shared<json::node_integer>("", 0), 0);
+		a->add_child(std::make_shared<json::node_integer>("", 4));
 
-		ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(a->data[0])->data == 0);
-		ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(a->data[4])->data == 4);
+		ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->data[0])->data == 0);
+		ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->data[4])->data == 4);
 
 		std::cout << a->to_string() << std::endl;
 
 		a->remove_child(0);
-		ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(a->data[0])->data == 1);
+		ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->data[0])->data == 1);
 
 		a->remove_child(0);
-		ASSERT_TRUE(std::dynamic_pointer_cast<json::integer_node>(a->data[0])->data == 2);
+		ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->data[0])->data == 2);
 
 		std::cout << a->to_string() << std::endl;
 	}

@@ -484,12 +484,12 @@ namespace json
 	}; // end class node
 
 	// node to store null data type
-	class null_node : public node
+	class node_null : public node
 	{
 	public:
 
 		// constructor
-		null_node(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
+		node_null(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
 		{
 			static_cast<void>(tokens); // unused
 			static_cast<void>(token_index); // unused
@@ -499,7 +499,7 @@ namespace json
 		}
 
 		// constructor
-		null_node(const std::string& key_)
+		node_null(const std::string& key_)
 		{
 			type = JsonDataType::JDT_NULL;
 			key = key_;
@@ -532,10 +532,10 @@ namespace json
 
 			return ss.str();
 		}
-	}; // end class null_node
+	}; // end class node_null
 
 	// node to store boolean data type
-	class boolean_node : public node
+	class node_boolean : public node
 	{
 	public:
 
@@ -543,7 +543,7 @@ namespace json
 		bool data = false;
 
 		// constructor
-		boolean_node(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
+		node_boolean(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
 		{
 			type = JsonDataType::JDT_BOOLEAN;
 			key = key_;
@@ -551,7 +551,7 @@ namespace json
 		}
 
 		// constructor
-		boolean_node(const std::string& key_, const bool value)
+		node_boolean(const std::string& key_, const bool value)
 		{
 			type = JsonDataType::JDT_BOOLEAN;
 			key = key_;
@@ -599,10 +599,10 @@ namespace json
 
 			return false;
 		}
-	}; // end class boolean_node
+	}; // end class node_boolean
 
 	// node to store integer number data type
-	class integer_node : public node
+	class node_integer : public node
 	{
 	public:
 
@@ -610,7 +610,7 @@ namespace json
 		long data = 0;
 
 		// constructor
-		integer_node(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
+		node_integer(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
 		{
 			type = JsonDataType::JDT_INTEGER;
 			key = key_;
@@ -618,7 +618,7 @@ namespace json
 		}
 
 		// constructor
-		integer_node(const std::string& key_, const long value)
+		node_integer(const std::string& key_, const long value)
 		{
 			type = JsonDataType::JDT_INTEGER;
 			key = key_;
@@ -663,10 +663,10 @@ namespace json
 
 			return 0;
 		}
-	}; // end class integer_node
+	}; // end class node_integer
 
 	// node to store floating point number data type
-	class float_node : public node
+	class node_float : public node
 	{
 	public:
 
@@ -674,7 +674,7 @@ namespace json
 		double data = 0.0f;
 
 		// constructor
-		float_node(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
+		node_float(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
 		{
 			type = JsonDataType::JDT_FLOAT;
 			key = key_;
@@ -682,7 +682,7 @@ namespace json
 		}
 
 		// constructor
-		float_node(const std::string& key_, const double value)
+		node_float(const std::string& key_, const double value)
 		{
 			type = JsonDataType::JDT_FLOAT;
 			key = key_;
@@ -727,10 +727,10 @@ namespace json
 
 			return 0.0f;
 		}
-	}; // end class float_node
+	}; // end class node_float
 
 	// node to store string data type
-	class string_node : public node
+	class node_string : public node
 	{
 	public:
 
@@ -738,7 +738,7 @@ namespace json
 		std::string data = "";
 
 		// constructor
-		string_node(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
+		node_string(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
 		{
 			type = JsonDataType::JDT_STRING;
 			key = key_;
@@ -746,7 +746,7 @@ namespace json
 		}
 
 		// constructor
-		string_node(const std::string& key_, const std::string& value)
+		node_string(const std::string& key_, const std::string& value)
 		{
 			type = JsonDataType::JDT_STRING;
 			key = key_;
@@ -820,13 +820,13 @@ namespace json
 
 			return output;
 		}
-	}; // end class string_node
+	}; // end class node_string
 
-	// Forward declarations of parsing helper/factory
+	// forward declarations of parsing helper/factory (used by both node_array and node_object classes)
 	static void add_object_or_array_data(std::vector<std::shared_ptr<node> >& object_data, const JsonDataType data_type, const std::string& key_name, const std::vector<std::string>& tokens, size_t& token_index);
 
 	// node to store array data type
-	class array_node : public node
+	class node_array : public node
 	{
 	public:
 
@@ -834,7 +834,7 @@ namespace json
 		std::vector<std::shared_ptr<node> > data;
 
 		// constructor
-		array_node(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
+		node_array(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
 		{
 			type = JsonDataType::JDT_ARRAY;
 			key = key_;
@@ -842,7 +842,7 @@ namespace json
 		}
 
 		// constructor
-		array_node(const std::string& key_, const std::vector<std::shared_ptr<node> >& value)
+		node_array(const std::string& key_, const std::vector<std::shared_ptr<node> >& value)
 		{
 			type = JsonDataType::JDT_ARRAY;
 			key = key_;
@@ -952,10 +952,10 @@ namespace json
 
 			return nodes;
 		}
-	}; // end class array_node
+	}; // end class node_array
 
 	// node to store object data type
-	class object_node : public node
+	class node_object : public node
 	{
 	public:
 
@@ -963,7 +963,7 @@ namespace json
 		std::vector<std::shared_ptr<node> > data;
 
 		// constructor
-		object_node(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
+		node_object(const std::string& key_, const std::vector<std::string>& tokens, size_t& token_index)
 		{
 			type = JsonDataType::JDT_OBJECT;
 			key = key_;
@@ -971,7 +971,7 @@ namespace json
 		}
 
 		// constructor
-		object_node(const std::string& key_, const std::vector<std::shared_ptr<node> >& value)
+		node_object(const std::string& key_, const std::vector<std::shared_ptr<node> >& value)
 		{
 			type = JsonDataType::JDT_OBJECT;
 			key = key_;
@@ -1078,7 +1078,7 @@ namespace json
 						if (i + 1 == path.size())
 							retValue = c;
 						else if (c->type == JsonDataType::JDT_OBJECT)
-							level = std::dynamic_pointer_cast<object_node>(c)->data;
+							level = std::dynamic_pointer_cast<node_object>(c)->data;
 						else
 							return nullptr;
 
@@ -1111,26 +1111,26 @@ namespace json
 				return n->type;
 		}
 
-		// return a json array_node object specified by path
-		std::shared_ptr<array_node> get_array_by_path(const std::string& path) const
+		// return a json node_array object specified by path
+		std::shared_ptr<node_array> get_array_by_path(const std::string& path) const
 		{
 			std::shared_ptr<node> n = get_node_by_path(path);
 
 			if (n == nullptr || n->type != JsonDataType::JDT_ARRAY)
 				return nullptr;
 
-			return std::dynamic_pointer_cast<array_node>(n);
+			return std::dynamic_pointer_cast<node_array>(n);
 		}
 
-		// return a json object_node object specified by path
-		std::shared_ptr<object_node> get_object_by_path(const std::string& path) const
+		// return a json node_object object specified by path
+		std::shared_ptr<node_object> get_object_by_path(const std::string& path) const
 		{
 			std::shared_ptr<node> n = get_node_by_path(path);
 
 			if (n == nullptr || n->type != JsonDataType::JDT_OBJECT)
 				return nullptr;
 
-			return std::dynamic_pointer_cast<object_node>(n);
+			return std::dynamic_pointer_cast<node_object>(n);
 		}
 
 		// return a string specified by the path from a json object
@@ -1141,7 +1141,7 @@ namespace json
 			if (n == nullptr || n->type != JsonDataType::JDT_STRING)
 				return "";
 
-			return std::dynamic_pointer_cast<string_node>(n)->data;
+			return std::dynamic_pointer_cast<node_string>(n)->data;
 		}
 
 		// return an integer specified by the path from a json object
@@ -1152,7 +1152,7 @@ namespace json
 			if (n == nullptr || n->type != JsonDataType::JDT_INTEGER)
 				return 0;
 
-			return std::dynamic_pointer_cast<integer_node>(n)->data;
+			return std::dynamic_pointer_cast<node_integer>(n)->data;
 		}
 
 		// return a float specified by the path from a json object
@@ -1163,7 +1163,7 @@ namespace json
 			if (n == nullptr || n->type != JsonDataType::JDT_FLOAT)
 				return 0.0f;
 
-			return std::dynamic_pointer_cast<float_node>(n)->data;
+			return std::dynamic_pointer_cast<node_float>(n)->data;
 		}
 
 		// return a float specified by the path of a json object, which an be either integer or floating point number
@@ -1174,9 +1174,9 @@ namespace json
 			if (n == nullptr) // || n->type != JsonDataType::JDT_FLOAT)
 				return 0.0f;
 			else if (n->type == JsonDataType::JDT_INTEGER)
-				return std::dynamic_pointer_cast<integer_node>(n)->data;
+				return std::dynamic_pointer_cast<node_integer>(n)->data;
 			else if (n->type == JsonDataType::JDT_FLOAT)
-				return std::dynamic_pointer_cast<float_node>(n)->data;
+				return std::dynamic_pointer_cast<node_float>(n)->data;
 			else
 				return 0.0f;
 		}
@@ -1189,7 +1189,7 @@ namespace json
 			if (n == nullptr || n->type != JsonDataType::JDT_BOOLEAN)
 				return false;
 
-			return std::dynamic_pointer_cast<boolean_node>(n)->data;
+			return std::dynamic_pointer_cast<node_boolean>(n)->data;
 		}
 
 	protected:
@@ -1267,7 +1267,7 @@ namespace json
 
 			return output;
 		}
-	}; // end class object_node
+	}; // end class node_object
 
 	// factory method to construct an appropriate node object and add it to the object_data container
 	static void add_object_or_array_data(std::vector<std::shared_ptr<node> >& object_data, const JsonDataType data_type, const std::string& key_name, const std::vector<std::string>& tokens, size_t& token_index)
@@ -1281,37 +1281,37 @@ namespace json
 			}
 			case JsonDataType::JDT_NULL:
 			{
-				object_data.push_back(std::make_shared<null_node>(key_name, tokens, token_index));
+				object_data.push_back(std::make_shared<node_null>(key_name, tokens, token_index));
 				break;
 			}
 			case JsonDataType::JDT_BOOLEAN:
 			{
-				object_data.push_back(std::make_shared<boolean_node>(key_name, tokens, token_index));
+				object_data.push_back(std::make_shared<node_boolean>(key_name, tokens, token_index));
 				break;
 			}
 			case JsonDataType::JDT_INTEGER:
 			{
-				object_data.push_back(std::make_shared<integer_node>(key_name, tokens, token_index));
+				object_data.push_back(std::make_shared<node_integer>(key_name, tokens, token_index));
 				break;
 			}
 			case JsonDataType::JDT_FLOAT:
 			{
-				object_data.push_back(std::make_shared<float_node>(key_name, tokens, token_index));
+				object_data.push_back(std::make_shared<node_float>(key_name, tokens, token_index));
 				break;
 			}
 			case JsonDataType::JDT_ARRAY:
 			{
-				object_data.push_back(std::make_shared<array_node>(key_name, tokens, token_index));
+				object_data.push_back(std::make_shared<node_array>(key_name, tokens, token_index));
 				break;
 			}
 			case JsonDataType::JDT_OBJECT:
 			{
-				object_data.push_back(std::make_shared<object_node>(key_name, tokens, token_index));
+				object_data.push_back(std::make_shared<node_object>(key_name, tokens, token_index));
 				break;
 			}
 			case JsonDataType::JDT_STRING:
 			{
-				object_data.push_back(std::make_shared<string_node>(key_name, tokens, token_index));
+				object_data.push_back(std::make_shared<node_string>(key_name, tokens, token_index));
 				break;
 			}
 			default:
@@ -1322,7 +1322,7 @@ namespace json
 	}
 
 	// parse a json string and return a smart pointer to the object data
-	static std::shared_ptr<object_node> parse(const std::string& input, const size_t start_index = 0)
+	static std::shared_ptr<node_object> parse(const std::string& input, const size_t start_index = 0)
 	{
 		size_t parse_index = start_index;
 		const auto tokens = parse_helpers::tokenize(input, parse_index);
@@ -1335,6 +1335,6 @@ namespace json
 
 		// create and return the object node
 		size_t token_index = 0;
-		return std::make_shared<object_node>("", tokens, token_index);
+		return std::make_shared<node_object>("", tokens, token_index);
 	}
 }
