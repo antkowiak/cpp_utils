@@ -5,6 +5,4 @@
 3) Add minimal print for					[xml]
 4) Create useful file i/o lib				[fileio]
 5) Convert between json and xml
-6) Json does_node_path_exist(path)			[json]
-7) Json get_type_of_node(path)				[json]
-8) Wrap everything in "rda" namespace
+7) Wrap everything in "rda" namespace
