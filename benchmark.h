@@ -4,27 +4,27 @@
 #include <iostream>
 #include <string>
 
-class benchmark
-{
+class benchmark {
 private:
-	std::string name;
-	std::chrono::steady_clock::time_point start_time;
+  std::string name;
+  std::chrono::steady_clock::time_point start_time;
 
 public:
-	benchmark() = delete;
-	benchmark(const benchmark&) = delete;
+  benchmark() = delete;
+  benchmark(const benchmark &) = delete;
 
-	benchmark(const std::string & benchmark_name)
-	{
-		name = benchmark_name;
-		start_time = std::chrono::steady_clock::now();
-	}
+  benchmark(const std::string &benchmark_name) {
+    name = benchmark_name;
+    start_time = std::chrono::steady_clock::now();
+  }
 
-	~benchmark()
-	{
-		std::chrono::steady_clock::time_point end_time = std::chrono::steady_clock::now();
-		std::cout << "Benchmark: " << name << ": "
-			<< std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count()
-			<< " usec" << std::endl;
-	}
+  ~benchmark() {
+    std::chrono::steady_clock::time_point end_time =
+        std::chrono::steady_clock::now();
+    std::cout << "Benchmark: " << name << ": "
+              << std::chrono::duration_cast<std::chrono::microseconds>(
+                     end_time - start_time)
+                     .count()
+              << " usec" << std::endl;
+  }
 };
