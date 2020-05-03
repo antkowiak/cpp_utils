@@ -10,3 +10,4 @@
 8) Write a utility to wrap getopt() command line options
 9) Templatize statemachine.h so any time can be used as the state (as long as it has
    comparison operators.)
+10) Look up an algo for getting day of week in YMD
