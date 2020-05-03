@@ -50,5 +50,8 @@ format :
 	clang-format -i -style=file src/*.h
 	clang-format -i -style=file src/unit_tests/*.h
 
+line_endings :
+	dos2unix src/*.cpp src/*.h src/unit_tests/*.h
+
 clean :
 	\rm -f test_cpp_utils_gnu test_cpp_utils_clang
