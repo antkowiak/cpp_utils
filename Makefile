@@ -42,9 +42,9 @@ run_clang :
 	./test_cpp_utils_clang
 
 format :
-	clang-format -i main.cpp
-	clang-format -i *.h
-	clang-format -i unit_tests/*.h
+	clang-format -i -style=file main.cpp
+	clang-format -i -style=file *.h
+	clang-format -i -style=file unit_tests/*.h
 
 clean :
 	\rm -f test_cpp_utils_gnu test_cpp_utils_clang

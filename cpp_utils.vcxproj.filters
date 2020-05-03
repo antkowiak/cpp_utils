@@ -104,5 +104,9 @@
     <None Include="TODO.md" />
     <None Include=".gitignore" />
     <None Include="Makefile" />
+    <None Include=".clang-format" />
+    <None Include="unit_tests\.clang-format">
+      <Filter>Header Files\unit_tests</Filter>
+    </None>
   </ItemGroup>
 </Project>
