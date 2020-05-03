@@ -142,42 +142,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="algorithm_rda.h" />
-    <ClInclude Include="arbnumber.h" />
-    <ClInclude Include="benchmark.h" />
-    <ClInclude Include="bidirectional_map.h" />
-    <ClInclude Include="comparable.h" />
-    <ClInclude Include="csv.h" />
-    <ClInclude Include="fix_message.h" />
-    <ClInclude Include="json.h" />
-    <ClInclude Include="lifetime.h" />
-    <ClInclude Include="unit_tests\test_json.h" />
-    <ClInclude Include="xml.h" />
-    <ClInclude Include="one_to_one_map.h" />
-    <ClInclude Include="statemachine.h" />
-    <ClInclude Include="table.h" />
-    <ClInclude Include="toolean.h" />
-    <ClInclude Include="unit_tests\test_algorithm_rda.h" />
-    <ClInclude Include="unit_tests\test_bidirectional_map.h" />
-    <ClInclude Include="unit_tests\test_fix_message.h" />
-    <ClInclude Include="unit_tests\test_xml.h" />
-    <ClInclude Include="unit_tests\test_one_to_one_map.h" />
-    <ClInclude Include="unit_tests\test_toolean.h" />
-    <ClInclude Include="unit_tests\test_ymd.h" />
-    <ClInclude Include="unit_tests\unit_test_template.h" />
-    <ClInclude Include="unit_tests\unit_test_utils.h" />
-    <ClInclude Include="ymd.h" />
+    <ClInclude Include="src\algorithm_rda.h" />
+    <ClInclude Include="src\arbnumber.h" />
+    <ClInclude Include="src\benchmark.h" />
+    <ClInclude Include="src\bidirectional_map.h" />
+    <ClInclude Include="src\comparable.h" />
+    <ClInclude Include="src\csv.h" />
+    <ClInclude Include="src\fix_message.h" />
+    <ClInclude Include="src\json.h" />
+    <ClInclude Include="src\lifetime.h" />
+    <ClInclude Include="src\one_to_one_map.h" />
+    <ClInclude Include="src\statemachine.h" />
+    <ClInclude Include="src\table.h" />
+    <ClInclude Include="src\toolean.h" />
+    <ClInclude Include="src\unit_tests\test_algorithm_rda.h" />
+    <ClInclude Include="src\unit_tests\test_bidirectional_map.h" />
+    <ClInclude Include="src\unit_tests\test_fix_message.h" />
+    <ClInclude Include="src\unit_tests\test_json.h" />
+    <ClInclude Include="src\unit_tests\test_one_to_one_map.h" />
+    <ClInclude Include="src\unit_tests\test_toolean.h" />
+    <ClInclude Include="src\unit_tests\test_xml.h" />
+    <ClInclude Include="src\unit_tests\test_ymd.h" />
+    <ClInclude Include="src\unit_tests\unit_test_template.h" />
+    <ClInclude Include="src\unit_tests\unit_test_utils.h" />
+    <ClInclude Include="src\xml.h" />
+    <ClInclude Include="src\ymd.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include=".clang-format" />
     <None Include=".gitignore" />
     <None Include="Makefile" />
     <None Include="README.md" />
+    <None Include="src\.clang-format" />
+    <None Include="src\unit_tests\.clang-format" />
     <None Include="TODO.md" />
-    <None Include="unit_tests\.clang-format" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

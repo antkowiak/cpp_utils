@@ -18,95 +18,97 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="arbnumber.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="comparable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lifetime.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="table.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ymd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bidirectional_map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="algorithm_rda.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="unit_tests\test_bidirectional_map.h">
+    <ClInclude Include="src\unit_tests\test_algorithm_rda.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
-    <ClInclude Include="unit_tests\unit_test_utils.h">
+    <ClInclude Include="src\unit_tests\test_bidirectional_map.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
-    <ClInclude Include="toolean.h">
+    <ClInclude Include="src\unit_tests\test_fix_message.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unit_tests\test_json.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unit_tests\test_one_to_one_map.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unit_tests\test_toolean.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unit_tests\test_xml.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unit_tests\test_ymd.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unit_tests\unit_test_template.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unit_tests\unit_test_utils.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithm_rda.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="unit_tests\test_toolean.h">
-      <Filter>Header Files\unit_tests</Filter>
-    </ClInclude>
-    <ClInclude Include="csv.h">
+    <ClInclude Include="src\arbnumber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fix_message.h">
+    <ClInclude Include="src\benchmark.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="one_to_one_map.h">
+    <ClInclude Include="src\bidirectional_map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="unit_tests\test_one_to_one_map.h">
-      <Filter>Header Files\unit_tests</Filter>
-    </ClInclude>
-    <ClInclude Include="unit_tests\unit_test_template.h">
-      <Filter>Header Files\unit_tests</Filter>
-    </ClInclude>
-    <ClInclude Include="statemachine.h">
+    <ClInclude Include="src\comparable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="unit_tests\test_fix_message.h">
-      <Filter>Header Files\unit_tests</Filter>
-    </ClInclude>
-    <ClInclude Include="unit_tests\test_algorithm_rda.h">
-      <Filter>Header Files\unit_tests</Filter>
-    </ClInclude>
-    <ClInclude Include="benchmark.h">
+    <ClInclude Include="src\csv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="unit_tests\test_ymd.h">
-      <Filter>Header Files\unit_tests</Filter>
-    </ClInclude>
-    <ClInclude Include="unit_tests\test_xml.h">
-      <Filter>Header Files\unit_tests</Filter>
-    </ClInclude>
-    <ClInclude Include="xml.h">
+    <ClInclude Include="src\fix_message.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="json.h">
+    <ClInclude Include="src\json.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="unit_tests\test_json.h">
-      <Filter>Header Files\unit_tests</Filter>
+    <ClInclude Include="src\lifetime.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="src\one_to_one_map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\statemachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toolean.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\xml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ymd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
     <None Include="TODO.md" />
     <None Include=".gitignore" />
     <None Include="Makefile" />
-    <None Include=".clang-format" />
-    <None Include="unit_tests\.clang-format">
+    <None Include="src\.clang-format">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\unit_tests\.clang-format">
       <Filter>Header Files\unit_tests</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
