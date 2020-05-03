@@ -517,6 +517,9 @@ namespace json
         // key name
         std::string key = "";
 
+        // virtual destructor because this is a base class
+        virtual ~node() = default;
+
         // return a string representation of the node
         virtual std::string to_string() const
         {

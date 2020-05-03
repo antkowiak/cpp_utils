@@ -13,8 +13,15 @@
 #include <utility>
 #include <vector>
 
+#ifdef _WIN32
 #pragma warning(push)
 #pragma warning(disable : 4505) // unreferenced local function has been removed
+#endif
+
+#ifdef __GNUG__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
+#endif
 
 namespace algorithm_rda
 {
@@ -536,4 +543,10 @@ namespace algorithm_rda
     } // namespace string_index_utils
 } // namespace algorithm_rda
 
+#ifdef __GNUG__
+#pragma GCC diagnostic pop
+#endif
+
+#ifdef _WIN32
 #pragma warning(pop)
+#endif

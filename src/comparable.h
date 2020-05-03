@@ -7,7 +7,6 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
-#pragma region ComparableInterfaces
 template <typename T>
 class Comparable
 {
@@ -432,9 +431,7 @@ public:
         return compareTo(rhs) >= 0;
     }
 }; // class Comparable5
-#pragma endregion ComparableInterfaces
 
-#pragma region MathOperatorsInterfaces
 template <typename T>
 class MathOperators
 {
@@ -1275,4 +1272,3 @@ public:
         return *(dynamic_cast<T *>(this));
     }
 }; // class MathOperators5
-#pragma endregion MathOperatorsInterfaces

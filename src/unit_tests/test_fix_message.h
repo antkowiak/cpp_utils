@@ -20,9 +20,16 @@
 #include "../benchmark.h"
 #include "../fix_message.h"
 
+#ifdef _WIN32
 #pragma warning(push)
 #pragma warning(disable : 4100) // unreferenced formal parameter
-#pragma warning(disable : 4189) // local variable is initialized but not referenced
+#pragma warning(disable : 4505) // unreferenced local function has been removed
+#endif
+
+#ifdef __GNUG__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
 
 namespace test_fix_message
 {
@@ -328,8 +335,10 @@ namespace test_fix_message
         ASSERT_TRUE(fm_m.get_field(1900) == nullptr);
     }
 
+#ifdef _WIN32
 #pragma warning(push)
 #pragma warning(disable : 6262) // warning about using a lot of stack
+#endif
     static void test_007(const size_t testNum, TestInput &input)
     {
         benchmark bm_total("Total Benchmark time");
@@ -346,6 +355,7 @@ namespace test_fix_message
                     "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.508"
                     "56=TESTSELL111=63673064027889863415=USD21=238=700040=154=155="
                     "MSFT60=20180920-18:14:19.49210=092";
+                static_cast<void>(str0); // unused
             }
         }
 
@@ -392,6 +402,8 @@ namespace test_fix_message
                     "56=TESTSELL111=63673064027889863415=USD21=238=700040=154=155="
                     "MSFT60=20180920-18:14:19.49210=092";
                 const char *field = fm_3.get_field(56);
+                static_cast<void>(dummy); // unused
+                static_cast<void>(field); // unused
             }
         }
 
@@ -410,6 +422,8 @@ namespace test_fix_message
                     "56=TESTSELL111=63673064027889863415=USD21=238=700040=154=155="
                     "MSFT60=20180920-18:14:19.49210=092";
                 const char *field = fm_4.get_field(56);
+                static_cast<void>(dummy); // unused
+                static_cast<void>(field); // unused
             }
         }
 
@@ -456,6 +470,8 @@ namespace test_fix_message
                     "56=TESTSELL111=63673064027889863415=USD21=238=700040=154=155="
                     "MSFT60=20180920-18:14:19.49210=092";
                 const char *field = fm_7.get_field(56);
+                static_cast<void>(dummy); // unused
+                static_cast<void>(field); // unused
             }
         }
 
@@ -474,13 +490,19 @@ namespace test_fix_message
                     "56=TESTSELL111=63673064027889863415=USD21=238=700040=154=155="
                     "MSFT60=20180920-18:14:19.49210=092";
                 const char *field = fm_8.get_field(56);
+                static_cast<void>(dummy); // unused
+                static_cast<void>(field); // unused
             }
         }
     }
+#ifdef _WIN32
 #pragma warning(pop)
+#endif
 
+#ifdef _WIN32
 #pragma warning(push)
 #pragma warning(disable : 6262) // warning about using a lot of stack
+#endif
     static void run_tests()
     {
         // vector to hold functions to unit tests
@@ -505,7 +527,15 @@ namespace test_fix_message
             teardown(i, input);
         }
     }
+#ifdef _WIN32
 #pragma warning(pop)
+#endif
 } // namespace test_fix_message
 
+#ifdef __GNUG__
+#pragma GCC diagnostic pop
+#endif
+
+#ifdef _WIN32
 #pragma warning(pop)
+#endif

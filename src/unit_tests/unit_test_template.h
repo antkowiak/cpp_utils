@@ -15,8 +15,15 @@
 
 // TODO #include "../INSERT_TEXT_HERE.h"
 
+#ifdef _WIN32
 #pragma warning(push)
 #pragma warning(disable : 4100) // unreferenced formal parameter
+#endif
+
+#ifdef __GNUG__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
 
 namespace test_INSERT_TEXT_HERE // TODO
 {
@@ -113,4 +120,10 @@ namespace test_INSERT_TEXT_HERE // TODO
     }
 } // namespace test_INSERT_TEXT_HERE
 
+#ifdef __GNUG__
+#pragma GCC diagnostic pop
+#endif
+
+#ifdef _WIN32
 #pragma warning(pop)
+#endif
