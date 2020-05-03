@@ -489,6 +489,21 @@ namespace test_json
         std::cout << a->to_string() << std::endl;
     }
 
+    static void test_017(const size_t testNum, TestInput &input)
+    {
+        auto j = json::parse(R"(
+                    { "a" : [ 1, 2, 3 ], "b" : false, "c": null, "d":45, "e" : { "o" : 0, "p": true, "q" : "q text" }, "f": "my text"
+                )");
+
+        ASSERT_TRUE((*j)["a"] == "[1,2,3]");
+        ASSERT_TRUE((*j)["b"] == "false");
+        ASSERT_TRUE((*j)["c"] == "null");
+        ASSERT_TRUE((*j)["d"] == "45");
+        ASSERT_TRUE((*j)["f"] == "my text");
+        ASSERT_TRUE((*j)["g"] == "");
+        ASSERT_TRUE((*j)["e/q"] == "q text");
+    }
+
     static void run_tests()
     {
         // vector to hold functions to unit tests
@@ -512,6 +527,7 @@ namespace test_json
         test_vec.push_back(test_014);
         test_vec.push_back(test_015);
         test_vec.push_back(test_016);
+        test_vec.push_back(test_017);
 
         // run each unit test
         for (size_t i = 0; i < test_vec.size(); ++i)

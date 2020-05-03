@@ -526,6 +526,12 @@ namespace json
             return "";
         }
 
+        // return a simple string representation of the node
+        virtual std::string to_simple_string() const
+        {
+            return "";
+        }
+
         // return a pretty string representation of the node
         virtual std::string to_pretty_string(const size_t indent = 0) const
         {
@@ -568,6 +574,12 @@ namespace json
             ss << "null";
 
             return ss.str();
+        }
+
+        // return a simple string representation of the node
+        virtual std::string to_simple_string() const
+        {
+            return "null";
         }
 
         // return a pretty string representation of the node
@@ -626,6 +638,12 @@ namespace json
                 ss << "false";
 
             return ss.str();
+        }
+
+        // return a simple string representation of the node
+        virtual std::string to_simple_string() const
+        {
+            return (data ? "true" : "false");
         }
 
         // return a pretty string representation of the node
@@ -694,6 +712,12 @@ namespace json
             return ss.str();
         }
 
+        // return a simple string representation of the node
+        virtual std::string to_simple_string() const
+        {
+            return std::to_string(data);
+        }
+
         // return a pretty string representation of the node
         virtual std::string to_pretty_string(const size_t indent = 0) const
         {
@@ -760,6 +784,12 @@ namespace json
             return ss.str();
         }
 
+        // return a simple string representation of the node
+        virtual std::string to_simple_string() const
+        {
+            return std::to_string(data);
+        }
+
         // return a pretty string representation of the node
         virtual std::string to_pretty_string(const size_t indent = 0) const
         {
@@ -824,6 +854,12 @@ namespace json
             ss << "\"" << add_escape_characters(data) << "\"";
 
             return ss.str();
+        }
+
+        // return a simple string representation of the node
+        virtual std::string to_simple_string() const
+        {
+            return data;
         }
 
         // return a pretty string representation of the node
@@ -925,6 +961,16 @@ namespace json
 
             if (!key.empty())
                 ss << "\"" << key << "\":";
+
+            ss << to_simple_string();
+
+            return ss.str();
+        }
+
+        // return a simple string representation of the node
+        virtual std::string to_simple_string() const
+        {
+            std::stringstream ss;
 
             ss << "[";
 
@@ -1060,6 +1106,16 @@ namespace json
             if (!key.empty())
                 ss << "\"" << key << "\":";
 
+            ss << to_simple_string();
+
+            return ss.str();
+        }
+
+        // return a simple string representation of the node
+        virtual std::string to_simple_string() const
+        {
+            std::stringstream ss;
+
             ss << "{";
 
             for (size_t i = 0; i < data.size(); ++i)
@@ -1100,6 +1156,17 @@ namespace json
             ss << indent_str << "}";
 
             return ss.str();
+        }
+
+        // access string representation of a child key (or path)
+        std::string operator[](const std::string &key_name) const
+        {
+            auto n = get_node_by_path(key_name);
+
+            if (n != nullptr)
+                return n->to_simple_string();
+
+            return "";
         }
 
         // add a child node
