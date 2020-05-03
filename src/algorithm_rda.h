@@ -152,7 +152,7 @@ namespace algorithm_rda
 
     // Split a string into a vector of sub-strings, based on a provided delimiter
     // string
-    std::vector<std::string> split_string_to_vector(const std::string &data,
+    static std::vector<std::string> split_string_to_vector(const std::string &data,
                                                     const std::string &delim)
     {
         std::vector<std::string> vec;
@@ -191,7 +191,7 @@ namespace algorithm_rda
 
     // Split a string into a list of sub-strings, based on a provided delimiter
     // string
-    std::list<std::string> split_string_to_list(const std::string &data,
+    static std::list<std::string> split_string_to_list(const std::string &data,
                                                 const std::string &delim)
     {
         std::list<std::string> lst;
@@ -251,7 +251,7 @@ namespace algorithm_rda
         const static std::vector<char> WHITESPACE_CHARS = {' ', '\n', '\t', '\r'};
 
         // Return a string with 'count' number of prefixes.
-        std::string string_indent(const std::string &prefix, const size_t count)
+        static std::string string_indent(const std::string &prefix, const size_t count)
         {
             std::string str;
 
@@ -263,13 +263,13 @@ namespace algorithm_rda
 
         // Returns true if input contains the substring substr. If substr is empty, will
         // always return true.
-        bool string_contains(const std::string &input, const std::string &substr)
+        static bool string_contains(const std::string &input, const std::string &substr)
         {
             return (input.find(substr) != std::string::npos);
         }
 
         // Returns true if input contains the substring substr, starting at index.
-        bool string_contains(const std::string &input, const std::string &substr,
+        static bool string_contains(const std::string &input, const std::string &substr,
                              const size_t index)
         {
             return (input.find(substr, index) != std::string::npos);
@@ -277,14 +277,14 @@ namespace algorithm_rda
 
         // Returns true if input starts with the substring substr. If substr is empty,
         // will always return true.
-        bool string_starts_with(const std::string &input, const std::string &substr)
+        static bool string_starts_with(const std::string &input, const std::string &substr)
         {
             return (input.find(substr) == 0);
         }
 
         // Returns true if input starts with the substring substr. Starts searching at
         // index.
-        bool string_starts_with(const std::string &input, const std::string &substr,
+        static bool string_starts_with(const std::string &input, const std::string &substr,
                                 const size_t index)
         {
             return (input.find(substr, index) == index);
@@ -292,7 +292,7 @@ namespace algorithm_rda
 
         // Returns true if input ends with the substring substr. If substr is empty,
         // will always return true.
-        bool string_ends_with(const std::string &input, const std::string &substr)
+        static bool string_ends_with(const std::string &input, const std::string &substr)
         {
             const size_t index(input.rfind(substr));
             return ((index != std::string::npos) &&
@@ -300,7 +300,7 @@ namespace algorithm_rda
         }
 
         // Strips the leading "strip_text" substring from input
-        void strip_leading(std::string &input, const std::string &strip_text)
+        static void strip_leading(std::string &input, const std::string &strip_text)
         {
             if (string_starts_with(input, strip_text))
             {
@@ -309,7 +309,7 @@ namespace algorithm_rda
         }
 
         // Strips the trailing "strip_text" substring from input
-        void strip_trailing(std::string &input, const std::string &strip_text)
+        static void strip_trailing(std::string &input, const std::string &strip_text)
         {
             if (string_ends_with(input, strip_text))
             {
