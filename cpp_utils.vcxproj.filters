@@ -105,6 +105,7 @@
     <None Include="src\unit_tests\.clang-format">
       <Filter>Header Files\unit_tests</Filter>
     </None>
+    <None Include=".clang-format" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

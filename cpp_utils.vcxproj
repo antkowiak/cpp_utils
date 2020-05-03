@@ -169,6 +169,7 @@
     <ClInclude Include="src\ymd.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".clang-format" />
     <None Include=".gitignore" />
     <None Include="Makefile" />
     <None Include="README.md" />
