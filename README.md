@@ -9,6 +9,8 @@ benchmark.h - Simple utility to benchmark how long a task takes to complete. Use
 
 bidirectional_map.h - Utility for representing two one-to-one std::map objects that can be indexed by either key or value.
 
+cmdline_options.h - Portable utility for parsing command line arguments.
+
 comparable.h - Utility to generate all of the common comparison operator overloads.
 
 csv.h - Utilities for dealing with comma separated values.

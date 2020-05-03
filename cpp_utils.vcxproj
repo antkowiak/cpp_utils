@@ -146,6 +146,7 @@
     <ClInclude Include="src\arbnumber.h" />
     <ClInclude Include="src\benchmark.h" />
     <ClInclude Include="src\bidirectional_map.h" />
+    <ClInclude Include="src\cmdline_options.h" />
     <ClInclude Include="src\comparable.h" />
     <ClInclude Include="src\csv.h" />
     <ClInclude Include="src\fix_message.h" />
