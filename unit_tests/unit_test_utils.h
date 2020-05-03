@@ -1,5 +1,11 @@
 #pragma once
 
+//
+// unit_test_utils.h - Utility functions for running unit tests.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <cmath>
 #include <cstdlib>
 #include <functional>

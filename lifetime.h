@@ -1,13 +1,16 @@
 #pragma once
 
-// C++ Class to track/debug the object "lifetime" of potential containers and
-// data structures
+//
+// lifetime.h - Utility to benchmark the lifetime of c++ objects in containers.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
 
 #include <iostream>
 #include <sstream>
 #include <string>
 
-class LifeTime
+class lifetime
 {
 private:
     std::string name;
@@ -16,8 +19,8 @@ private:
     static size_t counter;
 
     static std::string generate_string(const std::string &reason,
-                                       const LifeTime &obj,
-                                       const LifeTime *const fromPtr = nullptr)
+                                       const lifetime &obj,
+                                       const lifetime *const fromPtr = nullptr)
     {
         std::stringstream ss;
         ss << "[";
@@ -39,44 +42,44 @@ private:
     }
 
 public:
-    LifeTime()
+    lifetime()
     {
         name = "";
         id = ++counter;
         std::cout << generate_string("DEFAULT_CONSTRUCT", *this) << std::endl;
     }
 
-    LifeTime(const std::string &n)
+    lifetime(const std::string &n)
     {
         name = n;
         id = ++counter;
         std::cout << generate_string("CONSTRUCT", *this) << std::endl;
     }
 
-    LifeTime(const LifeTime &rhs)
+    lifetime(const lifetime &rhs)
     {
         name = rhs.name;
         id = ++counter;
         std::cout << generate_string("COPY_CONSTRUCT", *this, &rhs) << std::endl;
     }
 
-    ~LifeTime()
+    ~lifetime()
     {
         std::cout << generate_string("DESTRUCT", *this) << std::endl;
     }
 
-    LifeTime &operator=(const LifeTime &rhs)
+    lifetime &operator=(const lifetime &rhs)
     {
         std::cout << generate_string("ASSIGN", *this, &rhs) << std::endl;
         name = rhs.name;
         return *this;
     }
 
-    friend std::ostream &operator<<(std::ostream &os, const LifeTime &rhs)
+    friend std::ostream &operator<<(std::ostream &os, const lifetime &rhs)
     {
         os << generate_string("PRINT", rhs);
         return os;
     }
-};
+}; // class lifetime
 
-size_t LifeTime::counter = 0;
+size_t lifetime::counter = 0;

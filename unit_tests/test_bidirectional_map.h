@@ -1,5 +1,11 @@
 #pragma once
 
+//
+// test_bidirectional_map.h - Unit tests for bidirectional_map.h.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <functional>
 #include <iostream>
 #include <string>
@@ -9,9 +15,8 @@
 
 #include "../bidirectional_map.h"
 
-// unreferenced formal parameter
 #pragma warning(push)
-#pragma warning(disable : 4100)
+#pragma warning(disable : 4100) // unreferenced formal parameter
 
 namespace test_bidirectional_map
 {

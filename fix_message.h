@@ -1,4 +1,8 @@
 #pragma once
+
+//
+// fix_message.h - Utility for quickly retrieving fields from a FIX message
+//  string.
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -128,7 +132,7 @@ public:
             return internal_retrieve_field(field);
         return nullptr;
     }
-};
+}; // class fix_message
 
 class fix_message_arr : public fix_message
 {
@@ -153,7 +157,7 @@ protected:
     {
         return data[field];
     }
-};
+}; // class fix_message_arr
 
 // Note: See benchmarks in unit tests.  The "arr" implemention is always much
 // faster than the "map" impl. However, the "arr" implementation uses more
@@ -184,4 +188,4 @@ protected:
             return i->second;
         return nullptr;
     }
-};
+}; // class fix_message_map

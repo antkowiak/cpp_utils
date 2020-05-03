@@ -7,3 +7,5 @@
 5) Convert between json and xml
 7) Wrap everything in "rda" namespace
 8) Write a utility to wrap getopt() command line options
+9) Templatize statemachine.h so any time can be used as the state (as long as it has
+   comparison operators.)

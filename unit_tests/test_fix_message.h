@@ -1,5 +1,11 @@
 #pragma once
 
+//
+// test_fix_message.h - Unit tests for fix_message.h.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <string.h>
 
 #include <chrono>
@@ -14,11 +20,9 @@
 #include "../benchmark.h"
 #include "../fix_message.h"
 
-// unreferenced formal parameter
-// local variable is initialized but not referenced
 #pragma warning(push)
-#pragma warning(disable : 4100)
-#pragma warning(disable : 4189)
+#pragma warning(disable : 4100) // unreferenced formal parameter
+#pragma warning(disable : 4189) // local variable is initialized but not referenced
 
 namespace test_fix_message
 {

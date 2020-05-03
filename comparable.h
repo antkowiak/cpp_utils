@@ -1,5 +1,12 @@
 #pragma once
 
+//
+// comparable.h - Utility to generate all of the common comparison operator
+//  overloads.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #pragma region ComparableInterfaces
 template <typename T>
 class Comparable
@@ -32,7 +39,7 @@ public:
     {
         return compareTo(rhs) >= 0;
     }
-};
+}; // class Comparable
 
 template <typename T, typename U>
 class Comparable2
@@ -91,7 +98,7 @@ public:
     {
         return compareTo(rhs) >= 0;
     }
-};
+}; // class Comparable2
 
 template <typename T, typename U, typename V>
 class Comparable3
@@ -176,7 +183,7 @@ public:
     {
         return compareTo(rhs) >= 0;
     }
-};
+}; // class Comparable3
 
 template <typename T, typename U, typename V, typename W>
 class Comparable4
@@ -287,7 +294,7 @@ public:
     {
         return compareTo(rhs) >= 0;
     }
-};
+}; // class Comparable4
 
 template <typename T, typename U, typename V, typename W, typename X>
 class Comparable5
@@ -424,7 +431,7 @@ public:
     {
         return compareTo(rhs) >= 0;
     }
-};
+}; // class Comparable5
 #pragma endregion ComparableInterfaces
 
 #pragma region MathOperatorsInterfaces
@@ -507,7 +514,7 @@ public:
         *this = divide(rhs);
         return *(dynamic_cast<T *>(this));
     }
-};
+}; // class MathOperators
 
 template <typename T, typename U>
 class MathOperators2
@@ -634,7 +641,7 @@ public:
         *this = divide(rhs);
         return *(dynamic_cast<T *>(this));
     }
-};
+}; // class MathOperators2
 
 template <typename T, typename U, typename V>
 class MathOperators3
@@ -803,7 +810,7 @@ public:
         *this = divide(rhs);
         return *(dynamic_cast<T *>(this));
     }
-};
+}; // class MathOperators3
 
 template <typename T, typename U, typename V, typename W>
 class MathOperators4
@@ -1014,7 +1021,7 @@ public:
         *this = divide(rhs);
         return *(dynamic_cast<T *>(this));
     }
-};
+}; // class MathOperators4
 
 template <typename T, typename U, typename V, typename W, typename X>
 class MathOperators5
@@ -1267,5 +1274,5 @@ public:
         *this = divide(rhs);
         return *(dynamic_cast<T *>(this));
     }
-};
+}; // class MathOperators5
 #pragma endregion MathOperatorsInterfaces

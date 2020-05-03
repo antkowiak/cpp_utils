@@ -1,5 +1,11 @@
 #pragma once
 
+//
+// test_algorithm_rda.h - Unit tests for algorithm_rda.h.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <functional>
 #include <iostream>
 #include <string>
@@ -9,9 +15,8 @@
 
 #include "../algorithm_rda.h"
 
-// unreferenced formal parameter
 #pragma warning(push)
-#pragma warning(disable : 4100)
+#pragma warning(disable : 4100) // unreferenced formal parameter
 
 namespace test_algorithm_rda
 {

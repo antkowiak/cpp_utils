@@ -1,12 +1,8 @@
 #pragma once
 
-// This class is a joke. It is a pun on a "boolean", except this is a "toolean"
-// which can store "true", "false", or "other" values (one of three values.)
-// It will throw if you try to assign or compare it to a different value.
-// Increment/Decrement will wrap.  Most other operators are removed.
 //
-// Please don't take this too seriously.  Unless your code has a need for this.
-// Hopefully not...
+// toolean.h - Utility for a "trinary" boolean that can hold three states:
+//  true, false, other.  (Kind of a joke.)
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -17,14 +13,14 @@
 class toolean
 {
 private:
-    char data;
+    std::uint8_t data;
 
-    static const char FALSE_VALUE = 0;
-    static const char TRUE_VALUE = 1;
-    static const char OTHER_VALUE = 2;
+    static const std::uint8_t FALSE_VALUE = 0;
+    static const std::uint8_t TRUE_VALUE = 1;
+    static const std::uint8_t OTHER_VALUE = 2;
 
 private:
-    toolean(const char rhs)
+    toolean(const std::uint8_t rhs)
         : data(rhs)
     {
         if (rhs > OTHER_VALUE)
@@ -135,6 +131,6 @@ public:
             os << "other";
         return os;
     }
-};
+}; // class toolean
 
 extern const toolean other = toolean::OTHER();

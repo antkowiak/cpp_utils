@@ -1,5 +1,12 @@
 #pragma once
 
+//
+// benchmark.h - Simple utility to benchmark how long a task takes to complete.
+//  Uses object lifetime.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <chrono>
 #include <iostream>
 #include <string>
@@ -30,4 +37,4 @@ public:
                          .count()
                   << " usec" << std::endl;
     }
-};
+}; // class benchmark

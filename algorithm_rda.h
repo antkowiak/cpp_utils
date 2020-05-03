@@ -1,5 +1,11 @@
 #pragma once
 
+//
+// algorithm_rda.h - A collection of some useful algorithms.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <algorithm>
 #include <list>
 #include <locale>

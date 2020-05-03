@@ -1,5 +1,12 @@
 #pragma once
 
+//
+// bidirectional_map.h - Utility for representing two one-to-one std::map
+//  objects that can be indexed by either key or value.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <algorithm>
 #include <map>
 #include <vector>
@@ -286,4 +293,4 @@ public:
     {
         return !(*this == rhs);
     }
-};
+}; // class bidirectional_map

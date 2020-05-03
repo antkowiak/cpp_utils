@@ -1,5 +1,11 @@
 #pragma once
 
+//
+// test_one_to_one_map.h - Unit tests for one_to_one_map.h.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <functional>
 #include <iostream>
 #include <string>
@@ -9,9 +15,8 @@
 
 #include "../one_to_one_map.h"
 
-// unreferenced formal parameter
 #pragma warning(push)
-#pragma warning(disable : 4100)
+#pragma warning(disable : 4100) // unreferenced formal parameter
 
 namespace test_one_to_one_map
 {

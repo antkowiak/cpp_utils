@@ -1,5 +1,11 @@
 #pragma once
 
+//
+// test_json.h - Unit tests for json.h.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -10,9 +16,8 @@
 
 #include "../json.h"
 
-// unreferenced formal parameter
 #pragma warning(push)
-#pragma warning(disable : 4100)
+#pragma warning(disable : 4100) // unreferenced formal parameter
 
 namespace test_json
 {

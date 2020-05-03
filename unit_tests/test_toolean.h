@@ -1,14 +1,19 @@
 #pragma once
 
+//
+// test_toolean.h - Unit tests for toolean.h.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <vector>
 
 #include "unit_test_utils.h"
 
 #include "../toolean.h"
 
-// unreferenced formal parameter
 #pragma warning(push)
-#pragma warning(disable : 4100)
+#pragma warning(disable : 4100) // unreferenced formal parameter
 
 namespace test_toolean
 {

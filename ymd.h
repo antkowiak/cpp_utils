@@ -1,6 +1,10 @@
 #pragma once
 
-// Simple representation of a year-month-day data structure
+//
+// ymd.h - Utility to represent a simple year-month-date object.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
 
 #include <algorithm>
 #include <chrono>
@@ -314,4 +318,4 @@ public:
         os << rhs.to_string();
         return os;
     }
-};
+}; // class ymd

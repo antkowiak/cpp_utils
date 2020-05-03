@@ -1,5 +1,11 @@
 #pragma once
 
+//
+// test_INSERT_TEXT_HERE.h - Unit tests for INSERT_TEST_HERE.h.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <functional>
 #include <iostream>
 #include <string>
@@ -9,9 +15,8 @@
 
 // TODO #include "../INSERT_TEXT_HERE.h"
 
-// unreferenced formal parameter
 #pragma warning(push)
-#pragma warning(disable : 4100)
+#pragma warning(disable : 4100) // unreferenced formal parameter
 
 namespace test_INSERT_TEXT_HERE // TODO
 {

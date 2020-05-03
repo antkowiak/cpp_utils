@@ -1,6 +1,8 @@
 #pragma once
 
-// xml.h - Light weight xml parser.
+//
+// xml.h - Light-weight parser for xml-like text.
+//
 // Does not do any data validation, nor schemas.
 // Assumes input data is not mal-formed and is correct.
 //
@@ -198,7 +200,7 @@ namespace xml
                 c->find_nodes_by_data(data_value, cur_path, output);
             }
         }
-    };
+    }; // class node
 
     class document : public node
     {
@@ -516,8 +518,7 @@ namespace xml
             return algorithm_rda::string_index_utils::string_contains(input, "<?");
         }
 
-        // Reads and returns the string of the xml header text contained between "<?"
-        // and "?>"
+        // Reads and returns str of the xml header text between "<?" and "?>"
         std::string read_header_text(const std::string &input, size_t &index) const
         {
             if (!contains_header(input))
@@ -544,8 +545,7 @@ namespace xml
             }
         }
 
-        // Reads and returns the string of the xml tag text contained between "<" and
-        // ">"
+        // Reads and returns str of the xml tag contained between "<" and ">"
         std::string read_tag_text(const std::string &input, size_t &index) const
         {
             // Advance past the opening "<" of the tag
@@ -604,5 +604,5 @@ namespace xml
 
             return false;
         }
-    };
+    }; // class document
 } // namespace xml

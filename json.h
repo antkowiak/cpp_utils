@@ -1,7 +1,7 @@
 #pragma once
 
 //
-// Simple JSON parser utility.
+// json.h - Light-weight parser for json-like text.
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -31,7 +31,7 @@ namespace json
         JDT_OBJECT,  // vector<shared_ptr<node>>
         JDT_STRING   // std::string
 
-    }; // end enum JsondataType
+    }; // enum JsondataType
 
     // helper methods for determining and validating json data types
     namespace data_validator_helpers
@@ -145,7 +145,7 @@ namespace json
             return (before_pos < after_pos);
         }
 
-    } // end namespace data_validator_helpers
+    } // namespace data_validator_helpers
 
     // methods for determining and validating json data types
     namespace data_validators
@@ -378,7 +378,7 @@ namespace json
             return false;
         }
 
-    } // end namespace data_validators
+    } // namespace data_validators
 
     // helper methods for parsing json data
     namespace parse_helpers
@@ -505,7 +505,7 @@ namespace json
             return tokens;
         }
 
-    } // end namespace parse_helpers
+    } // namespace parse_helpers
 
     // base class for json data nodes
     class node
@@ -530,7 +530,7 @@ namespace json
             return "";
         }
 
-    }; // end class node
+    }; // class node
 
     // node to store null data type
     class node_null : public node
@@ -583,7 +583,7 @@ namespace json
             return ss.str();
         }
 
-    }; // end class node_null
+    }; // class node_null
 
     // node to store boolean data type
     class node_boolean : public node
@@ -652,7 +652,7 @@ namespace json
             return false;
         }
 
-    }; // end class node_boolean
+    }; // class node_boolean
 
     // node to store integer number data type
     class node_integer : public node
@@ -718,7 +718,7 @@ namespace json
             return 0;
         }
 
-    }; // end class node_integer
+    }; // class node_integer
 
     // node to store floating point number data type
     class node_float : public node
@@ -784,7 +784,7 @@ namespace json
             return 0.0f;
         }
 
-    }; // end class node_float
+    }; // class node_float
 
     // node to store string data type
     class node_string : public node
@@ -882,10 +882,9 @@ namespace json
             return output;
         }
 
-    }; // end class node_string
+    }; // class node_string
 
-    // forward declaration of parsing helper/factory (used by both node_array and
-    // node_object classes)
+    // fwd dec of parsing factory (used by node_array and node_object classes)
     static void add_object_or_array_data(
         std::vector<std::shared_ptr<node>> &object_data,
         const JsonDataType data_type, const std::string &key_name,
@@ -1023,7 +1022,7 @@ namespace json
             return nodes;
         }
 
-    }; // end class node_array
+    }; // class node_array
 
     // node to store object data type
     class node_object : public node
@@ -1137,8 +1136,7 @@ namespace json
             return get_node_by_path(split_path);
         }
 
-        // return a json node specified by a vector<string> path: {"path", "to",
-        // "node"}
+        // return json node specd by vector<string> path {"path", "to", "node"}
         std::shared_ptr<node>
         get_node_by_path(const std::vector<std::string> &path) const
         {
@@ -1356,10 +1354,9 @@ namespace json
             return output;
         }
 
-    }; // end class node_object
+    }; // class node_object
 
-    // factory method to construct an appropriate node object and add it to the
-    // object_data container
+    // parsing factory (used by node_array and node_object classes)
     static void add_object_or_array_data(
         std::vector<std::shared_ptr<node>> &object_data,
         const JsonDataType data_type, const std::string &key_name,
@@ -1442,4 +1439,4 @@ namespace json
         return std::make_shared<node_object>("", tokens, token_index);
     }
 
-} // end namespace json
+} // namespace json

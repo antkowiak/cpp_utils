@@ -30,6 +30,10 @@ gnu : Makefile main.cpp *.h unit_tests/*.h
 	-Wvolatile-register-var -Wwrite-strings -Whsa								\
 	main.cpp -o test_cpp_utils_gnu
 
+run : 
+	chmod 755 test_cpp_utils_gnu test_cpp_utils_clang
+	./test_cpp_utils_gnu && ./test_cpp_utils_clang
+
 run_gnu : 
 	chmod 755 test_cpp_utils_gnu
 	./test_cpp_utils_gnu

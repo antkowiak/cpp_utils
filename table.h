@@ -1,5 +1,14 @@
 #pragma once
 
+//
+// table.h - Utility to represent and access data elements in a table/matrix
+//  format.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+// 2020-04-05
+//
+
 #include <algorithm>
 #include <exception>
 #include <functional>
@@ -70,7 +79,7 @@ private:
         {
             return (*tab)[std::make_pair(column, row)];
         }
-    };
+    }; // class table_indexer
 #pragma endregion NestedClass_table_indexer
 
 #pragma region NestedClass_table_exception
@@ -100,7 +109,7 @@ public:
             : msg(msg_)
         {
         }
-    };
+    }; // class table_exception
 #pragma endregion NestedClass_table_exception
 
 #pragma region PrivateHelperFunctions
@@ -415,4 +424,4 @@ public:
         return os;
     }
 #pragma endregion StreamFunctions
-};
+}; // class table

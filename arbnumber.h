@@ -1,7 +1,8 @@
 #pragma once
 
-// This header file defined a class to hold arbitary precision numbers,
-// along with a few common mathematical operators.
+//
+// arbnumber.h - Utility for using and manipulating arbitrary precision
+//  floating point numbers.
 //
 // Please note, this is not intended for production use. It was written
 // as a proof-of-concept, and there are certainly a lot of optimizations
@@ -35,7 +36,7 @@ public:
     {
         return msg.c_str();
     }
-};
+}; // class ArbNumberException
 
 // Arbitary Precision Number
 class ArbNumber
@@ -606,7 +607,6 @@ protected:
     {
         // Assume both inputs are positive. Need to populate correct minus sign
         // after doing the subtraction.
-
         if (ai1 == ai2)
             return ArbNumber();
 
@@ -933,7 +933,7 @@ public:
     {
         return rhs.to_string();
     }
-};
+}; // class ArbNumber
 
 std::ostream &operator<<(std::ostream &os, const ArbNumber &rhs)
 {
