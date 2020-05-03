@@ -153,7 +153,7 @@ namespace algorithm_rda
     // Split a string into a vector of sub-strings, based on a provided delimiter
     // string
     static std::vector<std::string> split_string_to_vector(const std::string &data,
-                                                    const std::string &delim)
+                                                           const std::string &delim)
     {
         std::vector<std::string> vec;
 
@@ -192,7 +192,7 @@ namespace algorithm_rda
     // Split a string into a list of sub-strings, based on a provided delimiter
     // string
     static std::list<std::string> split_string_to_list(const std::string &data,
-                                                const std::string &delim)
+                                                       const std::string &delim)
     {
         std::list<std::string> lst;
 
@@ -270,7 +270,7 @@ namespace algorithm_rda
 
         // Returns true if input contains the substring substr, starting at index.
         static bool string_contains(const std::string &input, const std::string &substr,
-                             const size_t index)
+                                    const size_t index)
         {
             return (input.find(substr, index) != std::string::npos);
         }
@@ -285,7 +285,7 @@ namespace algorithm_rda
         // Returns true if input starts with the substring substr. Starts searching at
         // index.
         static bool string_starts_with(const std::string &input, const std::string &substr,
-                                const size_t index)
+                                       const size_t index)
         {
             return (input.find(substr, index) == index);
         }
