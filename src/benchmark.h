@@ -11,31 +11,34 @@
 #include <iostream>
 #include <string>
 
-class benchmark
+namespace rda
 {
-private:
-    std::string name;
-    std::chrono::steady_clock::time_point start_time;
-
-public:
-    benchmark() = delete;
-    benchmark(const benchmark &) = delete;
-
-    benchmark(const std::string &benchmark_name)
+    class benchmark
     {
-        name = benchmark_name;
-        start_time = std::chrono::steady_clock::now();
-    }
+    private:
+        std::string name;
+        std::chrono::steady_clock::time_point start_time;
 
-    ~benchmark()
-    {
-        std::chrono::steady_clock::time_point end_time =
-            std::chrono::steady_clock::now();
+    public:
+        benchmark() = delete;
+        benchmark(const benchmark &) = delete;
 
-        std::cout << "Benchmark: " << name << ": "
-                  << std::chrono::duration_cast<std::chrono::microseconds>(
-                         end_time - start_time)
-                         .count()
-                  << " usec" << std::endl;
-    }
-}; // class benchmark
+        benchmark(const std::string &benchmark_name)
+        {
+            name = benchmark_name;
+            start_time = std::chrono::steady_clock::now();
+        }
+
+        ~benchmark()
+        {
+            std::chrono::steady_clock::time_point end_time =
+                std::chrono::steady_clock::now();
+
+            std::cout << "Benchmark: " << name << ": "
+                      << std::chrono::duration_cast<std::chrono::microseconds>(
+                             end_time - start_time)
+                             .count()
+                      << " usec" << std::endl;
+        }
+    }; // class benchmark
+} // namespace rda
