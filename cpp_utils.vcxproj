@@ -158,6 +158,7 @@
     <ClInclude Include="src\toolean.h" />
     <ClInclude Include="src\unit_tests\test_algorithm_rda.h" />
     <ClInclude Include="src\unit_tests\test_bidirectional_map.h" />
+    <ClInclude Include="src\unit_tests\test_cmdline_options.h" />
     <ClInclude Include="src\unit_tests\test_fix_message.h" />
     <ClInclude Include="src\unit_tests\test_json.h" />
     <ClInclude Include="src\unit_tests\test_one_to_one_map.h" />

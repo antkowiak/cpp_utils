@@ -3,6 +3,7 @@
 
 #include "unit_tests/test_algorithm_rda.h"
 #include "unit_tests/test_bidirectional_map.h"
+#include "unit_tests/test_cmdline_options.h"
 #include "unit_tests/test_fix_message.h"
 #include "unit_tests/test_json.h"
 #include "unit_tests/test_one_to_one_map.h"
@@ -14,6 +15,7 @@ int main()
 {
     test_algorithm_rda::run_tests();
     test_bidirectional_map::run_tests();
+    test_cmdline_options::run_tests();
     test_fix_message::run_tests();
     test_json::run_tests();
     test_one_to_one_map::run_tests();
