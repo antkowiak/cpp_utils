@@ -36,7 +36,6 @@ namespace rda
     template <typename T>
     class table
     {
-#pragma region NestedClass_table_indexer
     private:
         /*
        \class table_indexer
@@ -82,9 +81,7 @@ namespace rda
                 return (*tab)[std::make_pair(column, row)];
             }
         }; // class table_indexer
-#pragma endregion NestedClass_table_indexer
 
-#pragma region NestedClass_table_exception
     public:
         /*
        \class table_exception
@@ -112,9 +109,7 @@ namespace rda
             {
             }
         }; // class table_exception
-#pragma endregion NestedClass_table_exception
 
-#pragma region PrivateHelperFunctions
     private:
         // internal helper function to convert provided column and row values into an
         // index into the internal vector that holds the elements of the table.
@@ -130,17 +125,13 @@ namespace rda
 
             return (col + (row * columns));
         }
-#pragma endregion PrivateHelperFunctions
 
-#pragma region Fields
     private:
         std::vector<T> data;   // vector holding all data elements in the table
         size_t columns;        // number of columns in the table
         size_t rows;           // number of rows in the table
         const T default_value; // default value for elements in the table
-#pragma endregion Fields
 
-#pragma region Constructors
     public:
         // default constructor - creates a 0x0 table with no elements
         table()
@@ -194,9 +185,7 @@ namespace rda
               default_value(rhs.default_value)
         {
         }
-#pragma endregion Constructors
 
-#pragma region Iterators
         // begin iterators
         typename std::vector<T>::iterator begin()
         {
@@ -252,9 +241,7 @@ namespace rda
         {
             return data.crend();
         }
-#pragma endregion Iterators
 
-#pragma region MemberFunctions
     public:
         // clear the table. reset all elements to the default value.
         void clear()
@@ -416,15 +403,12 @@ namespace rda
         {
             std::cout << to_string(to_string_func, col_delim, row_delim);
         }
-#pragma endregion MemberFunctions
 
-#pragma region StreamFunctions
         // output stream operator.
         friend std::ostream &operator<<(std::ostream &os, const table &rhs)
         {
             os << rhs.to_string();
             return os;
         }
-#pragma endregion StreamFunctions
     }; // class table
 } // namespace rda
