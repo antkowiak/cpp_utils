@@ -380,6 +380,42 @@ namespace test_cmdline_options
 
     static void test_008(const size_t testNum, TestInput &input)
     {
+        using option = cmdline_options::option;
+        using option_type = cmdline_options::option_type;
+        using option_value_num = cmdline_options::option_value_num;
+
+        const int argc = 6;
+        const char *argv[] = {"g++", "-o", "a.out", "main.cpp", "-I.", "-I/usr/include"};
+
+        std::vector<option> options;
+        options.push_back(option(option_type::OT_SHORT,
+                                 option_value_num::OVN_ONE,
+                                 "o"));
+
+        options.push_back(option(option_type::OT_SHORT_VALUE,
+                                 option_value_num::OVN_ONE,
+                                 "I"));
+
+        cmdline_options cmd(options);
+        cmd.parse(argc, argv);
+
+        ASSERT_TRUE(cmd.first == "g++");
+
+        ASSERT_TRUE(cmd.unclaimed.size() == 1);
+        ASSERT_TRUE(cmd.unclaimed[0] == "main.cpp");
+
+        ASSERT_TRUE(cmd.options.size() == 2);
+
+        ASSERT_TRUE(cmd.options[0].name == "o");
+        ASSERT_TRUE(cmd.options[0].present = true);
+        ASSERT_TRUE(cmd.options[0].values.size() == 1);
+        ASSERT_TRUE(cmd.options[0].values[0] == "a.out");
+
+        ASSERT_TRUE(cmd.options[1].name == "I");
+        ASSERT_TRUE(cmd.options[1].present = true);
+        ASSERT_TRUE(cmd.options[1].values.size() == 2);
+        ASSERT_TRUE(cmd.options[1].values[0] == ".");
+        ASSERT_TRUE(cmd.options[1].values[1] == "/usr/include");
     }
 
     static void test_009(const size_t testNum, TestInput &input)
