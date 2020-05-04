@@ -32,3 +32,7 @@ line_endings :
 
 clean :
 	\rm -f test_cpp_utils_gnu test_cpp_utils_clang
+
+strip :
+	strip test_cpp_utils_gnu test_cpp_utils_clang
+
