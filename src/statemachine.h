@@ -11,200 +11,178 @@
 
 #include <algorithm>
 #include <functional>
-#include <iostream>
 #include <map>
 #include <queue>
-#include <string>
-#include <utility>
 
-typedef std::string TStateName;
-
-typedef std::string TTransitionName;
-
-typedef std::pair<TStateName, TTransitionName> TTransition;
-
-typedef std::function<void(const TStateName &, const TTransitionName &,
-                           const TStateName &)>
-    TStateFunction;
-
-typedef std::function<void(const TStateName &, const TTransitionName &,
-                           const TStateName &)>
-    TTransitionFunction;
-
-/**
- *
- * @class Statemachine.h
- * Simple implementation of a state machine design pattern, all in one header.
- *
- * @brief State machine design pattern, all in one header file.
- *
- **/
+template <typename StateType, typename EventType>
 class statemachine
 {
 public:
-    // Returns the name of a default initial state name to use, if one is
-    // not specified upon construction.
-    static const TStateName get_default_initial_state()
+    // define a transition to be a pair of a FromState and an Event
+    typedef std::pair<StateType, EventType> transition_t;
+
+    // callback to call when entering a particular state
+    typedef std::function<void(const StateType &, const EventType &, const StateType &)> state_function_t;
+
+    // callback to call when a specific event causes a transition from one specific state to another specific state
+    typedef std::function<void(const StateType &, const EventType &, const StateType &)> transition_function_t;
+
+    // callback to call when there is an unexpected event in the current state
+    typedef std::function<void(const StateType &, const EventType &)> unhandled_event_callback_t;
+
+protected:
+    // the initial state for the state machine
+    const StateType initial_state;
+
+    // the current state of the state machine
+    StateType current_state;
+
+    // map of transitions to what the next state should be
+    std::map<transition_t, StateType> next_state_map;
+
+    // queue of the names of transitions to process
+    std::queue<EventType> event_queue;
+
+    // map of transitions and what functions are called on those transitions
+    std::map<transition_t, transition_function_t> transition_functions;
+
+    // map of states and what functions are called in those states.
+    std::map<StateType, state_function_t> state_functions;
+
+    // callback when there is an unhandled event
+    unhandled_event_callback_t unhandled_event_callback;
+
+public:
+    // constructor
+    statemachine(const StateType &initialState)
+        : initial_state(initialState), current_state(initialState)
     {
-        return TStateName("init");
+        add_state(initial_state);
     }
 
-    // Default constructor.  Will use default initial state.
-    statemachine()
-        : statemachine(get_default_initial_state())
+    // set a callback for when an unexpected event occurs in the current state
+    void set_unhandled_event_callback(const unhandled_event_callback_t &cb)
     {
+        unhandled_event_callback = cb;
     }
 
-    // Constructor.  Initial state will be initialState.
-    statemachine(const TStateName &initialState)
-        : m_initial_state(initialState), m_current_state(initialState)
+    // add a state to the state machine
+    void add_state(const StateType &state,
+                   const state_function_t &func = state_function_t())
     {
+        state_functions[state] = func;
     }
 
-    // Destructor
-    ~statemachine()
+    // add a transition to the state mcahine
+    void add_transition(const StateType &fromState,
+                        const EventType &event,
+                        const StateType &toState,
+                        const transition_function_t &func = transition_function_t())
     {
+        const transition_t trans(fromState, event);
+        transition_functions[trans] = func;
+        next_state_map[trans] = toState;
     }
 
-    // Will print out information about the state machine.
-    void print() const
+    // push an event into the state machine
+    void push_event(const EventType &transition)
     {
-        std::cout << "m_initial_state = " << m_initial_state << std::endl;
-        std::cout << "m_current_state = " << m_current_state << std::endl;
-
-        if (!m_transition_queue.empty())
-        {
-            std::cout << "next transition: " << m_transition_queue.front()
-                      << std::endl;
-        }
-
-        for (auto &iter : m_next_states)
-        {
-            std::cout << "transition: {" << iter.first.first << ", "
-                      << iter.first.second << "} -> " << iter.second << std::endl;
-        }
+        event_queue.push(transition);
     }
 
-    // Add a state to the state machine.
-    void add_state(const TStateName &stateName, const TStateFunction &func)
-    {
-        m_state_functions[stateName] = func;
-    }
-
-    // Add a transition to the state mcahine.
-    void add_transition(const TStateName &prevState,
-                        const TTransitionName &transition,
-                        const TStateName &nextState,
-                        const TTransitionFunction &func)
-    {
-        const TTransition trans(prevState, transition);
-        m_transition_functions[trans] = func;
-        m_next_states[trans] = nextState;
-    }
-
-    // Push an event/transition into the state machine.
-    void push_transition(const TTransitionName &transition)
-    {
-        m_transition_queue.push(transition);
-    }
-
-    // Run all the pending transitions in the state machine.
-    long run()
+    // run all the pending events in the state machine
+    size_t run()
     {
         long statesRun = 0;
 
-        while (!m_transition_queue.empty())
+        while (!event_queue.empty())
         {
             ++statesRun;
-            run_once_state();
+            run_one_event();
         }
 
-        // Return the number of states that were run.
+        // return the number of states that were run
         return statesRun;
     }
 
-    // Run one pending transition in the state machine.
-    bool run_once_state()
+    // run one pending event in the state machine
+    bool run_one_event()
     {
-        // If there are no transitions pending, return immediately.
-        if (m_transition_queue.empty())
+        // if there are no events pending, return immediately
+        if (event_queue.empty())
         {
             return false;
         }
 
-        // Pick the front of the queue of pending transitions.
-        const TTransitionName transition = m_transition_queue.front();
+        // pick the front of the queue of pending events
+        const EventType event = event_queue.front();
 
-        // The transition consistes of the name of the current state and
-        // the name of the transition to the next state.
-        const TTransition transitionToFind(m_current_state, transition);
+        // the transition consistes of the name of the current state and
+        // the name of the transition to the next state
+        const transition_t transitionToFind(current_state, event);
 
-        // Return immediately if the transition doesn't exist.
-        if (m_transition_functions.find(transitionToFind) ==
-            m_transition_functions.end())
+        // return immediately if the transition doesn't exist, and discard event.
+        if (transition_functions.find(transitionToFind) ==
+            transition_functions.end())
         {
+            if (unhandled_event_callback)
+                unhandled_event_callback(current_state, event);
+
+            event_queue.pop();
             return false;
         }
 
-        // Return immediately if the state transition doesn't exist.
-        if (m_next_states.find(transitionToFind) == m_next_states.end())
+        // return immediately if the state transition doesn't exist,
+        // and discard the event
+        if (next_state_map.find(transitionToFind) == next_state_map.end())
         {
+            if (unhandled_event_callback)
+                unhandled_event_callback(current_state, event);
+
+            event_queue.pop();
             return false;
         }
 
-        // After this transition, the previous state will be what the
-        // current state is now.
-        const TStateName prevState = m_current_state;
+        // after this event, the previous state will be what the
+        // current state is now
+        const StateType prevState = current_state;
 
-        // Grab the next state that the machine will transition to.
-        const TStateName nextState = m_next_states[transitionToFind];
+        // grab the next state that the machine will transition to
+        const StateType nextState = next_state_map[transitionToFind];
 
-        // Grab the transition function to call.
-        const TTransitionFunction func = m_transition_functions[transitionToFind];
+        // call the transition function
+        const transition_function_t transFunc = transition_functions[transitionToFind];
+        if (transFunc)
+            transFunc(prevState, event, nextState);
 
-        // Call the transition function.
-        func(prevState, transition, nextState);
+        // update the current state to be the next state in the state machine
+        current_state = nextState;
 
-        // Update the current state to be the next state in the state
-        // machine.
-        m_current_state = nextState;
+        // remove the event from the queue that we are processing
+        event_queue.pop();
 
-        // Remove the transition from the queue that we are processing.
-        m_transition_queue.pop();
-
-        // Call the current state function
-        m_state_functions[m_current_state](prevState, transition, nextState);
+        // call the current state function
+        const state_function_t stateFunc = state_functions[current_state];
+        if (stateFunc)
+            stateFunc(prevState, event, nextState);
 
         return true;
     }
 
-    // Reset the state machine by returning to the initial state.
-    void reset()
+    // returns the current state
+    StateType get_current_state() const
     {
-        // Return to the initial state.
-        m_current_state = m_initial_state;
-
-        // Clear the transition queue.
-        m_transition_queue = std::queue<TTransitionName>();
+        return current_state;
     }
 
-protected:
-    // The starting state for the state machine.
-    const TStateName m_initial_state;
+    // reset the state machine by returning to the initial state
+    void reset()
+    {
+        // return to the initial state
+        current_state = initial_state;
 
-    // The current state of the state machine.
-    TStateName m_current_state;
+        // Clear the event queue
+        event_queue = std::queue<EventType>();
+    }
 
-    // Map of transitions to what the next state should be.
-    std::map<TTransition, TStateName> m_next_states;
-
-    // Queue of the names of transitions/events to process.
-    std::queue<TTransitionName> m_transition_queue;
-
-    // Map of transitions and what functions are called on those
-    // transitions.
-    std::map<TTransition, TTransitionFunction> m_transition_functions;
-
-    // Map of states and what functions are called in those states.
-    std::map<TStateName, TStateFunction> m_state_functions;
 }; // class statemachine

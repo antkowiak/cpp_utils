@@ -7,6 +7,7 @@
 #include "unit_tests/test_fix_message.h"
 #include "unit_tests/test_json.h"
 #include "unit_tests/test_one_to_one_map.h"
+#include "unit_tests/test_statemachine.h"
 #include "unit_tests/test_toolean.h"
 #include "unit_tests/test_xml.h"
 #include "unit_tests/test_ymd.h"
@@ -19,6 +20,7 @@ int main()
     test_fix_message::run_tests();
     test_json::run_tests();
     test_one_to_one_map::run_tests();
+    test_statemachine::run_tests();
     test_toolean::run_tests();
     test_xml::run_tests();
     test_ymd::run_tests();
