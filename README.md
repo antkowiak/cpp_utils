@@ -15,6 +15,8 @@ comparable.h - Utility to generate all of the common comparison operator overloa
 
 csv.h - Utilities for dealing with comma separated values.
 
+fileio.h - Utility for reading and writing files.
+
 fix_message.h - Utility for quickly retrieving fields from a FIX message string.
 
 json.h - Light-weight parser for json-like text.

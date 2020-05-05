@@ -4,6 +4,7 @@
 #include "unit_tests/test_algorithm_rda.h"
 #include "unit_tests/test_bidirectional_map.h"
 #include "unit_tests/test_cmdline_options.h"
+#include "unit_tests/test_fileio.h"
 #include "unit_tests/test_fix_message.h"
 #include "unit_tests/test_json.h"
 #include "unit_tests/test_one_to_one_map.h"
@@ -17,6 +18,7 @@ int main()
     rda::test_algorithm_rda::run_tests();
     rda::test_bidirectional_map::run_tests();
     rda::test_cmdline_options::run_tests();
+    rda::test_fileio::run_tests();
     rda::test_fix_message::run_tests();
     rda::test_json::run_tests();
     rda::test_one_to_one_map::run_tests();
