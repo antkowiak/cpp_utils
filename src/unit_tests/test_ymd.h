@@ -220,6 +220,27 @@ namespace rda
             ASSERT_TRUE(ymd3 == ymd4);
         }
 
+        static void test_010(const size_t testNum, TestInput &input)
+        {
+            ASSERT_TRUE(YMD(2020, 5, 3).get_day_of_week() == 0);
+            ASSERT_TRUE(YMD(2020, 5, 4).get_day_of_week() == 1);
+            ASSERT_TRUE(YMD(2020, 5, 5).get_day_of_week() == 2);
+            ASSERT_TRUE(YMD(2020, 5, 6).get_day_of_week() == 3);
+            ASSERT_TRUE(YMD(2020, 5, 7).get_day_of_week() == 4);
+            ASSERT_TRUE(YMD(2020, 5, 8).get_day_of_week() == 5);
+            ASSERT_TRUE(YMD(2020, 5, 9).get_day_of_week() == 6);
+            ASSERT_TRUE(YMD(2020, 5, 10).get_day_of_week() == 0);
+            ASSERT_TRUE(YMD(2020, 5, 11).get_day_of_week() == 1);
+            ASSERT_TRUE(YMD(2020, 5, 12).get_day_of_week() == 2);
+
+            ASSERT_TRUE(YMD(1855, 10, 27).get_day_of_week() == 6);
+            ASSERT_TRUE(YMD(1981, 11, 9).get_day_of_week() == 1);
+            ASSERT_TRUE(YMD(2000, 7, 29).get_day_of_week() == 6);
+            ASSERT_TRUE(YMD(2001, 8, 14).get_day_of_week() == 2);
+            ASSERT_TRUE(YMD(2002, 2, 28).get_day_of_week() == 4);
+            ASSERT_TRUE(YMD(2002, 3, 1).get_day_of_week() == 5);
+        }
+
         static void run_tests()
         {
             // vector to hold functions to unit tests
@@ -236,6 +257,7 @@ namespace rda
             test_vec.push_back(test_007);
             test_vec.push_back(test_008);
             test_vec.push_back(test_009);
+            test_vec.push_back(test_010);
 
             // run each unit test
             for (size_t i = 0; i < test_vec.size(); ++i)

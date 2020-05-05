@@ -6,4 +6,4 @@
 4) Update xml to cope with escaped quotes   [xml]
 5) Create useful file i/o lib				[fileio]
 6) Convert between json and xml
-7) Look up an algo for getting day of week in YMD
+
