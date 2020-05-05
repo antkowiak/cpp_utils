@@ -26,7 +26,7 @@ namespace rda
         typedef char byte;
 
         // null byte (acts as end of string terminator)
-        static const byte NULL_BYTE = 0x0;
+        static const byte NULL_BYTE = 0x00;
 
     protected:
         // the file path of this file
@@ -58,8 +58,10 @@ namespace rda
         fileio(const std::string &file_path)
             : path(file_path)
         {
-            read();
         }
+
+        // no copy constructor
+        fileio(const fileio &) = delete;
 
         // destructor
         virtual ~fileio()
@@ -124,6 +126,12 @@ namespace rda
             return (file_size == 0);
         }
 
+        // returns the path
+        virtual std::string get_path() const
+        {
+            return path;
+        }
+
         // return string representation of file data
         virtual std::string to_string() const
         {
@@ -171,9 +179,10 @@ namespace rda
             data[file_size] = NULL_BYTE;
         }
 
-        // access a byte of data, specified by an idnex
+        // access a byte of data, specified by an index
         virtual byte &operator[](const size_t index)
         {
+            // if index is out of range, return reference to a throw-away value
             if (index > file_size)
                 return garbage;
 
@@ -202,7 +211,6 @@ namespace rda
             }
             catch (std::exception e)
             {
-                clear();
                 success = false;
             }
 
@@ -213,10 +221,16 @@ namespace rda
             catch (std::exception e)
             {
                 success = false;
-                clear();
             }
 
             return success;
         }
-    };
+
+        // output stream operator
+        friend std::ostream &operator<<(std::ostream &os, const fileio &rhs)
+        {
+            os << rhs.to_string();
+            return os;
+        }
+    }; // class fileio
 } // namespace rda

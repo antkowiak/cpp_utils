@@ -54,6 +54,7 @@ namespace rda
         static void test_000(const size_t testNum, TestInput &input)
         {
             // fileio f(R"(C:\todo.txt)");
+            // f.read();
             // f[50] = 'X';
 
             // f.write();
