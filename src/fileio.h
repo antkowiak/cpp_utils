@@ -16,6 +16,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 namespace rda
@@ -501,6 +502,9 @@ namespace rda
         template <typename T>
         bool put_raw(const size_t position, const T &raw)
         {
+            // ensure template type is an integral primitive type
+            static_assert(std::is_integral<T>::value, "Integral type required.");
+
             const size_t sz = sizeof(raw);
 
             // resize the buffer if more space is needed
@@ -522,6 +526,9 @@ namespace rda
         template <typename T>
         bool get_raw(const size_t position, T &raw)
         {
+            // ensure template type is an integral primitive type
+            static_assert(std::is_integral<T>::value, "Integral type required.");
+
             const size_t sz = sizeof(raw);
 
             // if requesting to read raw data past end of buffer, return with failure
