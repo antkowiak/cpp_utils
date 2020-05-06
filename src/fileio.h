@@ -497,6 +497,47 @@ namespace rda
             return true;
         }
 
+        // put (overwrite) a raw value of a templated type at a given position
+        template <typename T>
+        bool put_raw(const size_t position, const T &raw)
+        {
+            const size_t sz = sizeof(raw);
+
+            // resize the buffer if more space is needed
+            if (position + sz > file_size)
+                if (!resize(position + sz))
+                    return false;
+
+            // cast the parameter to a pointer to bytes
+            const byte *ptr = reinterpret_cast<const byte *>(&raw);
+
+            // read the bytes out of the parameter, and copy to buffer
+            for (size_t count = 0; count < sz; ++count)
+                data[position + count] = ptr[count];
+
+            return true;
+        }
+
+        // get a raw value of a templated type at a given position
+        template <typename T>
+        bool get_raw(const size_t position, T &raw)
+        {
+            const size_t sz = sizeof(raw);
+
+            // if requesting to read raw data past end of buffer, return with failure
+            if (position + sz > file_size)
+                return false;
+
+            // cast the parmaeter to a pointer of bytes
+            byte *ptr = reinterpret_cast<byte *>(&raw);
+
+            // write the bytes from the buffer into the parameter
+            for (size_t count = 0; count < sz; ++count)
+                ptr[count] = data[position + count];
+
+            return true;
+        }
+
         // output stream operator
         friend std::ostream &operator<<(std::ostream &os, const fileio &rhs)
         {
