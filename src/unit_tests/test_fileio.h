@@ -79,6 +79,10 @@ namespace rda
 
         static void test_002(const size_t testNum, TestInput &input)
         {
+            fileio f(R"(C:\todo.txt)");
+            f.set("hello world");
+            f.clobber(11, "X");
+            auto v = f.to_vector();
         }
 
         static void run_tests()

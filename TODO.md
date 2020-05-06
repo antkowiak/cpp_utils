@@ -6,7 +6,4 @@
 4) Update xml to cope with escaped quotes		[xml]
 5) update cvs to cope with escaped quotes		[cvs]
 6) Convert between json and xml					[json, xml]
-7) fileio prepend()								[fileio]
-8) fileio insert() at index						[fileio]
-
 
