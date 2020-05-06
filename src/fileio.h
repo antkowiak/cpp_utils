@@ -69,6 +69,18 @@ namespace rda
             clear();
         }
 
+        // return true if no memory buffer is allocated for the file
+        virtual bool bad() const
+        {
+            return (data == nullptr);
+        }
+
+        // return true if a memory buffer is allocated for the file
+        virtual bool good() const
+        {
+            return (data != nullptr);
+        }
+
         // read the file from disk
         virtual bool read()
         {
