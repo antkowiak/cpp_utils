@@ -87,6 +87,8 @@ namespace rda
                         throw(std::exception());
 
                     data = static_cast<byte *>(std::malloc(file_size + 1));
+                    if (data == nullptr)
+                        throw(std::exception());
                     data[file_size] = NULL_BYTE;
 
                     ifs.seekg(0);
@@ -157,6 +159,8 @@ namespace rda
 
             file_size = text.size();
             data = static_cast<byte *>(std::malloc(file_size + 1));
+            if (data == nullptr)
+                throw(std::exception());
 #ifdef _WIN32
             strncpy_s(data, file_size + 1, text.c_str(), file_size);
 #else
@@ -171,6 +175,8 @@ namespace rda
             clear();
             file_size = new_data.size();
             data = static_cast<byte *>(std::malloc(file_size + 1));
+            if (data == nullptr)
+                throw(std::exception());
 #ifdef _WIN32
             strncpy_s(data, file_size + 1, new_data.data(), file_size);
 #else
