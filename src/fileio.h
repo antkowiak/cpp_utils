@@ -10,6 +10,7 @@
 
 #include <string.h>
 
+#include <cstring>
 #include <exception>
 #include <fstream>
 #include <iostream>
@@ -251,6 +252,83 @@ namespace rda
             }
 
             return success;
+        }
+
+        // resize the buffer of file data
+        virtual bool resize(const size_t new_size)
+        {
+            if (new_size == 0)
+            {
+                clear();
+                return false;
+            }
+
+            const size_t old_size = file_size;
+            file_size = new_size;
+            auto new_data = static_cast<byte*>(std::realloc(data, new_size + 1));
+
+            if (new_data == nullptr)
+            {
+                clear();
+                return false;
+            }
+
+            data = new_data;
+
+            data[file_size] = NULL_BYTE;
+
+            if (new_size > old_size)
+                std::memset(data + old_size, NULL_BYTE, (new_size - old_size));
+
+            return true;
+        }
+
+        // expand the buffer by n bytes
+        virtual bool expand(const size_t n)
+        {
+            if (n != 0)
+                return resize(file_size + n);
+
+            return false;
+        }
+
+        // truncate the buffer to n bytes
+        virtual bool truncate(const size_t n)
+        {
+            if (n < file_size)
+                return resize(n);
+
+            return false;
+        }
+
+        // append text to the end of the buffer
+        virtual bool append(const std::string& text)
+        {
+            if (text.empty())
+                return false;
+
+            const size_t old_size = file_size;
+
+            if (!expand(text.size()))
+                return false;
+
+            text.copy(data + old_size, text.size());
+            return true;
+        }
+
+        // append bytes to the end of the buffer
+        virtual bool append(const std::vector<byte> & vec)
+        {
+            if (vec.empty())
+                return false;
+
+            const size_t old_size = file_size;
+
+            if (!expand(vec.size()))
+                return false;
+
+            std::memcpy(data + old_size, vec.data(), vec.size());
+            return true;
         }
 
         // output stream operator

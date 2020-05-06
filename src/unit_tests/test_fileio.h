@@ -77,6 +77,10 @@ namespace rda
             // auto v = f.to_vector();
         }
 
+        static void test_002(const size_t testNum, TestInput &input)
+        {
+        }
+
         static void run_tests()
         {
             // vector to hold functions to unit tests
@@ -85,6 +89,7 @@ namespace rda
             // add all unit tests to the vector
             test_vec.push_back(test_000);
             test_vec.push_back(test_001);
+            test_vec.push_back(test_002);
 
             // run each unit test
             for (size_t i = 0; i < test_vec.size(); ++i)
