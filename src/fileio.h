@@ -153,36 +153,45 @@ namespace rda
         }
 
         // set the data to a string
-        virtual void set(const std::string &text)
+        virtual bool set(const std::string &text)
         {
             clear();
 
             file_size = text.size();
             data = static_cast<byte *>(std::malloc(file_size + 1));
             if (data == nullptr)
-                throw(std::exception());
+            {
+                clear();
+                return false;
+            }
 #ifdef _WIN32
             strncpy_s(data, file_size + 1, text.c_str(), file_size);
 #else
             strncpy(data, text.c_str(), file_size);
 #endif
             data[file_size] = NULL_BYTE;
+
+            return true;
         }
 
         // set the data to a vector of bytes
-        virtual void set(const std::vector<byte> &new_data)
+        virtual bool set(const std::vector<byte> &new_data)
         {
             clear();
             file_size = new_data.size();
             data = static_cast<byte *>(std::malloc(file_size + 1));
             if (data == nullptr)
-                throw(std::exception());
+            {
+                clear();
+                return false;
+            }
 #ifdef _WIN32
             strncpy_s(data, file_size + 1, new_data.data(), file_size);
 #else
             strncpy(data, new_data.data(), file_size);
 #endif
             data[file_size] = NULL_BYTE;
+            return true;
         }
 
         // access a byte of data, specified by an index
