@@ -10,6 +10,7 @@
 
 #include <string.h>
 
+#include <algorithm>
 #include <cstring>
 #include <exception>
 #include <fstream>
@@ -165,6 +166,21 @@ namespace rda
                 return std::vector<byte>(data, data + file_size);
 
             return std::vector<byte>();
+        }
+
+        // return a vector representation of a slice of the data
+        virtual std::vector<byte> get_slice(const size_t position, const size_t sz) const
+        {
+            const size_t max_index = std::min(file_size, position + sz);
+
+            const size_t slice_size = (max_index < position) ? 0 : (max_index - position);
+
+            std::vector<byte> slice(slice_size);
+
+            for (size_t index = position; index < max_index; ++index)
+                slice[index - position] = data[index];
+
+            return slice;
         }
 
         // set the data to a string

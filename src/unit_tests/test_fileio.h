@@ -174,6 +174,39 @@ namespace rda
             ASSERT_TRUE(f.to_string() == "xelzzzwo0000000000");
         }
 
+        static void test_008(const size_t testNum, TestInput &input)
+        {
+            fileio f(R"(C:\test.txt)");
+            f.set("hello world");
+
+            auto v = f.get_slice(11, 3);
+            ASSERT_TRUE(v.empty());
+
+            v = f.get_slice(10, 3);
+            ASSERT_TRUE(v.size() == 1);
+            ASSERT_TRUE(v[0] == 'd');
+
+            v = f.get_slice(0, 3);
+            ASSERT_TRUE(v.size() == 3);
+            ASSERT_TRUE(v[0] == 'h');
+            ASSERT_TRUE(v[1] == 'e');
+            ASSERT_TRUE(v[2] == 'l');
+
+            v = f.get_slice(3, 3);
+            ASSERT_TRUE(v.size() == 3);
+            ASSERT_TRUE(v[0] == 'l');
+            ASSERT_TRUE(v[1] == 'o');
+            ASSERT_TRUE(v[2] == ' ');
+
+            v = f.get_slice(100, 100);
+            ASSERT_TRUE(v.empty());
+
+            v = f.get_slice(0, 100);
+            ASSERT_TRUE(v.size() == 11);
+            ASSERT_TRUE(v[0] == 'h');
+            ASSERT_TRUE(v[10] == 'd');
+        }
+
         static void run_tests()
         {
             // vector to hold functions to unit tests
@@ -188,6 +221,7 @@ namespace rda
             test_vec.push_back(test_005);
             test_vec.push_back(test_006);
             test_vec.push_back(test_007);
+            test_vec.push_back(test_008);
 
             // run each unit test
             for (size_t i = 0; i < test_vec.size(); ++i)
