@@ -43,18 +43,6 @@ namespace rda
         // garbage byte used if object is indexed out of range
         byte garbage = NULL_BYTE;
 
-        // reset file size and clear cached buffer
-        virtual void clear()
-        {
-            file_size = 0;
-
-            if (data != nullptr)
-            {
-                std::free(data);
-                data = nullptr;
-            }
-        }
-
     public:
         // constructor
         fileio(const std::string &file_path)
@@ -69,6 +57,19 @@ namespace rda
         virtual ~fileio()
         {
             clear();
+        }
+
+        // reset file size and clear cached buffer
+        virtual void clear()
+        {
+            file_size = 0;
+            garbage = NULL_BYTE;
+
+            if (data != nullptr)
+            {
+                std::free(data);
+                data = nullptr;
+            }
         }
 
         // return true if no memory buffer is allocated for the file
@@ -221,22 +222,21 @@ namespace rda
         // write the buffer to disk
         virtual bool write()
         {
-            if (data == nullptr)
-                return false;
-
             bool success = true;
-
             std::ofstream ofs;
 
             try
             {
                 ofs.open(path, std::ios::binary);
-                if (ofs.is_open() && ofs.good())
+
+                if (data != nullptr && file_size > 0)
                 {
-                    ofs.write(data, file_size);
+
+                    if (ofs.is_open() && ofs.good())
+                        ofs.write(data, file_size);
+                    else
+                        success = false;
                 }
-                else
-                    throw(std::exception());
             }
             catch (std::exception e)
             {
@@ -502,9 +502,6 @@ namespace rda
         template <typename T>
         bool put_raw(const size_t position, const T &raw)
         {
-            // ensure template type is an integral primitive type
-            static_assert(std::is_integral<T>::value, "Integral type required.");
-
             const size_t sz = sizeof(raw);
 
             // resize the buffer if more space is needed
@@ -526,9 +523,6 @@ namespace rda
         template <typename T>
         bool get_raw(const size_t position, T &raw)
         {
-            // ensure template type is an integral primitive type
-            static_assert(std::is_integral<T>::value, "Integral type required.");
-
             const size_t sz = sizeof(raw);
 
             // if requesting to read raw data past end of buffer, return with failure

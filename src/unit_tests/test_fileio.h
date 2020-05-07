@@ -53,33 +53,48 @@ namespace rda
 
         static void test_000(const size_t testNum, TestInput &input)
         {
-            // fileio f(R"(C:\todo.txt)");
-            // f.read();
-            // f[50] = 'X';
-
-            // f.write();
-            // f.set("hello world");
-            // f.write();
-
-            // std::vector<fileio::byte> byte_vec;
-
-            // for (unsigned char c = 'a'; c <= 'z' ; ++c)
-            //    byte_vec.push_back(c);
-
-            // f.set(byte_vec);
-            // f.write();
+            fileio f(R"(C:\test.txt)");
+            ASSERT_TRUE(f.bad());
+            ASSERT_FALSE(f.good());
+            ASSERT_TRUE(f.size() == 0);
+            ASSERT_TRUE(f.empty());
+            ASSERT_TRUE(f.get_path() == R"(C:\test.txt)");
+            ASSERT_TRUE(f.to_string() == "");
+            ASSERT_TRUE(f.to_vector().empty());
         }
 
         static void test_001(const size_t testNum, TestInput &input)
         {
-            // fileio f(R"(C:\todo.txt)");
-            // f.set("hello world");
-            // auto v = f.to_vector();
+            fileio f(R"(C:\test.txt)");
+            f.set("hello world");
+            ASSERT_FALSE(f.bad());
+            ASSERT_TRUE(f.good());
+            ASSERT_TRUE(f.size() == 11);
+            ASSERT_FALSE(f.empty());
+            ASSERT_TRUE(f.get_path() == R"(C:\test.txt)");
+            ASSERT_TRUE(f.to_string() == "hello world");
+            ASSERT_FALSE(f.to_vector().empty());
+            ASSERT_TRUE(f.to_vector() == std::vector<char>(
+                                             {'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'}));
+            ASSERT_TRUE(f[0] == 'h');
+            ASSERT_TRUE(f[1] == 'e');
+            ASSERT_TRUE(f[2] == 'l');
+            ASSERT_TRUE(f[3] == 'l');
+            ASSERT_TRUE(f[4] == 'o');
+            ASSERT_TRUE(f[5] == ' ');
+            ASSERT_TRUE(f[6] == 'w');
+            ASSERT_TRUE(f[7] == 'o');
+            ASSERT_TRUE(f[8] == 'r');
+            ASSERT_TRUE(f[9] == 'l');
+            ASSERT_TRUE(f[10] == 'd');
+
+            f[3] = 'X';
+            ASSERT_TRUE(f.to_string() == "helXo world");
         }
 
         static void test_002(const size_t testNum, TestInput &input)
         {
-            fileio f(R"(C:\todo.txt)");
+            fileio f(R"(C:\test.txt)");
             f.set("hello world");
             uint32_t ui = 42;
             f.put_raw(5, ui);
@@ -88,6 +103,75 @@ namespace rda
             f.get_raw(5, out);
             auto v = f.to_vector();
             ASSERT_TRUE(ui == out);
+        }
+
+        static void test_003(const size_t testNum, TestInput &input)
+        {
+            fileio f(R"(C:\test.txt)");
+            f.append("hello");
+            ASSERT_TRUE(f.to_string() == "hello");
+            f.append("world");
+            ASSERT_TRUE(f.to_string() == "helloworld");
+            f.clear();
+            ASSERT_TRUE(f.to_string() == "");
+        }
+
+        static void test_004(const size_t testNum, TestInput &input)
+        {
+            fileio f(R"(C:\test.txt)");
+            f.prepend("world");
+            ASSERT_TRUE(f.to_string() == "world");
+            f.prepend("hello");
+            ASSERT_TRUE(f.to_string() == "helloworld");
+            f.clear();
+            ASSERT_TRUE(f.to_string() == "");
+        }
+
+        static void test_005(const size_t testNum, TestInput &input)
+        {
+            fileio f(R"(C:\test.txt)");
+            f.set("hello world");
+            f.resize(3);
+            ASSERT_TRUE(f.to_string() == "hel");
+            f.set("hello world");
+            f.truncate(5);
+            ASSERT_TRUE(f.to_string() == "hello");
+            f.expand(10);
+            ASSERT_TRUE(f.size() == 15);
+        }
+
+        static void test_006(const size_t testNum, TestInput &input)
+        {
+            fileio f(R"(C:\test.txt)");
+            f.set("hello world");
+            f.insert(0, "X");
+            ASSERT_TRUE(f.to_string() == "Xhello world");
+            f.insert(100, "X");
+            ASSERT_TRUE(f.to_string() == "Xhello worldX");
+            f.insert(0, "XX");
+            ASSERT_TRUE(f.to_string() == "XXXhello worldX");
+            f.insert(100, "XX");
+            ASSERT_TRUE(f.to_string() == "XXXhello worldXXX");
+            f.insert(6, "Z");
+            ASSERT_TRUE(f[6] == 'Z');
+            ASSERT_TRUE(f.to_string() == "XXXhelZlo worldXXX");
+            f.insert(10, "abc");
+            ASSERT_TRUE(f[10] == 'a');
+            ASSERT_TRUE(f[11] == 'b');
+            ASSERT_TRUE(f[12] == 'c');
+            ASSERT_TRUE(f.to_string() == "XXXhelZlo abcworldXXX");
+        }
+
+        static void test_007(const size_t testNum, TestInput &input)
+        {
+            fileio f(R"(C:\test.txt)");
+            f.set("hello world");
+            f.clobber(0, "x");
+            ASSERT_TRUE(f.to_string() == "xello world");
+            f.clobber(3, "zzz");
+            ASSERT_TRUE(f.to_string() == "xelzzzworld");
+            f.clobber(8, "0000000000");
+            ASSERT_TRUE(f.to_string() == "xelzzzwo0000000000");
         }
 
         static void run_tests()
@@ -99,6 +183,11 @@ namespace rda
             test_vec.push_back(test_000);
             test_vec.push_back(test_001);
             test_vec.push_back(test_002);
+            test_vec.push_back(test_003);
+            test_vec.push_back(test_004);
+            test_vec.push_back(test_005);
+            test_vec.push_back(test_006);
+            test_vec.push_back(test_007);
 
             // run each unit test
             for (size_t i = 0; i < test_vec.size(); ++i)
