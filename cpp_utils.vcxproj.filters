@@ -114,6 +114,15 @@
     <ClInclude Include="src\unit_tests\test_tcp_server.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
+    <ClInclude Include="src\platform_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform_defs_posix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform_defs_windows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

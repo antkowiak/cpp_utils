@@ -154,6 +154,9 @@
     <ClInclude Include="src\json.h" />
     <ClInclude Include="src\lifetime.h" />
     <ClInclude Include="src\one_to_one_map.h" />
+    <ClInclude Include="src\platform_defs.h" />
+    <ClInclude Include="src\platform_defs_posix.h" />
+    <ClInclude Include="src\platform_defs_windows.h" />
     <ClInclude Include="src\statemachine.h" />
     <ClInclude Include="src\table.h" />
     <ClInclude Include="src\tcp_server.h" />
