@@ -11,7 +11,6 @@
 #include <string>
 #include <vector>
 
-
 #include "unit_test_utils.h"
 
 #include "../platform_defs.h"

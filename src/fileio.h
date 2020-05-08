@@ -20,6 +20,11 @@
 #include <type_traits>
 #include <vector>
 
+#include "platform_defs.h"
+
+PUSH_WARN_DISABLE
+WARN_DISABLE_MS(4996)
+
 namespace rda
 {
     class fileio
@@ -195,11 +200,8 @@ namespace rda
                 clear();
                 return false;
             }
-#ifdef _WIN32
-            strncpy_s(data, file_size + 1, text.c_str(), file_size);
-#else
+
             strncpy(data, text.c_str(), file_size);
-#endif
             data[file_size] = NULL_BYTE;
 
             return true;
@@ -216,11 +218,8 @@ namespace rda
                 clear();
                 return false;
             }
-#ifdef _WIN32
-            strncpy_s(data, file_size + 1, new_data.data(), file_size);
-#else
+
             strncpy(data, new_data.data(), file_size);
-#endif
             data[file_size] = NULL_BYTE;
             return true;
         }
@@ -563,3 +562,5 @@ namespace rda
         }
     }; // class fileio
 } // namespace rda
+
+POP_WARN_DISABLE

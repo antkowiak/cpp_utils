@@ -18,16 +18,6 @@
 #undef CURRENT_PLATFORM_POSIX
 #endif
 
-// include posix specific defs
-#if defined(CURRENT_PLATFORM_POSIX)
-#include "platform_defs_posix.h"
-#endif
-
-// include windows specific defs
-#if defined(CURRENT_PLATFORM_MICROSOFT_WINDOWS)
-#include "platform_defs_windows.h"
-#endif
-
 // set up macros for disabling compiler warnings
 #if defined(_WIN32)
 #define PUSH_WARN_DISABLE __pragma(warning(push))
@@ -45,4 +35,14 @@
 #define WARN_DISABLE(WARN_CODE_MS, WARN_CODE_GCC) DO_PRAGMA_(GCC diagnostic ignored WARN_CODE_GCC)
 #define WARN_DISABLE_MS(WARN_CODE_MS)
 #define WARN_DISABLE_GCC(WARN_CODE_GCC) DO_PRAGMA_(GCC diagnostic ignored WARN_CODE_GCC)
+#endif
+
+// include posix specific defs
+#if defined(CURRENT_PLATFORM_POSIX)
+#include "platform_defs_posix.h"
+#endif
+
+// include windows specific defs
+#if defined(CURRENT_PLATFORM_MICROSOFT_WINDOWS)
+#include "platform_defs_windows.h"
 #endif

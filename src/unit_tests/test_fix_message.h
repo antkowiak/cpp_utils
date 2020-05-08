@@ -23,6 +23,7 @@
 
 PUSH_WARN_DISABLE
 WARN_DISABLE(4100, "-Wunused-parameter")
+WARN_DISABLE_MS(4996)
 WARN_DISABLE_MS(6262)
 
 namespace rda
@@ -84,20 +85,12 @@ namespace rda
                 fm_fromString_map.init(str3_arr);
 
                 str2_arr = static_cast<char *>(malloc(strlen(str1_arr) + 1));
-#ifdef _WIN32
-                strncpy_s(str2_arr, strlen(str1_arr) + 1, str1_arr, strlen(str1_arr));
-#else
                 strncpy(str2_arr, str1_arr, strlen(str1_arr));
-#endif
                 str2_arr[strlen(str1_arr)] = 0;
                 fm_fromCharArray_arr.init(str2_arr);
 
                 str2_map = static_cast<char *>(malloc(strlen(str1_map) + 1));
-#ifdef _WIN32
-                strncpy_s(str2_map, strlen(str1_map) + 1, str1_map, strlen(str1_map));
-#else
                 strncpy(str2_map, str1_map, strlen(str1_map));
-#endif
                 str2_map[strlen(str1_map)] = 0;
                 fm_fromCharArray_map.init(str2_map);
             }
