@@ -12,15 +12,10 @@
 #include <iostream>
 #include <string>
 
-#ifdef _WIN32
-#pragma warning(push)
-#pragma warning(disable : 4505) // unreferenced local function has been removed
-#endif
+#include "../platform_defs.h"
 
-#ifdef __GNUG__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-function"
-#endif
+PUSH_WARN_DISABLE
+WARN_DISABLE(4505, "-Wunused-function")
 
 namespace rda
 {
@@ -175,10 +170,4 @@ namespace rda
     } // namespace unit_test_utils
 } // namespace rda
 
-#ifdef __GNUG__
-#pragma GCC diagnostic pop
-#endif
-
-#ifdef _WIN32
-#pragma warning(pop)
-#endif
+POP_WARN_DISABLE

@@ -14,17 +14,11 @@
 
 #include "unit_test_utils.h"
 
+#include "../platform_defs.h"
 #include "../json.h"
 
-#ifdef _WIN32
-#pragma warning(push)
-#pragma warning(disable : 4100) // unreferenced formal parameter
-#endif
-
-#ifdef __GNUG__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
+PUSH_WARN_DISABLE
+WARN_DISABLE(4100, "-Wunused-parameter")
 
 namespace rda
 {
@@ -543,10 +537,4 @@ namespace rda
     } // namespace test_json
 } // namespace rda
 
-#ifdef __GNUG__
-#pragma GCC diagnostic pop
-#endif
-
-#ifdef _WIN32
-#pragma warning(pop)
-#endif
+POP_WARN_DISABLE

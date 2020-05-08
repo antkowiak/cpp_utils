@@ -17,19 +17,13 @@
 
 #include "unit_test_utils.h"
 
+#include "../platform_defs.h"
 #include "../benchmark.h"
 #include "../fix_message.h"
 
-#ifdef _WIN32
-#pragma warning(push)
-#pragma warning(disable : 4100) // unreferenced formal parameter
-#pragma warning(disable : 4505) // unreferenced local function has been removed
-#endif
-
-#ifdef __GNUG__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
+PUSH_WARN_DISABLE
+WARN_DISABLE(4100, "-Wunused-parameter")
+WARN_DISABLE_MS(6262)
 
 namespace rda
 {
@@ -337,10 +331,6 @@ namespace rda
             ASSERT_TRUE(fm_m.get_field(1900) == nullptr);
         }
 
-#ifdef _WIN32
-#pragma warning(push)
-#pragma warning(disable : 6262) // warning about using a lot of stack
-#endif
         static void test_007(const size_t testNum, TestInput &input)
         {
             benchmark bm_total("Total Benchmark time");
@@ -497,14 +487,7 @@ namespace rda
                 }
             }
         }
-#ifdef _WIN32
-#pragma warning(pop)
-#endif
 
-#ifdef _WIN32
-#pragma warning(push)
-#pragma warning(disable : 6262) // warning about using a lot of stack
-#endif
         static void run_tests()
         {
             // vector to hold functions to unit tests
@@ -529,16 +512,7 @@ namespace rda
                 teardown(i, input);
             }
         }
-#ifdef _WIN32
-#pragma warning(pop)
-#endif
     } // namespace test_fix_message
 } // namespace rda
 
-#ifdef __GNUG__
-#pragma GCC diagnostic pop
-#endif
-
-#ifdef _WIN32
-#pragma warning(pop)
-#endif
+POP_WARN_DISABLE
