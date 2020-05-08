@@ -10,8 +10,6 @@
 
 #if defined(CURRENT_PLATFORM_MICROSOFT_WINDOWS)
 
-#include <time.h>
-
 namespace rda
 {
     namespace platform_defs
