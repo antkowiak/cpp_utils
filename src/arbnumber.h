@@ -935,20 +935,19 @@ namespace rda
         {
             return rhs.to_string();
         }
+
+        friend std::ostream &operator<<(std::ostream &os, const ArbNumber &rhs)
+        {
+            os << ArbNumber::to_string(rhs);
+            return os;
+        }
+
+        friend std::istream &operator>>(std::istream &in, ArbNumber &rhs)
+        {
+            std::string numStr;
+            in >> numStr;
+            rhs = ArbNumber(numStr);
+            return in;
+        }
     }; // class ArbNumber
-
-    std::ostream &operator<<(std::ostream &os, const ArbNumber &rhs)
-    {
-        os << ArbNumber::to_string(rhs);
-        return os;
-    }
-
-    std::istream &operator>>(std::istream &in, ArbNumber &rhs)
-    {
-        std::string numStr;
-        in >> numStr;
-        rhs = ArbNumber(numStr);
-        return in;
-    }
-
 } // namespace rda
