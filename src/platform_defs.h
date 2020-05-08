@@ -35,6 +35,12 @@
 #define WARN_DISABLE(WARN_CODE_MS, WARN_CODE_GCC) DO_PRAGMA_(GCC diagnostic ignored WARN_CODE_GCC)
 #define WARN_DISABLE_MS(WARN_CODE_MS)
 #define WARN_DISABLE_GCC(WARN_CODE_GCC) DO_PRAGMA_(GCC diagnostic ignored WARN_CODE_GCC)
+#else
+#define PUSH_WARN_DISABLE
+#define POP_WARN_DISABLE
+#define WARN_DISABLE(WARN_CODE_MS, WARN_CODE_GCC)
+#define WARN_DISABLE_MS(WARN_CODE_MS)
+#define WARN_DISABLE_GCC(WARN_CODE_GCC)
 #endif
 
 // include posix specific defs
