@@ -47,7 +47,7 @@ namespace rda
     protected:
         std::vector<int8_t> whole;
         std::vector<int8_t> fractional;
-        bool negative_sign;
+        bool negative_sign = false;
 
     public:
         ArbNumber()
