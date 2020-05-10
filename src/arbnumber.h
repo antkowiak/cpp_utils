@@ -552,6 +552,11 @@ namespace rda
             return whole.empty() && fractional.empty();
         }
 
+        bool is_whole_number() const
+        {
+            return (fractional.empty());
+        }
+
     protected:
         void Scrub()
         {
