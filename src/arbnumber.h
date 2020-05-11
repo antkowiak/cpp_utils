@@ -547,6 +547,26 @@ namespace rda
             return ai;
         }
 
+        ArbNumber round() const
+        {
+            ArbNumber ai(*this);
+
+            ai.fractional.clear();
+
+            if (GetFractionalAtIndex(0) > 4)
+            {
+                if (ai.negative_sign)
+                    --ai;
+                else
+                    ++ai;
+            }
+
+            ai.Scrub();
+
+            return ai;
+        }
+
+
         bool is_zero() const
         {
             return whole.empty() && fractional.empty();
@@ -934,6 +954,11 @@ namespace rda
         static ArbNumber floor(const ArbNumber &rhs)
         {
             return rhs.floor();
+        }
+
+        static ArbNumber round(const ArbNumber &rhs)
+        {
+            return rhs.round();
         }
 
         static std::string to_string(const ArbNumber &rhs)
