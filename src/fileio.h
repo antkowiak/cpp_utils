@@ -118,7 +118,7 @@ namespace rda
                 else
                     throw(std::exception());
             }
-            catch (std::exception e)
+            catch (std::exception& e)
             {
                 success = false;
                 clear();
@@ -128,7 +128,7 @@ namespace rda
             {
                 ifs.close();
             }
-            catch (std::exception e)
+            catch (std::exception& e)
             {
                 success = false;
                 clear();
@@ -253,7 +253,7 @@ namespace rda
                         success = false;
                 }
             }
-            catch (std::exception e)
+            catch (std::exception& e)
             {
                 success = false;
             }
@@ -262,7 +262,7 @@ namespace rda
             {
                 ofs.close();
             }
-            catch (std::exception e)
+            catch (std::exception& e)
             {
                 success = false;
             }

@@ -16,6 +16,10 @@
 #include <vector>
 
 #include "algorithm_rda.h"
+#include "platform_defs.h"
+
+PUSH_WARN_DISABLE
+WARN_DISABLE_GCC("-Wunused-function")
 
 namespace rda
 {
@@ -1513,3 +1517,5 @@ namespace rda
 
     } // namespace json
 } // namespace rda
+
+POP_WARN_DISABLE

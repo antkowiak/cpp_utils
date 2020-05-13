@@ -229,14 +229,14 @@ namespace rda
             }
 
             // returns the error message for this exception
-            virtual const char *what() const throw()
+            virtual std::string what_str() const
             {
                 std::stringstream ss;
                 ss << "Exception: " << syscall_name;
                 ss << "() errno=" << err.error_num;
                 ss << " [" << err.error_name << "] ";
                 ss << err.error_description;
-                return ss.str().c_str();
+                return ss.str();
             }
         }; // class posix_exception
 

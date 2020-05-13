@@ -113,7 +113,7 @@ namespace rda
             {
                 f();
             }
-            catch (std::out_of_range)
+            catch (std::out_of_range&)
             {
                 out_of_range_thrown = true;
             }
