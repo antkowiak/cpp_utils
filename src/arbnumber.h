@@ -566,7 +566,6 @@ namespace rda
             return ai;
         }
 
-
         bool is_zero() const
         {
             return whole.empty() && fractional.empty();
