@@ -570,7 +570,7 @@ namespace rda
             }
 
             // return a string representation of the node
-            virtual std::string to_string() const
+            std::string to_string() const override
             {
                 std::stringstream ss;
 
@@ -583,13 +583,13 @@ namespace rda
             }
 
             // return a simple string representation of the node
-            virtual std::string to_simple_string() const
+            std::string to_simple_string() const override
             {
                 return "null";
             }
 
             // return a pretty string representation of the node
-            virtual std::string to_pretty_string(const size_t indent = 0) const
+            std::string to_pretty_string(const size_t indent = 0) const override
             {
                 const std::string indent_str =
                     algorithm_rda::string_index_utils::string_indent("    ", indent);
@@ -631,7 +631,7 @@ namespace rda
             }
 
             // return a string representation of the node
-            virtual std::string to_string() const
+            std::string to_string() const override
             {
                 std::stringstream ss;
 
@@ -647,13 +647,13 @@ namespace rda
             }
 
             // return a simple string representation of the node
-            virtual std::string to_simple_string() const
+            std::string to_simple_string() const override
             {
                 return (data ? "true" : "false");
             }
 
             // return a pretty string representation of the node
-            virtual std::string to_pretty_string(const size_t indent = 0) const
+            std::string to_pretty_string(const size_t indent = 0) const override
             {
                 const std::string indent_str =
                     algorithm_rda::string_index_utils::string_indent("    ", indent);
@@ -706,7 +706,7 @@ namespace rda
             }
 
             // return a string representation of the node
-            virtual std::string to_string() const
+            std::string to_string() const override
             {
                 std::stringstream ss;
 
@@ -719,13 +719,13 @@ namespace rda
             }
 
             // return a simple string representation of the node
-            virtual std::string to_simple_string() const
+            std::string to_simple_string() const override
             {
                 return std::to_string(data);
             }
 
             // return a pretty string representation of the node
-            virtual std::string to_pretty_string(const size_t indent = 0) const
+            std::string to_pretty_string(const size_t indent = 0) const override
             {
                 const std::string indent_str =
                     algorithm_rda::string_index_utils::string_indent("    ", indent);
@@ -778,7 +778,7 @@ namespace rda
             }
 
             // return a string representation of the node
-            virtual std::string to_string() const
+            std::string to_string() const override
             {
                 std::stringstream ss;
 
@@ -791,13 +791,13 @@ namespace rda
             }
 
             // return a simple string representation of the node
-            virtual std::string to_simple_string() const
+            std::string to_simple_string() const override
             {
                 return std::to_string(data);
             }
 
             // return a pretty string representation of the node
-            virtual std::string to_pretty_string(const size_t indent = 0) const
+            std::string to_pretty_string(const size_t indent = 0) const override
             {
                 const std::string indent_str =
                     algorithm_rda::string_index_utils::string_indent("    ", indent);
@@ -850,7 +850,7 @@ namespace rda
             }
 
             // return a string representation of the node
-            virtual std::string to_string() const
+            std::string to_string() const override
             {
                 std::stringstream ss;
 
@@ -863,13 +863,13 @@ namespace rda
             }
 
             // return a simple string representation of the node
-            virtual std::string to_simple_string() const
+            std::string to_simple_string() const override
             {
                 return data;
             }
 
             // return a pretty string representation of the node
-            virtual std::string to_pretty_string(const size_t indent = 0) const
+            std::string to_pretty_string(const size_t indent = 0) const override
             {
                 const std::string indent_str =
                     algorithm_rda::string_index_utils::string_indent("    ", indent);
@@ -961,7 +961,7 @@ namespace rda
             }
 
             // return a string representation of the node
-            virtual std::string to_string() const
+            std::string to_string() const override
             {
                 std::stringstream ss;
 
@@ -974,7 +974,7 @@ namespace rda
             }
 
             // return a simple string representation of the node
-            virtual std::string to_simple_string() const
+            std::string to_simple_string() const override
             {
                 std::stringstream ss;
 
@@ -993,7 +993,7 @@ namespace rda
             }
 
             // return a pretty string representation of the node
-            virtual std::string to_pretty_string(const size_t indent = 0) const
+            std::string to_pretty_string(const size_t indent = 0) const override
             {
                 const std::string indent_str =
                     algorithm_rda::string_index_utils::string_indent("    ", indent);
@@ -1056,7 +1056,7 @@ namespace rda
                 {
                     const std::string token = tokens[token_index];
 
-                    // continue the next loop iteration after encountering ac omma
+                    // continue the next loop iteration after encountering a comma
                     if (data_validators::is_comma(token))
                         continue;
 
@@ -1105,7 +1105,7 @@ namespace rda
             }
 
             // return a string representation of the node
-            virtual std::string to_string() const
+            std::string to_string() const override
             {
                 std::stringstream ss;
 
@@ -1118,7 +1118,7 @@ namespace rda
             }
 
             // return a simple string representation of the node
-            virtual std::string to_simple_string() const
+            std::string to_simple_string() const override
             {
                 std::stringstream ss;
 
@@ -1137,7 +1137,7 @@ namespace rda
             }
 
             // return a pretty string representation of the node
-            virtual std::string to_pretty_string(const size_t indent = 0) const
+            std::string to_pretty_string(const size_t indent = 0) const override
             {
                 const std::string indent_str =
                     algorithm_rda::string_index_utils::string_indent("    ", indent);
@@ -1364,7 +1364,7 @@ namespace rda
                 {
                     std::string token = tokens[token_index];
 
-                    // continue the next loop iteration after encountering ac omma
+                    // continue the next loop iteration after encountering a comma
                     if (data_validators::is_comma(token))
                         continue;
 
