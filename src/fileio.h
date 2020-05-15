@@ -8,8 +8,6 @@
 // 2020-05-05
 //
 
-#include <string.h>
-
 #include <algorithm>
 #include <cstring>
 #include <exception>

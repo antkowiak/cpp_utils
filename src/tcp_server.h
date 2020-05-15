@@ -12,13 +12,13 @@
 
 #if defined(CURRENT_PLATFORM_POSIX)
 #include <arpa/inet.h>
-#include <errno.h>
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #endif
 
+#include <cerrno>
 #include <cstring>
 #include <exception>
 #include <functional>

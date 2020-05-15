@@ -11,13 +11,12 @@
 #if defined(CURRENT_PLATFORM_POSIX)
 
 #include <algorithm>
+#include <cerrno>
 #include <exception>
 #include <map>
 #include <sstream>
 #include <string>
 #include <utility>
-
-#include <errno.h>
 
 namespace rda
 {

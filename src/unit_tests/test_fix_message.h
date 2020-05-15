@@ -6,9 +6,8 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
-#include <string.h>
-
 #include <chrono>
+#include <cstring>
 #include <functional>
 #include <iostream>
 #include <string>
