@@ -221,8 +221,8 @@ namespace rda
             posix_error err;
 
             // constructor
-            posix_exception(const std::string &syscall_name_, const int error_num)
-                : syscall_name(syscall_name_),
+            posix_exception(std::string syscall_name_, const int error_num)
+                : syscall_name(std::move(syscall_name_)),
                   err(error_num)
             {
             }

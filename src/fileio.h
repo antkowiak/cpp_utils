@@ -16,6 +16,7 @@
 #include <memory>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "platform_defs.h"
@@ -49,8 +50,8 @@ namespace rda
 
     public:
         // constructor
-        fileio(const std::string &file_path)
-            : path(file_path)
+        fileio(std::string file_path)
+            : path(std::move(file_path))
         {
         }
 

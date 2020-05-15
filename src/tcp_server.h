@@ -23,6 +23,7 @@
 #include <exception>
 #include <functional>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace rda
@@ -40,12 +41,12 @@ namespace rda
 
     public:
         tcp_server(const int port_,
-                   const std::function<void(int)> &accept_cb,
-                   const std::function<void(int, const std::vector<char> &)> &recv_cb,
+                   std::function<void(int)> accept_cb,
+                   std::function<void(int, const std::vector<char> &)> recv_cb,
                    const int backlog_ = 16)
             : port(port_),
-              accept_callback(accept_cb),
-              recv_callback(recv_cb),
+              accept_callback(std::move(accept_cb)),
+              recv_callback(std::move(recv_cb)),
               backlog(backlog_)
         {
         }

@@ -9,6 +9,7 @@
 //
 
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace rda
@@ -40,8 +41,8 @@ namespace rda
             // constructor
             option(const option_type ot,
                    const option_value_num ovn,
-                   const std::string &name_)
-                : type(ot), value_num(ovn), name(name_)
+                   std::string name_)
+                : type(ot), value_num(ovn), name(std::move(name_))
             {
             }
 
