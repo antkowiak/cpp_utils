@@ -53,7 +53,7 @@ namespace rda
                 using option_value_num = cmdline_options::option_value_num;
 
                 const int argc = 4;
-                const char *argv[] = {"ps", "-a", "-u", "-x"};
+                const char *argv[] = {"ps", "-a", "-u", "-x"}; // NOLINT simulate main() args
 
                 std::vector<option> options;
                 options.push_back(option(option_type::OT_SHORT,
@@ -97,7 +97,7 @@ namespace rda
             using option_value_num = cmdline_options::option_value_num;
 
             const int argc = 3;
-            const char *argv[] = {"ls", "-a", "--block-size=5"};
+            const char *argv[] = {"ls", "-a", "--block-size=5"}; // NOLINT simulate main() args
 
             std::vector<option> options;
             options.push_back(option(option_type::OT_SHORT,
@@ -140,7 +140,7 @@ namespace rda
             using option_value_num = cmdline_options::option_value_num;
 
             const int argc = 4;
-            const char *argv[] = {"ls", "-a", "--block-size", "5"};
+            const char *argv[] = {"ls", "-a", "--block-size", "5"}; // NOLINT simulate main() args
 
             std::vector<option> options;
             options.push_back(option(option_type::OT_SHORT,
@@ -183,7 +183,7 @@ namespace rda
             using option_value_num = cmdline_options::option_value_num;
 
             const int argc = 2;
-            const char *argv[] = {"ls", "--all"};
+            const char *argv[] = {"ls", "--all"}; // NOLINT simulate main() args
 
             std::vector<option> options;
             options.push_back(option(option_type::OT_SHORT,
@@ -217,7 +217,7 @@ namespace rda
             using option_value_num = cmdline_options::option_value_num;
 
             const int argc = 5;
-            const char *argv[] = {"cmd", "-m", "one", "two", "three"};
+            const char *argv[] = {"cmd", "-m", "one", "two", "three"}; // NOLINT simulate main() args
 
             std::vector<option> options;
             options.push_back(option(option_type::OT_SHORT,
@@ -254,7 +254,7 @@ namespace rda
             using option_value_num = cmdline_options::option_value_num;
 
             const int argc = 2;
-            const char *argv[] = {"ls", "-alf"};
+            const char *argv[] = {"ls", "-alf"}; // NOLINT simulate main() args
 
             std::vector<option> options;
             options.push_back(option(option_type::OT_SHORT,
@@ -304,7 +304,7 @@ namespace rda
             using option_value_num = cmdline_options::option_value_num;
 
             const int argc = 4;
-            const char *argv[] = {"cmd", "--m=one", "two", "three"};
+            const char *argv[] = {"cmd", "--m=one", "two", "three"}; // NOLINT simulate main() args
 
             std::vector<option> options;
             options.push_back(option(option_type::OT_LONG,
@@ -341,7 +341,7 @@ namespace rda
             using option_value_num = cmdline_options::option_value_num;
 
             const int argc = 6;
-            const char *argv[] = {"g++", "-o", "a.out", "main.cpp", "--I=.", "--I=/usr/include"};
+            const char *argv[] = {"g++", "-o", "a.out", "main.cpp", "--I=.", "--I=/usr/include"}; // NOLINT simulate main() args
 
             std::vector<option> options;
             options.push_back(option(option_type::OT_SHORT,
@@ -381,7 +381,7 @@ namespace rda
             using option_value_num = cmdline_options::option_value_num;
 
             const int argc = 6;
-            const char *argv[] = {"g++", "-o", "a.out", "main.cpp", "-I.", "-I/usr/include"};
+            const char *argv[] = {"g++", "-o", "a.out", "main.cpp", "-I.", "-I/usr/include"}; // NOLINT simulate main() args
 
             std::vector<option> options;
             options.push_back(option(option_type::OT_SHORT,

@@ -7,6 +7,7 @@
 //
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <ctime>
 #include <sstream>
@@ -54,14 +55,14 @@ namespace rda
         // return day of week. (Sunday=0, Monday=1, Tuesday=2, ...)
         int get_day_of_week() const
         {
-            static const int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+            static const std::array<int, 12> t{0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
 
             int y = year;
 
             if (month < 3)
                 --y;
 
-            return (y + (y / 4) - (y / 100) + (y / 400) + t[month - 1] + day) % 7;
+            return (y + (y / 4) - (y / 100) + (y / 400) + t[static_cast<size_t>(month) - 1] + day) % 7;
         }
 
         // compare two ymd objects chronologically. uses comparable interface.

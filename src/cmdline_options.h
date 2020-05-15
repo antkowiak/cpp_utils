@@ -67,7 +67,7 @@ namespace rda
         }
 
         // parse command line options
-        void parse(int argc, const char *argv[])
+        void parse(int argc, const char *argv[]) // NOLINT - comes from main()
         {
             if (argv != nullptr)
             {

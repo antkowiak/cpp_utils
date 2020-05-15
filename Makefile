@@ -33,6 +33,9 @@ line_endings :
 tidy :
 	clang-tidy -checks="modernize-avoid-bind,modernize-avoid-c-arrays,modernize-use-override" -header-filter=.* --format-style=file src/main.cpp
 
+tidy_fix :
+	clang-tidy -checks="modernize-avoid-bind,modernize-avoid-c-arrays,modernize-use-override" -header-filter=.* --format-style=file src/main.cpp --fix
+
 clean :
 	\rm -f test_cpp_utils_gnu test_cpp_utils_clang
 
