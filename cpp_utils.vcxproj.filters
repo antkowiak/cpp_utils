@@ -136,6 +136,7 @@
       <Filter>Header Files\unit_tests</Filter>
     </None>
     <None Include=".clang-format" />
+    <None Include="compile_commands.json" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

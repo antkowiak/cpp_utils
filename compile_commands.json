@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/tmp",
+  "command": "clang++ -g -std=c++14 -Wall -Wextra -Wpedantic src/main.cpp -o test_cpp_utils_clang",
+  "file": "src/main.cpp"
+}
+]

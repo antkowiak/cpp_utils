@@ -181,6 +181,7 @@
   <ItemGroup>
     <None Include=".clang-format" />
     <None Include=".gitignore" />
+    <None Include="compile_commands.json" />
     <None Include="Makefile" />
     <None Include="README.md" />
     <None Include="src\.clang-format" />
