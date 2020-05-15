@@ -428,26 +428,28 @@ namespace rda
                     if (index == start_idx)
                     {
                         output.push_back(input[index]);
+                        continue;
                     }
                     else if (data_validators::has_two_consecutive_backslashes(input, index))
                     {
                         output.push_back('\\');
                         ++index;
+                        continue;
                     }
                     else if (data_validators::has_escaped_quote(input, index))
                     {
                         output.push_back('"');
                         ++index;
+                        continue;
                     }
                     else if (data_validators::is_quote(input, index))
                     {
                         output.push_back(input[index]);
                         break;
+                        continue;
                     }
-                    else
-                    {
-                        output.push_back(input[index]);
-                    }
+
+                    output.push_back(input[index]);
                 }
 
                 return output;
@@ -1326,14 +1328,15 @@ namespace rda
             {
                 std::shared_ptr<node> n = get_node_by_path(path);
 
-                if (n == nullptr) // || n->type != JsonDataType::JDT_FLOAT)
-                    return 0.0f;
-                else if (n->type == JsonDataType::JDT_INTEGER)
-                    return std::dynamic_pointer_cast<node_integer>(n)->data;
-                else if (n->type == JsonDataType::JDT_FLOAT)
-                    return std::dynamic_pointer_cast<node_float>(n)->data;
-                else
-                    return 0.0f;
+                if (n != nullptr)
+                {
+                    if (n->type == JsonDataType::JDT_INTEGER)
+                        return static_cast<double>(std::dynamic_pointer_cast<node_integer>(n)->data);
+                    else if (n->type == JsonDataType::JDT_FLOAT)
+                        return std::dynamic_pointer_cast<node_float>(n)->data;
+                }
+
+                return 0.0f;
             }
 
             // return a boolean specified by the path from a json object

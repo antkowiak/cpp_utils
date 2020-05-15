@@ -1,5 +1,54 @@
 define TIDY_CHECKS
 " \
+    bugprone-argument-comment, \
+    bugprone-assert-side-effect, \
+    bugprone-bad-signal-to-kill-thread, \
+    bugprone-bool-pointer-implicit-conversion, \
+    bugprone-branch-clone, \
+    bugprone-copy-constructor-init, \
+    bugprone-dangling-handle, \
+    bugprone-dynamic-static-initializers, \
+    bugprone-exception-escape, \
+    bugprone-fold-init-type, \
+    bugprone-forward-declaration-namespace, \
+    bugprone-forwarding-reference-overload, \
+    bugprone-inaccurate-erase, \
+    bugprone-incorrect-roundings, \
+    bugprone-infinite-loop, \
+    bugprone-integer-division, \
+    bugprone-lambda-function-name, \
+    bugprone-macro-parentheses, \
+    bugprone-macro-repeated-side-effects, \
+    bugprone-misplaced-operator-in-strlen-in-alloc, \
+    bugprone-misplaced-widening-cast, \
+    bugprone-move-forwarding-reference, \
+    bugprone-multiple-statement-macro, \
+    bugprone-narrowing-conversions, \
+    bugprone-not-null-terminated-result, \
+    bugprone-parent-virtual-call, \
+    bugprone-posix-return, \
+    bugprone-signed-char-misuse, \
+    bugprone-sizeof-container, \
+    bugprone-sizeof-expression, \
+    bugprone-string-constructor, \
+    bugprone-string-integer-assignment, \
+    bugprone-string-literal-with-embedded-nul, \
+    bugprone-suspicious-enum-usage, \
+    bugprone-suspicious-memset-usage, \
+    bugprone-suspicious-missing-comma, \
+    bugprone-suspicious-semicolon, \
+    bugprone-suspicious-string-compare, \
+    bugprone-swapped-arguments, \
+    bugprone-terminating-continue, \
+    bugprone-throw-keyword-missing, \
+    bugprone-too-small-loop-variable, \
+    bugprone-undefined-memory-manipulation, \
+    bugprone-undelegated-constructor, \
+    bugprone-unhandled-self-assignment, \
+    bugprone-unused-raii, \
+    bugprone-unused-return-value, \
+    bugprone-use-after-move, \
+    bugprone-virtual-near-miss, \
     modernize-avoid-bind, \
     modernize-avoid-c-arrays, \
     modernize-concat-nested-namespaces, \
