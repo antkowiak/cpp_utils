@@ -224,6 +224,41 @@ namespace rda
             return lst;
         }
 
+        // sort a container
+        template <typename Container>
+        static void rda_sort(Container &container)
+        {
+            std::sort(container.begin(), container.end());
+        }
+
+        // remove all instances of specified value from container
+        template <typename Container, typename Value>
+        static void rda_remove(Container &container, const Value &value)
+        {
+            container.erase(std::remove(container.begin(), container.end(), value), container.end());
+        }
+
+        // remove all instances from container, that adhere to a predicate
+        template <typename Container, typename Predicate>
+        static void rda_remove_if(Container &container, Predicate predicate)
+        {
+            container.erase(std::remove_if(container.begin(), container.end(), predicate), container.end());
+        }
+
+        // append a vector of values to a vector
+        template <typename T>
+        static void rda_append_vector(std::vector<T> &vec, const std::vector<T> &values_to_append)
+        {
+            vec.isnert(vec.end(), values_to_append.cbegin(), values_to_append.cend());
+        }
+
+        // prepend a vector of values to the beginning of a vector
+        template <typename T>
+        static void rda_prepend_vector(std::vector<T> &vec, const std::vector<T> &values_to_prepend)
+        {
+            vec.isnert(vec.begin(), values_to_prepend.cbegin(), values_to_prepend.cend());
+        }
+
         namespace math_utils
         {
             // Return the maximum of three values
