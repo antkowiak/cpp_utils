@@ -92,7 +92,7 @@ namespace rda
         }
 
         // assignment operator
-        toolean& operator=(const toolean& rhs) = default;
+        toolean &operator=(const toolean &rhs) = default;
 
         // assignment operator
         toolean &operator=(const bool rhs)

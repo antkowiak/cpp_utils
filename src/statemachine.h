@@ -24,13 +24,13 @@ namespace rda
         typedef std::pair<StateType, EventType> transition_t;
 
         // callback to call when entering a particular state
-        typedef std::function<void(const StateType &, const EventType &, const StateType &)> state_function_t;
+        using state_function_t = std::function<void(const StateType &, const EventType &, const StateType &)>;
 
         // callback to call when a specific event causes a transition from one specific state to another specific state
-        typedef std::function<void(const StateType &, const EventType &, const StateType &)> transition_function_t;
+        using transition_function_t = std::function<void(const StateType &, const EventType &, const StateType &)>;
 
         // callback to call when there is an unexpected event in the current state
-        typedef std::function<void(const StateType &, const EventType &)> unhandled_event_callback_t;
+        using unhandled_event_callback_t = std::function<void(const StateType &, const EventType &)>;
 
     protected:
         // the initial state for the state machine
