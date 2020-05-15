@@ -164,7 +164,7 @@ namespace rda
                         else
                             path += std::string("/") + c->name;
 
-                        output.push_back(
+                        output.emplace_back(
                             std::pair<std::string, std::shared_ptr<xml::node>>(path, c));
                     }
 
@@ -195,7 +195,7 @@ namespace rda
                         else
                             path += std::string("/") + c->name;
 
-                        output.push_back(
+                        output.emplace_back(
                             std::pair<std::string, std::shared_ptr<xml::node>>(path, c));
                     }
 
@@ -477,7 +477,7 @@ namespace rda
                             if (!key.empty())
                             {
                                 // then insert it into the vector of attributes
-                                created_node->attributes.push_back({key, value});
+                                created_node->attributes.emplace_back(std::pair<std::string, std::string>(key, value));
                             }
 
                             // reset the key and value text
@@ -499,13 +499,12 @@ namespace rda
                 // the final key (if any) was not yet added to the vector of attributes
 
                 // strip leading and trailing spaces from the key
-                algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(
-                    key);
+                algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(key);
 
                 // if the key was a valid string, then add the key=value pair to the
                 // attribute vector
                 if (!key.empty())
-                    created_node->attributes.push_back({key, value});
+                    created_node->attributes.emplace_back(std::pair<std::string, std::string>(key, value));
 
                 // return the node object
                 return created_node;

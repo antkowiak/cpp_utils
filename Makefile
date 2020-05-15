@@ -16,7 +16,10 @@ define TIDY_CHECKS
     modernize-return-braced-init-list, \
     modernize-shrink-to-fit, \
     modernize-unary-static-assert, \
-    modernize-use-auto \
+    modernize-use-auto, \
+	modernize-use-bool-literals, \
+    modernize-use-default-member-init, \
+    modernize-use-emplace \
 "
 endef
 

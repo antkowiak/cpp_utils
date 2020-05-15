@@ -56,13 +56,13 @@ namespace rda
                 const char *argv[] = {"ps", "-a", "-u", "-x"}; // NOLINT simulate main() args
 
                 std::vector<option> options;
-                options.push_back(option(option_type::OT_SHORT,
-                                         option_value_num::OVN_NONE,
-                                         "a"));
+                options.emplace_back(option(option_type::OT_SHORT,
+                                            option_value_num::OVN_NONE,
+                                            "a"));
 
-                options.push_back(option(option_type::OT_SHORT,
-                                         option_value_num::OVN_NONE,
-                                         "z"));
+                options.emplace_back(option(option_type::OT_SHORT,
+                                            option_value_num::OVN_NONE,
+                                            "z"));
 
                 cmdline_options cmd(options);
                 cmd.parse(argc, argv);
@@ -100,17 +100,17 @@ namespace rda
             const char *argv[] = {"ls", "-a", "--block-size=5"}; // NOLINT simulate main() args
 
             std::vector<option> options;
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_NONE,
-                                     "a"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_NONE,
+                                        "a"));
 
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_NONE,
-                                     "z"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_NONE,
+                                        "z"));
 
-            options.push_back(option(option_type::OT_LONG,
-                                     option_value_num::OVN_ONE,
-                                     "block-size"));
+            options.emplace_back(option(option_type::OT_LONG,
+                                        option_value_num::OVN_ONE,
+                                        "block-size"));
 
             cmdline_options cmd(options);
             cmd.parse(argc, argv);
@@ -143,17 +143,17 @@ namespace rda
             const char *argv[] = {"ls", "-a", "--block-size", "5"}; // NOLINT simulate main() args
 
             std::vector<option> options;
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_NONE,
-                                     "a"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_NONE,
+                                        "a"));
 
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_NONE,
-                                     "z"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_NONE,
+                                        "z"));
 
-            options.push_back(option(option_type::OT_LONG,
-                                     option_value_num::OVN_ONE,
-                                     "block-size"));
+            options.emplace_back(option(option_type::OT_LONG,
+                                        option_value_num::OVN_ONE,
+                                        "block-size"));
 
             cmdline_options cmd(options);
             cmd.parse(argc, argv);
@@ -186,13 +186,13 @@ namespace rda
             const char *argv[] = {"ls", "--all"}; // NOLINT simulate main() args
 
             std::vector<option> options;
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_NONE,
-                                     "z"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_NONE,
+                                        "z"));
 
-            options.push_back(option(option_type::OT_LONG,
-                                     option_value_num::OVN_NONE,
-                                     "all"));
+            options.emplace_back(option(option_type::OT_LONG,
+                                        option_value_num::OVN_NONE,
+                                        "all"));
 
             cmdline_options cmd(options);
             cmd.parse(argc, argv);
@@ -220,13 +220,13 @@ namespace rda
             const char *argv[] = {"cmd", "-m", "one", "two", "three"}; // NOLINT simulate main() args
 
             std::vector<option> options;
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_NONE,
-                                     "z"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_NONE,
+                                        "z"));
 
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_MULTIPLE,
-                                     "m"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_MULTIPLE,
+                                        "m"));
 
             cmdline_options cmd(options);
             cmd.parse(argc, argv);
@@ -257,21 +257,21 @@ namespace rda
             const char *argv[] = {"ls", "-alf"}; // NOLINT simulate main() args
 
             std::vector<option> options;
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_NONE,
-                                     "z"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_NONE,
+                                        "z"));
 
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_NONE,
-                                     "a"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_NONE,
+                                        "a"));
 
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_NONE,
-                                     "l"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_NONE,
+                                        "l"));
 
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_NONE,
-                                     "f"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_NONE,
+                                        "f"));
 
             cmdline_options cmd(options);
             cmd.parse(argc, argv);
@@ -307,13 +307,13 @@ namespace rda
             const char *argv[] = {"cmd", "--m=one", "two", "three"}; // NOLINT simulate main() args
 
             std::vector<option> options;
-            options.push_back(option(option_type::OT_LONG,
-                                     option_value_num::OVN_NONE,
-                                     "z"));
+            options.emplace_back(option(option_type::OT_LONG,
+                                        option_value_num::OVN_NONE,
+                                        "z"));
 
-            options.push_back(option(option_type::OT_LONG,
-                                     option_value_num::OVN_MULTIPLE,
-                                     "m"));
+            options.emplace_back(option(option_type::OT_LONG,
+                                        option_value_num::OVN_MULTIPLE,
+                                        "m"));
 
             cmdline_options cmd(options);
             cmd.parse(argc, argv);
@@ -344,13 +344,13 @@ namespace rda
             const char *argv[] = {"g++", "-o", "a.out", "main.cpp", "--I=.", "--I=/usr/include"}; // NOLINT simulate main() args
 
             std::vector<option> options;
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_ONE,
-                                     "o"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_ONE,
+                                        "o"));
 
-            options.push_back(option(option_type::OT_LONG,
-                                     option_value_num::OVN_ONE,
-                                     "I"));
+            options.emplace_back(option(option_type::OT_LONG,
+                                        option_value_num::OVN_ONE,
+                                        "I"));
 
             cmdline_options cmd(options);
             cmd.parse(argc, argv);
@@ -384,13 +384,13 @@ namespace rda
             const char *argv[] = {"g++", "-o", "a.out", "main.cpp", "-I.", "-I/usr/include"}; // NOLINT simulate main() args
 
             std::vector<option> options;
-            options.push_back(option(option_type::OT_SHORT,
-                                     option_value_num::OVN_ONE,
-                                     "o"));
+            options.emplace_back(option(option_type::OT_SHORT,
+                                        option_value_num::OVN_ONE,
+                                        "o"));
 
-            options.push_back(option(option_type::OT_SHORT_VALUE,
-                                     option_value_num::OVN_ONE,
-                                     "I"));
+            options.emplace_back(option(option_type::OT_SHORT_VALUE,
+                                        option_value_num::OVN_ONE,
+                                        "I"));
 
             cmdline_options cmd(options);
             cmd.parse(argc, argv);
@@ -424,16 +424,16 @@ namespace rda
             std::vector<std::function<void(const size_t, TestInput &)>> test_vec;
 
             // add all unit tests to the vector
-            test_vec.push_back(test_000);
-            test_vec.push_back(test_001);
-            test_vec.push_back(test_002);
-            test_vec.push_back(test_003);
-            test_vec.push_back(test_004);
-            test_vec.push_back(test_005);
-            test_vec.push_back(test_006);
-            test_vec.push_back(test_007);
-            test_vec.push_back(test_008);
-            test_vec.push_back(test_009);
+            test_vec.emplace_back(test_000);
+            test_vec.emplace_back(test_001);
+            test_vec.emplace_back(test_002);
+            test_vec.emplace_back(test_003);
+            test_vec.emplace_back(test_004);
+            test_vec.emplace_back(test_005);
+            test_vec.emplace_back(test_006);
+            test_vec.emplace_back(test_007);
+            test_vec.emplace_back(test_008);
+            test_vec.emplace_back(test_009);
 
             // run each unit test
             for (size_t i = 0; i < test_vec.size(); ++i)

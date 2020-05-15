@@ -503,9 +503,9 @@ namespace rda
                     if (data_validators::is_whitespace(input, index))
                         continue;
                     else if (data_validators::is_json_delimiter(input, index))
-                        tokens.push_back(std::string(1, input[index]));
+                        tokens.emplace_back(std::string(1, input[index]));
                     else
-                        tokens.push_back(read_token(input, index));
+                        tokens.emplace_back(read_token(input, index));
                 }
 
                 return tokens;

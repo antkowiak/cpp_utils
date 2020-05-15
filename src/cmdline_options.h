@@ -77,7 +77,7 @@ namespace rda
 
                 // retain all parameters in a vector of strings
                 for (int arg = 0; arg < argc && argv[arg] != nullptr; ++arg)
-                    raw_input.push_back(argv[arg]);
+                    raw_input.emplace_back(argv[arg]);
             }
 
             // iterate over the parameters
@@ -155,7 +155,7 @@ namespace rda
                 // if no options matched, push the option into unclaimed
                 if (matched_options.empty())
                 {
-                    unclaimed.push_back(std::string(1, c));
+                    unclaimed.emplace_back(std::string(1, c));
                 }
                 else
                 {

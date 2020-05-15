@@ -207,15 +207,15 @@ namespace rda
             std::vector<std::function<void(const size_t, TestInput &)>> test_vec;
 
             // add all unit tests to the vector
-            test_vec.push_back(test_000);
-            test_vec.push_back(test_001);
-            test_vec.push_back(test_002);
-            test_vec.push_back(test_003);
-            test_vec.push_back(test_004);
-            test_vec.push_back(test_005);
-            test_vec.push_back(test_006);
-            test_vec.push_back(test_007);
-            test_vec.push_back(test_008);
+            test_vec.emplace_back(test_000);
+            test_vec.emplace_back(test_001);
+            test_vec.emplace_back(test_002);
+            test_vec.emplace_back(test_003);
+            test_vec.emplace_back(test_004);
+            test_vec.emplace_back(test_005);
+            test_vec.emplace_back(test_006);
+            test_vec.emplace_back(test_007);
+            test_vec.emplace_back(test_008);
 
             // run each unit test
             for (size_t i = 0; i < test_vec.size(); ++i)
