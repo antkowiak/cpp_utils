@@ -65,7 +65,7 @@ namespace rda
         }
 
         // compare two ymd objects chronologically. uses comparable interface.
-        virtual int compareTo(const YMD &rhs) const
+        int compareTo(const YMD &rhs) const override
         {
             if (year != rhs.year)
                 return year - rhs.year;

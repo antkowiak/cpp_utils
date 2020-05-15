@@ -55,7 +55,7 @@ namespace rda
             clear();
         }
 
-        virtual void clear()
+        void clear()
         {
             if (m_allocatedMem && m_buffer != nullptr)
                 free(m_buffer);
@@ -101,7 +101,7 @@ namespace rda
             char *end = m_buffer + m_inputLen;
 
             char *fieldStart = m_buffer;
-            char *fieldEnd = m_buffer;
+            char *fieldEnd;
 
             char *dataStart = nullptr;
             char *dataEnd = nullptr;
@@ -150,12 +150,12 @@ namespace rda
         const char *data[MAX_FIX_ID] = {nullptr};
 
     protected:
-        virtual void internal_store_field(const size_t field, char *addr)
+        void internal_store_field(const size_t field, char *addr) override
         {
             data[field] = addr;
         }
 
-        virtual const char *internal_retrieve_field(const size_t field) const
+        const char *internal_retrieve_field(const size_t field) const override
         {
             return data[field];
         }
@@ -178,12 +178,12 @@ namespace rda
         std::map<size_t, const char *> data;
 
     protected:
-        virtual void internal_store_field(const size_t field, char *addr)
+        void internal_store_field(const size_t field, char *addr) override
         {
             data[field] = addr;
         }
 
-        virtual const char *internal_retrieve_field(const size_t field) const
+        const char *internal_retrieve_field(const size_t field) const override
         {
             auto i(data.find(field));
             if (i != data.end())

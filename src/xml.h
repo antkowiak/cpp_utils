@@ -219,9 +219,6 @@ namespace rda
                 parse(input);
             }
 
-            // destructor
-            virtual ~document() = default;
-
             // returns the header node of the document
             std::shared_ptr<node> get_header() const
             {
