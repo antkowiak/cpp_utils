@@ -51,17 +51,17 @@ namespace rda
         }
 
     public:
-        // Constructors, destructor, and assignment operator
-        one_to_one_map<V>()
-        {
-        }
+        // default constructor
+        one_to_one_map<V>() = default;
+
+        // copy constructor
         one_to_one_map<V>(const one_to_one_map<V> &rhs)
             : m_map(rhs.m_map)
         {
         }
-        virtual ~one_to_one_map<V>()
-        {
-        }
+
+        // destructor
+        virtual ~one_to_one_map<V>() = default;
 
         one_to_one_map<V> &operator=(const one_to_one_map<V> &rhs)
         {

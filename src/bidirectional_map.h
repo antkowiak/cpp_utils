@@ -52,17 +52,17 @@ namespace rda
         }
 
     public:
-        // Constructors, destructor, and assignment operator
-        bidirectional_map<T, U>()
-        {
-        }
+        // default constructor
+        bidirectional_map<T, U>() = default;
+
+        // copy constructor
         bidirectional_map<T, U>(const bidirectional_map<T, U> &rhs)
             : m_map(rhs.m_map), m_map_r(rhs.m_map_r)
         {
         }
-        virtual ~bidirectional_map<T, U>()
-        {
-        }
+
+        // destructor
+        virtual ~bidirectional_map<T, U>() = default;
 
         bidirectional_map<T, U> &operator=(const bidirectional_map<T, U> &rhs)
         {
