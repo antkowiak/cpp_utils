@@ -1,3 +1,11 @@
+
+//
+// main.cpp - Program entry point
+//  overloads.
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <cstdlib>
 #include <iostream>
 
