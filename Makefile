@@ -114,10 +114,10 @@ line_endings :
 	dos2unix src/*.cpp src/*.h src/unit_tests/*.h
 
 tidy :
-	clang-tidy -checks=$(TIDY_CHECKS) -header-filter=.* --format-style=file src/main.cpp
+	clang-tidy -checks=$(TIDY_CHECKS) -header-filter=".*" --format-style=file src/main.cpp
 
 tidy_fix :
-	clang-tidy -checks="modernize-avoid-bind,modernize-avoid-c-arrays,modernize-use-override,modernize-concat-nested-namespaces,modernize-deprecated-headers,modernize-deprecated-ios-base-aliases,modernize-loop-convert,modernize-make-shared,modernize-make-unique,modernize-pass-by-value,modernize-raw-string-literal,modernize-redundant-void-arg" -header-filter=.* --format-style=file src/main.cpp --fix
+	# clang-tidy -checks=$(TIDY_CHECKS) -header-filter=".*" --format-style=file src/main.cpp --fix
 
 clean :
 	\rm -f test_cpp_utils_gnu test_cpp_utils_clang

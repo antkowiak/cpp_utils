@@ -28,8 +28,12 @@ namespace rda
             if (!expression)
             {
                 std::cout << "ASSERT_TRUE() Failure.";
-                if (description != "")
+
+                if (!description.empty())
+                {
                     std::cout << " Description: " << description;
+                }
+
                 std::cout << std::endl;
 
                 exit(EXIT_FAILURE);
@@ -43,8 +47,12 @@ namespace rda
             if (expression)
             {
                 std::cout << "ASSERT_FALSE() Failure.";
-                if (description != "")
+
+                if (!description.empty())
+                {
                     std::cout << " Description: " << description;
+                }
+
                 std::cout << std::endl;
 
                 exit(EXIT_FAILURE);
@@ -69,8 +77,11 @@ namespace rda
             if (exception_thrown)
             {
                 std::cout << "ASSERT_NO_THROW() Failure.";
-                if (description != "")
+
+                if (!description.empty())
+                {
                     std::cout << " Description: " << description;
+                }
                 std::cout << std::endl;
 
                 exit(EXIT_FAILURE);
@@ -95,8 +106,12 @@ namespace rda
             if (!exception_thrown)
             {
                 std::cout << "ASSERT_THROWS() Failure.";
-                if (description != "")
+
+                if (!description.empty())
+                {
                     std::cout << " Description: " << description;
+                }
+
                 std::cout << std::endl;
 
                 exit(EXIT_FAILURE);
@@ -118,11 +133,15 @@ namespace rda
                 out_of_range_thrown = true;
             }
 
-            if (out_of_range_thrown == false)
+            if (!out_of_range_thrown)
             {
                 std::cout << "ASSERT_THROWS_OUT_OF_RANGE() Failure.";
-                if (description != "")
+
+                if (!description.empty())
+                {
                     std::cout << " Description: " << description;
+                }
+
                 std::cout << std::endl;
 
                 exit(EXIT_FAILURE);
@@ -133,15 +152,19 @@ namespace rda
         static void ASSERT_FLOAT_EQUALS(const double d1, const double d2,
                                         const std::string &description = "")
         {
-            static const double EPSILON = 0.0001f;
+            static const double EPSILON = 0.0001F;
 
             const double delta = std::abs(d1 - d2);
 
             if (delta > EPSILON)
             {
                 std::cout << "ASSERT_FLOAT_EQUALS() Failure. d1=" << d1 << " d2=" << d2;
-                if (description != "")
+
+                if (!description.empty())
+                {
                     std::cout << " Description: " << description;
+                }
+
                 std::cout << std::endl;
 
                 exit(EXIT_FAILURE);
@@ -153,15 +176,19 @@ namespace rda
         static void ASSERT_FLOAT_NOT_EQUALS(const double d1, const double d2,
                                             const std::string &description = "")
         {
-            static const double EPSILON = 0.0001f;
+            static const double EPSILON = 0.0001F;
 
             const double delta = std::abs(d1 - d2);
 
             if (delta < EPSILON)
             {
                 std::cout << "ASSERT_FLOAT_NOT_EQUALS() Failure. d1=" << d1 << " d2=" << d2;
-                if (description != "")
+
+                if (!description.empty())
+                {
                     std::cout << " Description: " << description;
+                }
+
                 std::cout << std::endl;
 
                 exit(EXIT_FAILURE);
