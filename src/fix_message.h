@@ -147,7 +147,7 @@ namespace rda
                 *dataEnd = EOL;
 
                 // conver the field to an integer type
-                size_t field = static_cast<size_t>(atoi(fieldStart));
+                auto field = static_cast<size_t>(atoi(fieldStart));
 
                 // if the field number is a valid FIX field ID number
                 if (field > 0 && field <= MAX_FIX_ID)

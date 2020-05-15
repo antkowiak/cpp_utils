@@ -1,3 +1,25 @@
+define TIDY_CHECKS
+" \
+    modernize-avoid-bind, \
+    modernize-avoid-c-arrays, \
+    modernize-concat-nested-namespaces, \
+    modernize-deprecated-headers, \
+    modernize-deprecated-ios-base-aliases, \
+    modernize-loop-convert, \
+    modernize-make-shared, \
+    modernize-make-unique, \
+    modernize-pass-by-value, \
+    modernize-raw-string-literal, \
+    modernize-redundant-void-arg, \
+	modernize-replace-auto-ptr, \
+    modernize-replace-random-shuffle, \
+    modernize-return-braced-init-list, \
+    modernize-shrink-to-fit, \
+    modernize-unary-static-assert, \
+    modernize-use-auto \
+"
+endef
+
 all : gnu clang
 
 gnu : Makefile src/main.cpp src/*.h src/unit_tests/*.h
@@ -31,10 +53,10 @@ line_endings :
 	dos2unix src/*.cpp src/*.h src/unit_tests/*.h
 
 tidy :
-	clang-tidy -checks="modernize-avoid-bind,modernize-avoid-c-arrays,modernize-use-override,modernize-concat-nested-namespaces,modernize-deprecated-headers,modernize-deprecated-ios-base-aliases,modernize-loop-convert,modernize-make-shared,modernize-make-unique,modernize-pass-by-value" -header-filter=.* --format-style=file src/main.cpp
+	clang-tidy -checks=$(TIDY_CHECKS) -header-filter=.* --format-style=file src/main.cpp
 
 tidy_fix :
-	clang-tidy -checks="modernize-avoid-bind,modernize-avoid-c-arrays,modernize-use-override,modernize-concat-nested-namespaces,modernize-deprecated-headers,modernize-deprecated-ios-base-aliases,modernize-loop-convert,modernize-make-shared,modernize-make-unique,modernize-pass-by-value" -header-filter=.* --format-style=file src/main.cpp --fix
+	clang-tidy -checks="modernize-avoid-bind,modernize-avoid-c-arrays,modernize-use-override,modernize-concat-nested-namespaces,modernize-deprecated-headers,modernize-deprecated-ios-base-aliases,modernize-loop-convert,modernize-make-shared,modernize-make-unique,modernize-pass-by-value,modernize-raw-string-literal,modernize-redundant-void-arg" -header-filter=.* --format-style=file src/main.cpp --fix
 
 clean :
 	\rm -f test_cpp_utils_gnu test_cpp_utils_clang

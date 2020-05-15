@@ -103,19 +103,19 @@ namespace rda
         {
             std::vector<T> vec;
 
-            typename T::const_iterator startIter = data.begin();
-            typename T::const_iterator endIter = std::find(startIter, data.end(), delim);
+            auto startIter = data.cbegin();
+            auto endIter = std::find(startIter, data.cend(), delim);
 
-            while (startIter != data.end())
+            while (startIter != data.cend())
             {
                 T t(startIter, endIter);
                 if (!t.empty())
                     vec.push_back(t);
                 startIter = endIter;
-                if (startIter == data.end())
+                if (startIter == data.cend())
                     break;
                 ++startIter;
-                endIter = std::find(startIter, data.end(), delim);
+                endIter = std::find(startIter, data.cend(), delim);
             }
 
             return vec;
@@ -128,19 +128,19 @@ namespace rda
         {
             std::list<T> lst;
 
-            typename T::const_iterator startIter = data.begin();
-            typename T::const_iterator endIter = std::find(startIter, data.end(), delim);
+            auto startIter = data.cbegin();
+            auto endIter = std::find(startIter, data.cend(), delim);
 
-            while (startIter != data.end())
+            while (startIter != data.cend())
             {
                 T t(startIter, endIter);
                 if (!t.empty())
                     lst.push_back(t);
                 startIter = endIter;
-                if (startIter == data.end())
+                if (startIter == data.cend())
                     break;
                 ++startIter;
-                endIter = std::find(startIter, data.end(), delim);
+                endIter = std::find(startIter, data.cend(), delim);
             }
 
             return lst;
