@@ -15,11 +15,6 @@
 
 #include "unit_test_utils.h"
 
-#include "../platform_defs.h"
-
-PUSH_WARN_DISABLE
-WARN_DISABLE(4100, "-Wunused-parameter")
-
 namespace rda
 {
     // base class for data to be passed as a parameter to each unit test case
