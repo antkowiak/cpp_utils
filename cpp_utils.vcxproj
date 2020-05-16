@@ -169,7 +169,6 @@
     <ClInclude Include="src\unit_tests\test_json.h" />
     <ClInclude Include="src\unit_tests\test_one_to_one_map.h" />
     <ClInclude Include="src\unit_tests\test_statemachine.h" />
-    <ClInclude Include="src\unit_tests\test_tcp_server.h" />
     <ClInclude Include="src\unit_tests\test_toolean.h" />
     <ClInclude Include="src\unit_tests\test_xml.h" />
     <ClInclude Include="src\unit_tests\test_ymd.h" />
