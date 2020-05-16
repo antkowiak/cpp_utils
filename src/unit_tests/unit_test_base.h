@@ -54,6 +54,9 @@ namespace rda
         // vector of test cases
         std::vector<test_case> test_vector;
 
+        // count the number of ASSERT checks that are performed during a single unit test
+        static size_t assert_check_count;
+
     protected:
         // add a unit test case
         void add_test(const char *description, test_func_t func)
@@ -93,9 +96,16 @@ namespace rda
             // first, allow the derived class the opportunity to create test cases
             create_tests();
 
+            // print heading
+            std::cout << std::endl
+                      << "------------ " << get_test_module_name() << " ---------------" << std::endl;
+
             // iterate over all the test cases
             for (size_t t(0); t < test_vector.size(); ++t)
             {
+                // reset the counter for the number of assertion checks that are performed during a unit test
+                assert_check_count = 0;
+
                 std::cout << "Running test: " << get_test_module_name() << "[" << t << "] " << test_vector[t].description << std::endl;
 
                 try
@@ -116,18 +126,19 @@ namespace rda
                 {
                     // if an exception was thrown, fail
                     std::cout << "Unexpected Exception thrown when running test case: " << t << std::endl;
-                    exit(EXIT_FAILURE);
+                    ABORT();
                 }
             }
 
             // Any test failure will terminate the process, so if we reach here, all tests have succeeded.
-            std::cout << "All unit tests completed successfully." << std::endl;
+            std::cout << "------------ " << get_test_module_name() << ": All unit tests completed successfully." << std::endl;
         }
 
     protected:
         // abort the process
         static void ABORT()
         {
+            std::cout << "ASSERT checks performed: " << assert_check_count << std::endl;
             exit(EXIT_FAILURE);
         }
 
@@ -139,6 +150,7 @@ namespace rda
                 std::cout << "ASSERT_TRUE() Failure." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // assert the expression is false
@@ -149,6 +161,7 @@ namespace rda
                 std::cout << "ASSERT_FALSE() Failure." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // assert that a container is empty
@@ -160,6 +173,7 @@ namespace rda
                 std::cout << "ASSERT_EMPTY() assertion failed." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // assert that a container is not empty
@@ -171,6 +185,7 @@ namespace rda
                 std::cout << "ASSERT_NOT_EMPTY() assertion failed." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // call the function and fail if it throws an exception
@@ -185,6 +200,7 @@ namespace rda
                 std::cout << "ASSERT_NO_THROW() Failure." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // call the function and ensure it throws a specified exception type
@@ -207,6 +223,7 @@ namespace rda
                 std::cout << "ASSERT_THROWS() Failure." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // check if two things are equal
@@ -220,6 +237,7 @@ namespace rda
                 std::cout << "ASSERT_EQUAL() assertion failed." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // check if two things are equal
@@ -233,6 +251,7 @@ namespace rda
                 std::cout << "ASSERT_NOT_EQUAL() assertion failed." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // check if pointer is null
@@ -244,6 +263,7 @@ namespace rda
                 std::cout << "ASSERT_NULL() assertion failed." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // check if pointer is not null
@@ -255,6 +275,7 @@ namespace rda
                 std::cout << "ASSERT_NOT_NULL() assertion failed." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // check if two floating point numbers are "equal" (e.g. are close enough)
@@ -265,6 +286,7 @@ namespace rda
                 std::cout << "ASSERT_FLOAT_EQUALS() Failure." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
 
         // check if two floating point numbers are NOT "equal" (e.g. are NOT close enough)
@@ -275,9 +297,12 @@ namespace rda
                 std::cout << "ASSERT_FLOAT_NOT_EQUALS() Failure." << std::endl;
                 ABORT();
             }
+            ++assert_check_count;
         }
     };
 
 } // namespace rda
+
+size_t rda::unit_test_base::assert_check_count = 0;
 
 POP_WARN_DISABLE

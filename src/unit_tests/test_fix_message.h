@@ -25,7 +25,6 @@ WARN_DISABLE_MS(6262) // large stack usage
 
 namespace rda
 {
-
     class test_fix_message : public unit_test_base
     {
     protected:
@@ -48,7 +47,7 @@ namespace rda
 
         std::string get_test_module_name() const override
         {
-            return "unit_test_fix_message";
+            return "test_fix_message";
         }
 
         std::shared_ptr<unit_test_input_base> create_test_input(const size_t testNum, const std::string &description) override
