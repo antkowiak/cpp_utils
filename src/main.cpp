@@ -28,8 +28,7 @@ int main()
     rda::test_bidirectional_map::run_tests();
     rda::test_cmdline_options::run_tests();
     rda::test_fileio::run_tests();
-    //rda::test_fix_message::run_tests();
-    rda::unit_test_fix_message().run_tests();
+    rda::test_fix_message().run_tests();
     rda::test_json::run_tests();
     rda::test_one_to_one_map::run_tests();
     rda::test_statemachine::run_tests();

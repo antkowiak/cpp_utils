@@ -16,10 +16,9 @@
 
 #include "../platform_defs.h"
 
-#include "unit_test_utils.h"
-
 PUSH_WARN_DISABLE
 WARN_DISABLE(4100, "-Wunused-parameter")
+WARN_DISABLE(4505, "-Wunused-function")
 
 namespace rda
 {
