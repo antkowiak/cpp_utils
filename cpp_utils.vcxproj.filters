@@ -45,9 +45,6 @@
     <ClInclude Include="src\unit_tests\unit_test_template.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
-    <ClInclude Include="src\unit_tests\unit_test_utils.h">
-      <Filter>Header Files\unit_tests</Filter>
-    </ClInclude>
     <ClInclude Include="src\algorithm_rda.h">
       <Filter>Header Files</Filter>
     </ClInclude>
