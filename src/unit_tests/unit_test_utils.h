@@ -184,6 +184,42 @@ namespace rda
             }
         }
 
+        // check if pointer is null
+        template <typename T>
+        static void ASSERT_NULL(T *ptr, const std::string &description = "")
+        {
+            const bool is_null = ptr == nullptr;
+
+            if (!is_null)
+            {
+                std::cout << "ASSERT_NULL() assertion failed.";
+                if (!description.empty())
+                {
+                    std::cout << " Description: " << description;
+                }
+                std::cout << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        // check if pointer is not null
+        template <typename T>
+        static void ASSERT_NOT_NULL(T *ptr, const std::string &description = "")
+        {
+            const bool is_null = ptr == nullptr;
+
+            if (is_null)
+            {
+                std::cout << "ASSERT_NOT_NULL() assertion failed.";
+                if (!description.empty())
+                {
+                    std::cout << " Description: " << description;
+                }
+                std::cout << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+
         // check if two floating point numbers are "equal" (e.g. are close enough)
         static void ASSERT_FLOAT_EQUALS(const double d1, const double d2,
                                         const std::string &description = "")

@@ -14,6 +14,7 @@
 #include <type_traits>
 #include <vector>
 
+#include "unit_test_base.h"
 #include "unit_test_utils.h"
 
 #include "../platform_defs.h"
@@ -26,6 +27,64 @@ WARN_DISABLE_MS(6262)
 
 namespace rda
 {
+
+    class unit_test_fix_message : public unit_test_base
+    {
+    protected:
+        struct unit_test_input_fix_message : public unit_test_input_base
+        {
+            const char *str1 = "";
+
+            const std::string str2 = std::string();
+
+            const char *str3 =
+                "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856="
+                "TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT"
+                "60=20180920-18:14:19.49210=092";
+
+            const std::string str4 =
+                "8=FIX.4.49=14835=D34=108049=TESTBUY152=20180920-18:14:19.50856="
+                "TESTSELL111=63673064027889863415=USD21=238=700040=154=155=MSFT"
+                "60=20180920-18:14:19.49210=092";
+        };
+
+        std::string get_test_module_name() const override
+        {
+            return "unit_test_fix_message";
+        }
+
+        std::shared_ptr<unit_test_input_base> create_test_input(const size_t testNum, const std::string &description) override
+        {
+            return std::make_shared<unit_test_input_fix_message>();
+        }
+
+        void create_tests() override
+        {
+            add_test("fix constructors", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_fix_message>(input);
+
+                fix_message fm1(pInput->str1);
+                fix_message fm2(pInput->str2);
+                fix_message fm3(pInput->str3);
+                fix_message fm4(pInput->str4);
+            });
+
+            add_test("accessing non-existant elements from null or invalid fix messages", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_fix_message>(input);
+
+                fix_message fm1(pInput->str1);
+                fix_message fm2(pInput->str2);
+                fix_message fm3(pInput->str3);
+                fix_message fm4(pInput->str4);
+
+                // accessing element from null or invalid fix messages
+                ASSERT_NULL(fm1.get_field(8));
+                ASSERT_NULL(fm2.get_field(8));
+            });
+        }
+
+    }; // class unit_test_fix_message
+
     namespace test_fix_message
     {
         using unit_test_utils::ASSERT_FALSE;
