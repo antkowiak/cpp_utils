@@ -1,7 +1,7 @@
 #pragma once
 
 //
-// test_INSERT_TEXT_HERE.h - Unit tests for INSERT_TEST_HERE.h.
+// test_TEMPLATE.h - Unit tests for TEMPLATE.h. // TODO
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -13,115 +13,73 @@
 #include <string>
 #include <vector>
 
-#include "unit_test_utils.h"
+#include "unit_test_base.h"
 
 #include "../platform_defs.h"
-// TODO #include "../INSERT_TEXT_HERE.h"
+
+// #include "../TEMPLATE.h" // TODO
 
 PUSH_WARN_DISABLE
 WARN_DISABLE(4100, "-Wunused-parameter")
 
 namespace rda
 {
-    namespace test_INSERT_TEXT_HERE // TODO
+    // TODO
+    class test_TEMPLATE : public unit_test_base // TODO
     {
-        using unit_test_utils::ASSERT_FALSE;
-        using unit_test_utils::ASSERT_NO_THROW;
-        using unit_test_utils::ASSERT_THROWS;
-        using unit_test_utils::ASSERT_THROWS_OUT_OF_RANGE;
-        using unit_test_utils::ASSERT_TRUE;
-
-        struct TestInput
+    protected:
+        // data structure of inputs that can be re-used by each unit test
+        struct unit_test_input_TEMPLATE : public unit_test_input_base // TODO
         {
         };
 
-        static void setup(const size_t testNum, TestInput &input)
+        // returns the name of the module that is being tested
+        std::string get_test_module_name() const override
         {
+            return "test_TEMPLATE"; // TODO
         }
 
-        static void teardown(const size_t testNum, TestInput &input)
+        // create and return the data structure of input to be provided to each test
+        std::shared_ptr<unit_test_input_base> create_test_input(const size_t testNum, const std::string &description) override
         {
+            return std::make_shared<unit_test_input_TEMPLATE>(); // TODO
         }
 
-        //////////////////////////////////////////////////////////////////////////////////
-
-        static void test_000(const size_t testNum, TestInput &input)
+        // setup called before each unit test is run
+        void setup(size_t testNum, const std::string &description, std::shared_ptr<unit_test_input_base> input) override
         {
+            // call super class first
+            unit_test_base::setup(testNum, description, input);
+
+            auto pInput = std::dynamic_pointer_cast<unit_test_input_TEMPLATE>(input); // TODO
         }
 
-        static void test_001(const size_t testNum, TestInput &input)
+        // teardown called after each unit test is run
+        void teardown(size_t testNum, const std::string &description, std::shared_ptr<unit_test_input_base> input) override
         {
+            // call super class first
+            unit_test_base::teardown(testNum, description, input);
+
+            auto pInput = std::dynamic_pointer_cast<unit_test_input_TEMPLATE>(input); // TODO
         }
 
-        static void test_002(const size_t testNum, TestInput &input)
+        // adds all of the tests that will be run
+        void create_tests() override
         {
+            add_test("TODO 1", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_TEMPLATE>(input); // TODO
+
+                // TODO
+            });
+
+            add_test("TODO 2", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_TEMPLATE>(input); // TODO
+
+                // TODO
+            });
         }
+    }; // class test_TEMPLATE // TODO
 
-        static void test_003(const size_t testNum, TestInput &input)
-        {
-        }
-
-        static void test_004(const size_t testNum, TestInput &input)
-        {
-        }
-
-        static void test_005(const size_t testNum, TestInput &input)
-        {
-        }
-
-        static void test_006(const size_t testNum, TestInput &input)
-        {
-        }
-
-        static void test_007(const size_t testNum, TestInput &input)
-        {
-        }
-
-        static void test_008(const size_t testNum, TestInput &input)
-        {
-        }
-
-        static void test_009(const size_t testNum, TestInput &input)
-        {
-        }
-
-        static void run_tests()
-        {
-            // vector to hold functions to unit tests
-            std::vector<std::function<void(const size_t, TestInput &)>> test_vec;
-
-            // add all unit tests to the vector
-            test_vec.push_back(test_000);
-            test_vec.push_back(test_001);
-            test_vec.push_back(test_002);
-            test_vec.push_back(test_003);
-            test_vec.push_back(test_004);
-            test_vec.push_back(test_005);
-            test_vec.push_back(test_006);
-            test_vec.push_back(test_007);
-            test_vec.push_back(test_008);
-            test_vec.push_back(test_009);
-
-            // run each unit test
-            for (size_t i = 0; i < test_vec.size(); ++i)
-            {
-                std::cout << "Running INSERT_TEXT_HERE test: " << i << std::endl; // TODO
-
-                try
-                {
-                    TestInput input;
-                    setup(i, input);
-                    test_vec[i](i, input);
-                    teardown(i, input);
-                }
-                catch (...)
-                {
-                    std::cout << "Unexpected Exception when running test case: " << i << std::endl;
-                    exit(EXIT_FAILURE);
-                }
-            }
-        }
-    } // namespace test_INSERT_TEXT_HERE
 } // namespace rda
 
 POP_WARN_DISABLE

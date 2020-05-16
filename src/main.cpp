@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "unit_tests/unit_test_template.h"
+
 #include "unit_tests/test_algorithm_rda.h"
 #include "unit_tests/test_bidirectional_map.h"
 #include "unit_tests/test_cmdline_options.h"
@@ -22,6 +24,8 @@
 
 int main()
 {
+    rda::test_TEMPLATE().run_tests();
+
     rda::test_algorithm_rda().run_tests();
     rda::test_bidirectional_map().run_tests();
     rda::test_cmdline_options().run_tests();
@@ -32,7 +36,7 @@ int main()
     rda::test_statemachine().run_tests();
     rda::test_toolean().run_tests();
     rda::test_xml().run_tests();
-    //rda::test_ymd::run_tests();
+    rda::test_ymd().run_tests();
 
     return EXIT_SUCCESS;
 }
