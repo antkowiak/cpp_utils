@@ -148,6 +148,42 @@ namespace rda
             }
         }
 
+        // check if two things are equal
+        template <typename T>
+        static void ASSERT_EQUAL(const T &obj1, const T &obj2, const std::string &description = "")
+        {
+            const bool equals = obj1 == obj2;
+
+            if (!equals)
+            {
+                std::cout << "ASSERT_EQUAL() assertion failed.";
+                if (!description.empty())
+                {
+                    std::cout << " Description: " << description;
+                }
+                std::cout << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        // check if two things are equal
+        template <typename T>
+        static void ASSERT_NOT_EQUAL(const T &obj1, const T &obj2, const std::string &description = "")
+        {
+            const bool equals = obj1 == obj2;
+
+            if (equals)
+            {
+                std::cout << "ASSERT_NOT_EQUAL() assertion failed.";
+                if (!description.empty())
+                {
+                    std::cout << " Description: " << description;
+                }
+                std::cout << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+
         // check if two floating point numbers are "equal" (e.g. are close enough)
         static void ASSERT_FLOAT_EQUALS(const double d1, const double d2,
                                         const std::string &description = "")

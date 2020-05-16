@@ -123,6 +123,9 @@
     <ClInclude Include="src\platform_defs_windows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\unit_tests\unit_test_base.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

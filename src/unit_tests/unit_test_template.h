@@ -6,6 +6,8 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
+#include <cstdlib>
+#include <exception>
 #include <functional>
 #include <iostream>
 #include <string>
@@ -31,15 +33,10 @@ namespace rda
 
         struct TestInput
         {
-            // TODO
         };
 
         static void setup(const size_t testNum, TestInput &input)
         {
-            std::cout << "Running INSERT_TEXT_HERE test: " << testNum
-                      << std::endl; // TODO
-
-            // TODO
         }
 
         static void teardown(const size_t testNum, TestInput &input)
@@ -108,10 +105,20 @@ namespace rda
             // run each unit test
             for (size_t i = 0; i < test_vec.size(); ++i)
             {
-                TestInput input;
-                setup(i, input);
-                test_vec[i](i, input);
-                teardown(i, input);
+                std::cout << "Running INSERT_TEXT_HERE test: " << i << std::endl; // TODO
+
+                try
+                {
+                    TestInput input;
+                    setup(i, input);
+                    test_vec[i](i, input);
+                    teardown(i, input);
+                }
+                catch (...)
+                {
+                    std::cout << "Unexpected Exception when running test case: " << i << std::endl;
+                    exit(EXIT_FAILURE);
+                }
             }
         }
     } // namespace test_INSERT_TEXT_HERE

@@ -173,6 +173,7 @@
     <ClInclude Include="src\unit_tests\test_toolean.h" />
     <ClInclude Include="src\unit_tests\test_xml.h" />
     <ClInclude Include="src\unit_tests\test_ymd.h" />
+    <ClInclude Include="src\unit_tests\unit_test_base.h" />
     <ClInclude Include="src\unit_tests\unit_test_template.h" />
     <ClInclude Include="src\unit_tests\unit_test_utils.h" />
     <ClInclude Include="src\xml.h" />

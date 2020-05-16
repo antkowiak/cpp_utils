@@ -484,7 +484,7 @@ namespace rda
             // october 31
             return YMD(yr, 10, 31);
         }
-        
+
         // returns election day
         static YMD get_holiday_election_day(const int yr)
         {
