@@ -7,3 +7,4 @@
 5) Update csv to cope with escaped quotes		[csv]
 6) Convert between json and xml					[json, xml]
 7) YMD - detect holidays, options expration		[ymd]
+8) Better unit test functions (show invocation)

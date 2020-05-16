@@ -162,23 +162,23 @@ namespace rda
 
         static void test_008(const size_t testNum, TestInput &input)
         {
-            ASSERT_TRUE(YMD::days_in_month(1, 1999) == 31);
-            ASSERT_TRUE(YMD::days_in_month(2, 1900) == 28);
-            ASSERT_TRUE(YMD::days_in_month(2, 1999) == 28);
-            ASSERT_TRUE(YMD::days_in_month(2, 2000) == 29);
-            ASSERT_TRUE(YMD::days_in_month(2, 2001) == 28);
-            ASSERT_TRUE(YMD::days_in_month(2, 2004) == 29);
-            ASSERT_TRUE(YMD::days_in_month(2, 2008) == 29);
-            ASSERT_TRUE(YMD::days_in_month(3, 1999) == 31);
-            ASSERT_TRUE(YMD::days_in_month(4, 1999) == 30);
-            ASSERT_TRUE(YMD::days_in_month(5, 1999) == 31);
-            ASSERT_TRUE(YMD::days_in_month(6, 1999) == 30);
-            ASSERT_TRUE(YMD::days_in_month(7, 1999) == 31);
-            ASSERT_TRUE(YMD::days_in_month(8, 1999) == 31);
-            ASSERT_TRUE(YMD::days_in_month(9, 1999) == 30);
-            ASSERT_TRUE(YMD::days_in_month(10, 1999) == 31);
-            ASSERT_TRUE(YMD::days_in_month(11, 1999) == 30);
-            ASSERT_TRUE(YMD::days_in_month(12, 1999) == 31);
+            ASSERT_TRUE(YMD::days_in_month(1999, 1) == 31);
+            ASSERT_TRUE(YMD::days_in_month(1900, 2) == 28);
+            ASSERT_TRUE(YMD::days_in_month(1999, 2) == 28);
+            ASSERT_TRUE(YMD::days_in_month(2000, 2) == 29);
+            ASSERT_TRUE(YMD::days_in_month(2001, 2) == 28);
+            ASSERT_TRUE(YMD::days_in_month(2004, 2) == 29);
+            ASSERT_TRUE(YMD::days_in_month(2008, 2) == 29);
+            ASSERT_TRUE(YMD::days_in_month(1999, 3) == 31);
+            ASSERT_TRUE(YMD::days_in_month(1999, 4) == 30);
+            ASSERT_TRUE(YMD::days_in_month(1999, 5) == 31);
+            ASSERT_TRUE(YMD::days_in_month(1999, 6) == 30);
+            ASSERT_TRUE(YMD::days_in_month(1999, 7) == 31);
+            ASSERT_TRUE(YMD::days_in_month(1999, 8) == 31);
+            ASSERT_TRUE(YMD::days_in_month(1999, 9) == 30);
+            ASSERT_TRUE(YMD::days_in_month(1999, 10) == 31);
+            ASSERT_TRUE(YMD::days_in_month(1999, 11) == 30);
+            ASSERT_TRUE(YMD::days_in_month(1999, 12) == 31);
 
             ASSERT_TRUE(YMD::is_leap_year(2000) == true);
             ASSERT_TRUE(YMD::is_leap_year(2001) == false);
@@ -216,23 +216,23 @@ namespace rda
 
         static void test_010(const size_t testNum, TestInput &input)
         {
-            ASSERT_TRUE(YMD(2020, 5, 3).get_day_of_week() == 0);
-            ASSERT_TRUE(YMD(2020, 5, 4).get_day_of_week() == 1);
-            ASSERT_TRUE(YMD(2020, 5, 5).get_day_of_week() == 2);
-            ASSERT_TRUE(YMD(2020, 5, 6).get_day_of_week() == 3);
-            ASSERT_TRUE(YMD(2020, 5, 7).get_day_of_week() == 4);
-            ASSERT_TRUE(YMD(2020, 5, 8).get_day_of_week() == 5);
-            ASSERT_TRUE(YMD(2020, 5, 9).get_day_of_week() == 6);
-            ASSERT_TRUE(YMD(2020, 5, 10).get_day_of_week() == 0);
-            ASSERT_TRUE(YMD(2020, 5, 11).get_day_of_week() == 1);
-            ASSERT_TRUE(YMD(2020, 5, 12).get_day_of_week() == 2);
+            ASSERT_TRUE(YMD(2020, 5, 3).get_day_of_week() == e_day_of_week::EDOW_SUNDAY);
+            ASSERT_TRUE(YMD(2020, 5, 4).get_day_of_week() == e_day_of_week::EDOW_MONDAY);
+            ASSERT_TRUE(YMD(2020, 5, 5).get_day_of_week() == e_day_of_week::EDOW_TUESDAY);
+            ASSERT_TRUE(YMD(2020, 5, 6).get_day_of_week() == e_day_of_week::EDOW_WEDNESDAY);
+            ASSERT_TRUE(YMD(2020, 5, 7).get_day_of_week() == e_day_of_week::EDOW_THURSDAY);
+            ASSERT_TRUE(YMD(2020, 5, 8).get_day_of_week() == e_day_of_week::EDOW_FRIDAY);
+            ASSERT_TRUE(YMD(2020, 5, 9).get_day_of_week() == e_day_of_week::EDOW_SATURDAY);
+            ASSERT_TRUE(YMD(2020, 5, 10).get_day_of_week() == e_day_of_week::EDOW_SUNDAY);
+            ASSERT_TRUE(YMD(2020, 5, 11).get_day_of_week() == e_day_of_week::EDOW_MONDAY);
+            ASSERT_TRUE(YMD(2020, 5, 12).get_day_of_week() == e_day_of_week::EDOW_TUESDAY);
 
-            ASSERT_TRUE(YMD(1855, 10, 27).get_day_of_week() == 6);
-            ASSERT_TRUE(YMD(1981, 11, 9).get_day_of_week() == 1);
-            ASSERT_TRUE(YMD(2000, 7, 29).get_day_of_week() == 6);
-            ASSERT_TRUE(YMD(2001, 8, 14).get_day_of_week() == 2);
-            ASSERT_TRUE(YMD(2002, 2, 28).get_day_of_week() == 4);
-            ASSERT_TRUE(YMD(2002, 3, 1).get_day_of_week() == 5);
+            ASSERT_TRUE(YMD(1855, 10, 27).get_day_of_week() == e_day_of_week::EDOW_SATURDAY);
+            ASSERT_TRUE(YMD(1981, 11, 9).get_day_of_week() == e_day_of_week::EDOW_MONDAY);
+            ASSERT_TRUE(YMD(2000, 7, 29).get_day_of_week() == e_day_of_week::EDOW_SATURDAY);
+            ASSERT_TRUE(YMD(2001, 8, 14).get_day_of_week() == e_day_of_week::EDOW_TUESDAY);
+            ASSERT_TRUE(YMD(2002, 2, 28).get_day_of_week() == e_day_of_week::EDOW_THURSDAY);
+            ASSERT_TRUE(YMD(2002, 3, 1).get_day_of_week() == e_day_of_week::EDOW_FRIDAY);
         }
 
         static void run_tests()

@@ -9,9 +9,11 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
+#include <cstdint>
 #include <ctime>
 #include <sstream>
 #include <string>
+#include <utility>
 
 #include "platform_defs.h"
 #include "comparable.h"
@@ -21,6 +23,17 @@ WARN_DISABLE_MS(4996)
 
 namespace rda
 {
+    enum class e_day_of_week : uint8_t
+    {
+        EDOW_SUNDAY = 0,
+        EDOW_MONDAY = 1,
+        EDOW_TUESDAY = 2,
+        EDOW_WEDNESDAY = 3,
+        EDOW_THURSDAY = 4,
+        EDOW_FRIDAY = 5,
+        EDOW_SATURDAY = 6,
+    };
+
     class YMD : public Comparable<YMD>
     {
     protected:
@@ -29,31 +42,41 @@ namespace rda
         int day = 1;
 
     public:
-        // constructors and destructors
+        // default constructor
         YMD() = default;
+
+        // constructor
         YMD(const int y, const int m, const int d)
             : year(y), month(m), day(d)
         {
         }
+
+        // copy constructor
         YMD(const YMD &rhs) = default;
+
+        // destructor
         ~YMD() = default;
 
-        // accessors
+        // returns the year
         int get_year() const
         {
             return year;
         }
+
+        // returns the month
         int get_month() const
         {
             return month;
         }
+
+        // returns the day of month
         int get_day() const
         {
             return day;
         }
 
-        // return day of week. (Sunday=0, Monday=1, Tuesday=2, ...)
-        int get_day_of_week() const
+        // return day of week
+        e_day_of_week get_day_of_week() const
         {
             static const std::array<int, 12> t{0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
 
@@ -62,7 +85,7 @@ namespace rda
             if (month < 3)
                 --y;
 
-            return (y + (y / 4) - (y / 100) + (y / 400) + t[static_cast<size_t>(month) - 1] + day) % 7;
+            return e_day_of_week((y + (y / 4) - (y / 100) + (y / 400) + t[static_cast<size_t>(month) - 1] + day) % 7);
         }
 
         // compare two ymd objects chronologically. uses comparable interface.
@@ -231,7 +254,7 @@ namespace rda
         // returns the number of days in the date's month
         int days_in_month() const
         {
-            return days_in_month(month, year);
+            return days_in_month(year, month);
         }
 
         // returns true if the given year is a leap year
@@ -247,7 +270,7 @@ namespace rda
         }
 
         // returns the number of days in a month, for a given year and month
-        static int days_in_month(const int mth, const int yr)
+        static int days_in_month(const int yr, const int mth)
         {
             switch (mth)
             {
@@ -298,6 +321,239 @@ namespace rda
             YMD today(1900 + utc.tm_year, 1 + utc.tm_mon, utc.tm_mday);
 
             return today;
+        }
+
+        // for a given year, month, and day of week, find the YMD that coorresponds to the nth day_of_wk in the month
+        static YMD nth_day_of_week_in_month(const int yr, const int month, const int nth, const e_day_of_week day_of_wk)
+        {
+            // begin at the first of the month
+            YMD ymd(yr, month, 1);
+
+            // advance to the appropriate day of week
+            while (ymd.get_day_of_week() != day_of_wk)
+                ymd.add_days(1);
+
+            // advance to the appropriate week number
+            ymd.add_days(7 * (nth - 1));
+
+            return ymd;
+        }
+
+        // for a given year, month, and day of week, find the YMD for the last day of the month that falls on day_of_wk
+        static YMD last_weekday_of_month(const int yr, const int month, const e_day_of_week day_of_wk)
+        {
+            // begin at the last day of the month
+            YMD ymd(yr, month, days_in_month(yr, month));
+
+            // subtract days until reaching the desired day of week
+            while (ymd.get_day_of_week() != day_of_wk)
+                ymd.subtract_days(1);
+
+            return ymd;
+        }
+
+        // returns new years day
+        static YMD get_holiday_new_years_day(const int yr)
+        {
+            // janurary 1st
+            return YMD(yr, 1, 1);
+        }
+
+        // returns inauguration day
+        static YMD get_holiday_inauguration_day(const int yr)
+        {
+            // january 20th
+            return YMD(yr, 1, 20);
+        }
+
+        // returns martin luther king jr day
+        static YMD get_holiday_mlk(const int yr)
+        {
+            // third monday in january
+            return nth_day_of_week_in_month(yr, 1, 3, e_day_of_week::EDOW_MONDAY);
+        }
+
+        // returns groundhog day
+        static YMD get_holiday_groundhog_day(const int yr)
+        {
+            // february 2nd
+            return YMD(yr, 2, 2);
+        }
+
+        // returns valentines day
+        static YMD get_holiday_valentines_day(const int yr)
+        {
+            // february 14th
+            return YMD(yr, 2, 14);
+        }
+
+        // returns george washington's birthday
+        static YMD get_holiday_george_washington_birthday(const int yr)
+        {
+            // third monday in february
+            return nth_day_of_week_in_month(yr, 2, 3, e_day_of_week::EDOW_MONDAY);
+        }
+
+        // returns st patricks day
+        static YMD get_holiday_st_patricks_day(const int yr)
+        {
+            // march 17th
+            return YMD(yr, 3, 17);
+        }
+
+        // returns april fools day
+        static YMD get_holiday_aprils_fools_day(const int yr)
+        {
+            // april 1st
+            return YMD(yr, 4, 1);
+        }
+
+        // returns earth day
+        static YMD get_holiday_earth_day(const int yr)
+        {
+            // april 22nd
+            return YMD(yr, 4, 22);
+        }
+
+        // returns may day
+        static YMD get_holiday_may_day(const int yr)
+        {
+            // may 1st
+            return YMD(yr, 5, 1);
+        }
+
+        // returns cinco de mayo
+        static YMD get_holiday_cinco_de_mayo(const int yr)
+        {
+            // may 5th
+            return YMD(yr, 5, 5);
+        }
+
+        // returns mother's day
+        static YMD get_holiday_mothers_day(const int yr)
+        {
+            // second sunday in may
+            return nth_day_of_week_in_month(yr, 5, 2, e_day_of_week::EDOW_SUNDAY);
+        }
+
+        // returns memorial day
+        static YMD get_holiday_memorial_day(const int yr)
+        {
+            // last monday in may
+            return last_weekday_of_month(yr, 5, e_day_of_week::EDOW_MONDAY);
+        }
+
+        // returns flag day
+        static YMD get_holiday_flag_day(const int yr)
+        {
+            // june 14th
+            return YMD(yr, 6, 14);
+        }
+
+        // returns father's day
+        static YMD get_holiday_fathers_day(const int yr)
+        {
+            // third sunday in june
+            return nth_day_of_week_in_month(yr, 6, 3, e_day_of_week::EDOW_SUNDAY);
+        }
+
+        // returns independence day
+        static YMD get_holiday_independence_day(const int yr)
+        {
+            // july 4th
+            return YMD(yr, 7, 4);
+        }
+
+        // returns labor day
+        static YMD get_holiday_labor_day(const int yr)
+        {
+            // first monday in september
+            return nth_day_of_week_in_month(yr, 9, 1, e_day_of_week::EDOW_MONDAY);
+        }
+
+        // returns columbus day
+        static YMD get_holiday_columbus_day(const int yr)
+        {
+            // second monday in october
+            return nth_day_of_week_in_month(yr, 10, 2, e_day_of_week::EDOW_MONDAY);
+        }
+
+        // returns halloween
+        static YMD get_holiday_halloween(const int yr)
+        {
+            // october 31
+            return YMD(yr, 10, 31);
+        }
+        
+        // returns election day
+        static YMD get_holiday_election_day(const int yr)
+        {
+            // "the tuesday next after the first monday in november"
+
+            // start on november 2nd
+            YMD ymd(yr, 11, 2);
+
+            // find the following tuesday
+            while (ymd.get_day_of_week() != e_day_of_week::EDOW_TUESDAY)
+                ymd.add_days(1);
+
+            return ymd;
+        }
+
+        // returns veteran's day
+        static YMD get_holiday_veterans_day(const int yr)
+        {
+            // november 11th
+            return YMD(yr, 11, 11);
+        }
+
+        // return thanksgiving day
+        static YMD get_holiday_thanksgiving_day(const int yr)
+        {
+            // 4th thursday in november
+            return nth_day_of_week_in_month(yr, 11, 4, e_day_of_week::EDOW_THURSDAY);
+        }
+
+        // returns black friday
+        static YMD get_holiday_black_friday(const int yr)
+        {
+            // day after thanksgiving
+
+            // find thanksgiving
+            YMD ymd(std::move(get_holiday_thanksgiving_day(yr)));
+
+            // add one day
+            ymd.add_days(1);
+
+            return ymd;
+        }
+
+        // return christmas eve
+        static YMD get_holiday_christmas_eve(const int yr)
+        {
+            // december 24th
+            return YMD(yr, 12, 24);
+        }
+
+        // return christmas
+        static YMD get_holiday_christmas(const int yr)
+        {
+            // december 25th
+            return YMD(yr, 12, 25);
+        }
+
+        // returns boxing day
+        static YMD get_holiday_boxing_day(const int yr)
+        {
+            // december 26th
+            return YMD(yr, 12, 26);
+        }
+
+        // returns new year's eve
+        static YMD get_holiday_new_years_eve(const int yr)
+        {
+            // december 31st
+            return YMD(yr, 12, 31);
         }
 
         // convert to string
