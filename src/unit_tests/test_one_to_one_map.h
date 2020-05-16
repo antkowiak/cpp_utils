@@ -6,12 +6,13 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
+#include <exception>
 #include <functional>
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "unit_test_utils.h"
+#include "unit_test_base.h"
 
 #include "../platform_defs.h"
 #include "../one_to_one_map.h"
@@ -21,14 +22,10 @@ WARN_DISABLE(4100, "-Wunused-parameter")
 
 namespace rda
 {
-    namespace test_one_to_one_map
+    class test_one_to_one_map : public unit_test_base
     {
-        using unit_test_utils::ASSERT_FALSE;
-        using unit_test_utils::ASSERT_NO_THROW;
-        using unit_test_utils::ASSERT_THROWS_OUT_OF_RANGE;
-        using unit_test_utils::ASSERT_TRUE;
-
-        struct TestInput
+    protected:
+        struct unit_test_input_one_to_one_map : public unit_test_input_base
         {
             one_to_one_map<int> intMap;
             one_to_one_map<std::string> stringMap;
@@ -43,257 +40,245 @@ namespace rda
             one_to_one_map<std::string> clearedStringMap;
         };
 
-        static void setup(const size_t testNum, TestInput &input)
+        std::string get_test_module_name() const override
         {
-            std::cout << "Running one_to_one_map test: " << testNum << std::endl;
-
-            input.intMap.put(1, 1001);
-            input.intMap.put(2, 1002);
-            input.intMap.put(3, 1003);
-            input.intMap.put(4, 1004);
-            input.intMap.put(5, 1005);
-
-            input.stringMap.put("a", "TEXT_a");
-            input.stringMap.put("b", "TEXT_b");
-            input.stringMap.put("c", "TEXT_c");
-            input.stringMap.put("d", "TEXT_d");
-            input.stringMap.put("e", "TEXT_e");
-
-            input.assignedIntMap = input.intMap;
-            input.assignedStringMap = input.stringMap;
-
-            input.clearedIntMap.put(1, 1001);
-            input.clearedIntMap.put(2, 1002);
-            input.clearedIntMap.put(3, 1003);
-            input.clearedIntMap.put(4, 1004);
-            input.clearedIntMap.put(5, 1005);
-            input.clearedIntMap.clear();
-
-            input.clearedStringMap.put("a", "TEXT_a");
-            input.clearedStringMap.put("b", "TEXT_b");
-            input.clearedStringMap.put("c", "TEXT_c");
-            input.clearedStringMap.put("d", "TEXT_d");
-            input.clearedStringMap.put("e", "TEXT_e");
-            input.clearedStringMap.clear();
+            return "test_one_to_one_map";
         }
 
-        static void teardown(const size_t testNum, TestInput &input)
+        void setup(size_t testNum, const std::string &description, std::shared_ptr<unit_test_input_base> input) override
         {
+            // call super class first
+            unit_test_base::setup(testNum, description, input);
+
+            auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+            pInput->intMap.put(1, 1001);
+            pInput->intMap.put(2, 1002);
+            pInput->intMap.put(3, 1003);
+            pInput->intMap.put(4, 1004);
+            pInput->intMap.put(5, 1005);
+
+            pInput->stringMap.put("a", "TEXT_a");
+            pInput->stringMap.put("b", "TEXT_b");
+            pInput->stringMap.put("c", "TEXT_c");
+            pInput->stringMap.put("d", "TEXT_d");
+            pInput->stringMap.put("e", "TEXT_e");
+
+            pInput->assignedIntMap = pInput->intMap;
+            pInput->assignedStringMap = pInput->stringMap;
+
+            pInput->clearedIntMap.put(1, 1001);
+            pInput->clearedIntMap.put(2, 1002);
+            pInput->clearedIntMap.put(3, 1003);
+            pInput->clearedIntMap.put(4, 1004);
+            pInput->clearedIntMap.put(5, 1005);
+            pInput->clearedIntMap.clear();
+
+            pInput->clearedStringMap.put("a", "TEXT_a");
+            pInput->clearedStringMap.put("b", "TEXT_b");
+            pInput->clearedStringMap.put("c", "TEXT_c");
+            pInput->clearedStringMap.put("d", "TEXT_d");
+            pInput->clearedStringMap.put("e", "TEXT_e");
+            pInput->clearedStringMap.clear();
         }
 
-        //////////////////////////////////////////////////////////////////////////////////
-
-        static void test_000(const size_t testNum, TestInput &input)
+        std::shared_ptr<unit_test_input_base> create_test_input(const size_t testNum, const std::string &description) override
         {
-            ASSERT_TRUE(input.emptyIntMap.empty());
-            ASSERT_TRUE(input.emptyStringMap.empty());
-            ASSERT_TRUE(input.clearedIntMap.empty());
-            ASSERT_TRUE(input.clearedStringMap.empty());
-
-            ASSERT_FALSE(input.intMap.empty());
-            ASSERT_FALSE(input.stringMap.empty());
+            return std::make_shared<unit_test_input_one_to_one_map>();
         }
 
-        static void test_001(const size_t testNum, TestInput &input)
+        void create_tests() override
         {
-            ASSERT_TRUE(input.emptyIntMap.size() == 0);
-            ASSERT_TRUE(input.emptyStringMap.size() == 0);
-            ASSERT_TRUE(input.clearedIntMap.size() == 0);
-            ASSERT_TRUE(input.clearedStringMap.size() == 0);
+            add_test("empty", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
 
-            ASSERT_TRUE(input.intMap.size() == 10);
-            ASSERT_TRUE(input.stringMap.size() == 10);
+                ASSERT_EMPTY(pInput->emptyIntMap);
+                ASSERT_EMPTY(pInput->emptyStringMap);
+                ASSERT_EMPTY(pInput->clearedIntMap);
+                ASSERT_EMPTY(pInput->clearedStringMap);
+
+                ASSERT_NOT_EMPTY(pInput->intMap);
+                ASSERT_NOT_EMPTY(pInput->stringMap);
+            });
+
+            add_test("size", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                ASSERT_TRUE(pInput->emptyIntMap.size() == 0);
+                ASSERT_TRUE(pInput->emptyStringMap.size() == 0);
+                ASSERT_TRUE(pInput->clearedIntMap.size() == 0);
+                ASSERT_TRUE(pInput->clearedStringMap.size() == 0);
+
+                ASSERT_TRUE(pInput->intMap.size() == 10);
+                ASSERT_TRUE(pInput->stringMap.size() == 10);
+            });
+
+            add_test("erase", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                ASSERT_TRUE(pInput->intMap.size() == 10);
+                ASSERT_TRUE(pInput->stringMap.size() == 10);
+
+                pInput->intMap.erase(999); // doesn't exist
+                ASSERT_TRUE(pInput->intMap.size() == 10);
+
+                pInput->intMap.erase(2);
+                ASSERT_NOT_EMPTY(pInput->intMap);
+                ASSERT_TRUE(pInput->intMap.size() == 8);
+
+                pInput->stringMap.erase("doesn't exist");
+                ASSERT_TRUE(pInput->stringMap.size() == 10);
+
+                pInput->stringMap.erase("a");
+                ASSERT_NOT_EMPTY(pInput->stringMap);
+                ASSERT_TRUE(pInput->stringMap.size() == 8);
+            });
+
+            add_test("exception throwing", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                ASSERT_THROWS<std::out_of_range>([&pInput]() { pInput->intMap.at(999); });
+                ASSERT_THROWS<std::out_of_range>([&pInput]() { pInput->stringMap.at("nonexist"); });
+
+                ASSERT_NO_THROW([&pInput]() { pInput->intMap.at(2); });
+                ASSERT_NO_THROW([&pInput]() { pInput->stringMap.at("TEXT_c"); });
+            });
+
+            add_test("value clobbering one to one relationships", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                ASSERT_TRUE(pInput->intMap[1] == 1001);
+                ASSERT_TRUE(pInput->intMap[2] == 1002);
+                ASSERT_TRUE(pInput->intMap[1003] == 3);
+
+                ASSERT_EQUAL(pInput->stringMap["a"], std::string("TEXT_a"));
+                ASSERT_EQUAL(pInput->stringMap["b"], std::string("TEXT_b"));
+                ASSERT_EQUAL(pInput->stringMap["TEXT_c"], std::string("c"));
+            });
+
+            add_test("size after value clobber", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                one_to_one_map<int> m;
+                ASSERT_TRUE(m.size() == 0);
+                m.put(1, 1001);
+                ASSERT_TRUE(m.size() == 2);
+                m.put(1, 100001);
+                ASSERT_TRUE(m.size() == 2);
+            });
+
+            add_test("size after more clobbering and removal via value clobber", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                one_to_one_map<int> m;
+                ASSERT_TRUE(m.size() == 0);
+                m.put(1, 1001);
+                ASSERT_TRUE(m.size() == 2);
+                m.put(2, 1001);
+                ASSERT_TRUE(m.size() == 2);
+                m.put(1001, 6);
+                ASSERT_TRUE(m.size() == 2);
+                m.put(6, 7);
+                ASSERT_TRUE(m.size() == 2);
+                m.put(6, 9);
+                ASSERT_TRUE(m.size() == 2);
+                m.put(9, 9);
+                ASSERT_TRUE(m.size() == 1);
+                m.put(9, 0);
+                ASSERT_TRUE(m.size() == 2);
+            });
+
+            add_test("iterators", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                ASSERT_EQUAL(pInput->emptyIntMap.begin(), pInput->emptyIntMap.end());
+                ASSERT_EQUAL(pInput->emptyIntMap.rbegin(), pInput->emptyIntMap.rend());
+                ASSERT_EQUAL(pInput->emptyIntMap.cbegin(), pInput->emptyIntMap.cend());
+                ASSERT_EQUAL(pInput->emptyIntMap.crbegin(), pInput->emptyIntMap.crend());
+
+                ASSERT_NOT_EQUAL(pInput->intMap.begin(), pInput->intMap.end());
+                ASSERT_NOT_EQUAL(pInput->intMap.rbegin(), pInput->intMap.rend());
+                ASSERT_NOT_EQUAL(pInput->intMap.cbegin(), pInput->intMap.cend());
+                ASSERT_NOT_EQUAL(pInput->intMap.crbegin(), pInput->intMap.crend());
+
+                size_t count = 0;
+                for (auto iter = pInput->intMap.begin(); iter != pInput->intMap.end();
+                     ++iter, ++count)
+                    ;
+                ASSERT_TRUE(count == 10);
+
+                count = 0;
+                for (auto iter = pInput->intMap.rbegin(); iter != pInput->intMap.rend();
+                     ++iter, ++count)
+                    ;
+                ASSERT_TRUE(count == 10);
+
+                count = 0;
+                for (auto iter = pInput->intMap.cbegin(); iter != pInput->intMap.cend();
+                     ++iter, ++count)
+                    ;
+                ASSERT_TRUE(count == 10);
+
+                count = 0;
+                for (auto iter = pInput->intMap.crbegin(); iter != pInput->intMap.crend();
+                     ++iter, ++count)
+                    ;
+                ASSERT_TRUE(count == 10);
+            });
+
+            add_test("equals and not equals operators", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                ASSERT_TRUE(pInput->intMap == pInput->intMap);
+                ASSERT_TRUE(pInput->intMap == pInput->assignedIntMap);
+                ASSERT_TRUE(pInput->intMap != pInput->emptyIntMap);
+
+                ASSERT_TRUE(pInput->stringMap == pInput->stringMap);
+                ASSERT_TRUE(pInput->stringMap == pInput->assignedStringMap);
+                ASSERT_TRUE(pInput->stringMap != pInput->emptyStringMap);
+            });
+
+            add_test("swap", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                pInput->emptyIntMap.swap(pInput->intMap);
+
+                ASSERT_TRUE(pInput->intMap.empty());
+                ASSERT_TRUE(pInput->emptyIntMap.size() == 10);
+            });
+
+            add_test("count", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                ASSERT_TRUE(pInput->intMap.count(999) == 0);
+                ASSERT_TRUE(pInput->intMap.count(1) == 1);
+                ASSERT_TRUE(pInput->intMap.count(1001) == 1);
+
+                ASSERT_TRUE(pInput->stringMap.count("nonexist") == 0);
+                ASSERT_TRUE(pInput->stringMap.count("b") == 1);
+                ASSERT_TRUE(pInput->stringMap.count("TEXT_b") == 1);
+            });
+
+            add_test("find", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                auto itera = pInput->intMap.find(000);
+                ASSERT_TRUE(itera == pInput->intMap.end());
+
+                auto iterb = pInput->intMap.find(2);
+                ASSERT_FALSE(iterb == pInput->intMap.end());
+                ASSERT_TRUE(iterb->second == 1002);
+            });
+
+            add_test("contains", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_one_to_one_map>(input);
+
+                ASSERT_FALSE(pInput->intMap.contains(999));
+                ASSERT_TRUE(pInput->intMap.contains(4));
+            });
         }
+    };
 
-        static void test_002(const size_t testNum, TestInput &input)
-        {
-            ASSERT_TRUE(input.intMap.size() == 10);
-            ASSERT_TRUE(input.stringMap.size() == 10);
-
-            input.intMap.erase(999); // doesn't exist
-            ASSERT_TRUE(input.intMap.size() == 10);
-
-            input.intMap.erase(2);
-            ASSERT_FALSE(input.intMap.empty());
-            ASSERT_TRUE(input.intMap.size() == 8);
-
-            input.stringMap.erase("doesn't exist");
-            ASSERT_TRUE(input.stringMap.size() == 10);
-
-            input.stringMap.erase("a");
-            ASSERT_FALSE(input.stringMap.empty());
-            ASSERT_TRUE(input.stringMap.size() == 8);
-        }
-
-        static void test_003(const size_t testNum, TestInput &input)
-        {
-            ASSERT_THROWS_OUT_OF_RANGE([&input]() { input.intMap.at(999); });
-            ASSERT_THROWS_OUT_OF_RANGE([&input]() { input.stringMap.at("nonexist"); });
-
-            ASSERT_NO_THROW([&input]() { input.intMap.at(2); });
-            ASSERT_NO_THROW([&input]() { input.stringMap.at("TEXT_c"); });
-        }
-
-        static void test_004(const size_t testNum, TestInput &input)
-        {
-            ASSERT_TRUE(input.intMap[1] == 1001);
-            ASSERT_TRUE(input.intMap[2] == 1002);
-            ASSERT_TRUE(input.intMap[1003] == 3);
-
-            ASSERT_TRUE(input.stringMap["a"] == std::string("TEXT_a"));
-            ASSERT_TRUE(input.stringMap["b"] == std::string("TEXT_b"));
-            ASSERT_TRUE(input.stringMap["TEXT_c"] == std::string("c"));
-        }
-
-        static void test_005(const size_t testNum, TestInput &input)
-        {
-            one_to_one_map<int> m;
-            ASSERT_TRUE(m.size() == 0);
-            m.put(1, 1001);
-            ASSERT_TRUE(m.size() == 2);
-            m.put(1, 100001);
-            ASSERT_TRUE(m.size() == 2);
-        }
-
-        static void test_006(const size_t testNum, TestInput &input)
-        {
-            one_to_one_map<int> m;
-            ASSERT_TRUE(m.size() == 0);
-            m.put(1, 1001);
-            ASSERT_TRUE(m.size() == 2);
-            m.put(2, 1001);
-            ASSERT_TRUE(m.size() == 2);
-            m.put(1001, 6);
-            ASSERT_TRUE(m.size() == 2);
-            m.put(6, 7);
-            ASSERT_TRUE(m.size() == 2);
-            m.put(6, 9);
-            ASSERT_TRUE(m.size() == 2);
-            m.put(9, 9);
-            ASSERT_TRUE(m.size() == 1);
-            m.put(9, 0);
-            ASSERT_TRUE(m.size() == 2);
-        }
-
-        static void test_007(const size_t testNum, TestInput &input)
-        {
-            ASSERT_TRUE(input.emptyIntMap.begin() == input.emptyIntMap.end(),
-                        "iterators a");
-            ASSERT_TRUE(input.emptyIntMap.rbegin() == input.emptyIntMap.rend(),
-                        "iterators b");
-            ASSERT_TRUE(input.emptyIntMap.cbegin() == input.emptyIntMap.cend(),
-                        "iterators c");
-            ASSERT_TRUE(input.emptyIntMap.crbegin() == input.emptyIntMap.crend(),
-                        "iterators d");
-
-            ASSERT_FALSE(input.intMap.begin() == input.intMap.end(), "iterators i");
-            ASSERT_FALSE(input.intMap.rbegin() == input.intMap.rend(), "iterators j");
-            ASSERT_FALSE(input.intMap.cbegin() == input.intMap.cend(), "iterators k");
-            ASSERT_FALSE(input.intMap.crbegin() == input.intMap.crend(), "iterators l");
-
-            size_t count = 0;
-            for (auto iter = input.intMap.begin(); iter != input.intMap.end();
-                 ++iter, ++count)
-                ;
-            ASSERT_TRUE(count == 10, "iterators q");
-
-            count = 0;
-            for (auto iter = input.intMap.rbegin(); iter != input.intMap.rend();
-                 ++iter, ++count)
-                ;
-            ASSERT_TRUE(count == 10, "iterators r");
-
-            count = 0;
-            for (auto iter = input.intMap.cbegin(); iter != input.intMap.cend();
-                 ++iter, ++count)
-                ;
-            ASSERT_TRUE(count == 10, "iterators s");
-
-            count = 0;
-            for (auto iter = input.intMap.crbegin(); iter != input.intMap.crend();
-                 ++iter, ++count)
-                ;
-            ASSERT_TRUE(count == 10, "iterators t");
-        }
-
-        static void test_008(const size_t testNum, TestInput &input)
-        {
-            ASSERT_TRUE(input.intMap == input.intMap);
-            ASSERT_TRUE(input.intMap == input.assignedIntMap);
-            ASSERT_TRUE(input.intMap != input.emptyIntMap);
-
-            ASSERT_TRUE(input.stringMap == input.stringMap);
-            ASSERT_TRUE(input.stringMap == input.assignedStringMap);
-            ASSERT_TRUE(input.stringMap != input.emptyStringMap);
-        }
-
-        static void test_009(const size_t testNum, TestInput &input)
-        {
-            input.emptyIntMap.swap(input.intMap);
-
-            ASSERT_TRUE(input.intMap.empty());
-            ASSERT_TRUE(input.emptyIntMap.size() == 10);
-        }
-
-        static void test_010(const size_t testNum, TestInput &input)
-        {
-            ASSERT_TRUE(input.intMap.count(999) == 0);
-            ASSERT_TRUE(input.intMap.count(1) == 1);
-            ASSERT_TRUE(input.intMap.count(1001) == 1);
-
-            ASSERT_TRUE(input.stringMap.count("nonexist") == 0);
-            ASSERT_TRUE(input.stringMap.count("b") == 1);
-            ASSERT_TRUE(input.stringMap.count("TEXT_b") == 1);
-        }
-
-        static void test_011(const size_t testNum, TestInput &input)
-        {
-            auto itera = input.intMap.find(000);
-            ASSERT_TRUE(itera == input.intMap.end());
-
-            auto iterb = input.intMap.find(2);
-            ASSERT_FALSE(iterb == input.intMap.end());
-            ASSERT_TRUE(iterb->second == 1002);
-        }
-
-        static void test_012(const size_t testNum, TestInput &input)
-        {
-            // contains
-
-            ASSERT_FALSE(input.intMap.contains(999));
-            ASSERT_TRUE(input.intMap.contains(4));
-        }
-
-        static void run_tests()
-        {
-            // vector to hold functions to unit tests
-            std::vector<std::function<void(const size_t, TestInput &)>> test_vec;
-
-            // add all unit tests to the vector
-            test_vec.emplace_back(test_000);
-            test_vec.emplace_back(test_001);
-            test_vec.emplace_back(test_002);
-            test_vec.emplace_back(test_003);
-            test_vec.emplace_back(test_004);
-            test_vec.emplace_back(test_005);
-            test_vec.emplace_back(test_006);
-            test_vec.emplace_back(test_007);
-            test_vec.emplace_back(test_008);
-            test_vec.emplace_back(test_009);
-            test_vec.emplace_back(test_010);
-            test_vec.emplace_back(test_011);
-            test_vec.emplace_back(test_012);
-
-            // run each unit test
-            for (size_t i = 0; i < test_vec.size(); ++i)
-            {
-                TestInput input;
-                setup(i, input);
-                test_vec[i](i, input);
-                teardown(i, input);
-            }
-        }
-    } // namespace test_one_to_one_map
 } // namespace rda
 
 POP_WARN_DISABLE
