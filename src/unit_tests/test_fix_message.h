@@ -6,7 +6,6 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
-#include <chrono>
 #include <cstring>
 #include <functional>
 #include <iostream>
@@ -17,12 +16,12 @@
 #include "unit_test_base.h"
 
 #include "../platform_defs.h"
+
 #include "../fix_message.h"
 
 PUSH_WARN_DISABLE
 WARN_DISABLE(4100, "-Wunused-parameter")
-WARN_DISABLE_MS(4996)
-WARN_DISABLE_MS(6262)
+WARN_DISABLE_MS(6262) // large stack usage
 
 namespace rda
 {
