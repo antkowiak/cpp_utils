@@ -31,7 +31,7 @@ int main()
     rda::test_one_to_one_map().run_tests();
     rda::test_statemachine().run_tests();
     rda::test_toolean().run_tests();
-    //rda::test_xml::run_tests();
+    rda::test_xml().run_tests();
     //rda::test_ymd::run_tests();
 
     return EXIT_SUCCESS;

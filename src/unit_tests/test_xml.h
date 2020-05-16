@@ -11,9 +11,10 @@
 #include <string>
 #include <vector>
 
-#include "unit_test_utils.h"
+#include "unit_test_base.h"
 
 #include "../platform_defs.h"
+
 #include "../xml.h"
 
 PUSH_WARN_DISABLE
@@ -21,15 +22,10 @@ WARN_DISABLE(4100, "-Wunused-parameter")
 
 namespace rda
 {
-    namespace test_xml
+    class test_xml : public unit_test_base
     {
-        using unit_test_utils::ASSERT_FALSE;
-        using unit_test_utils::ASSERT_NO_THROW;
-        using unit_test_utils::ASSERT_THROWS;
-        using unit_test_utils::ASSERT_THROWS_OUT_OF_RANGE;
-        using unit_test_utils::ASSERT_TRUE;
-
-        struct TestInput
+    protected:
+        struct unit_test_input_xml : public unit_test_input_base
         {
             const char *s1 = R"(
 <?xml version="1.0" encoding="UTF-8"?>
@@ -106,45 +102,43 @@ namespace rda
 )";
         };
 
-        static void setup(const size_t testNum, TestInput &input)
+        std::string get_test_module_name() const override
         {
-            std::cout << "Running xml test: " << testNum << std::endl;
+            return "test_xml";
         }
 
-        static void teardown(const size_t testNum, TestInput &input)
+        std::shared_ptr<unit_test_input_base> create_test_input(const size_t testNum, const std::string &description) override
         {
+            return std::make_shared<unit_test_input_xml>();
         }
 
-        //////////////////////////////////////////////////////////////////////////////////
-
-        static void test_000(const size_t testNum, TestInput &input)
+        void create_tests() override
         {
-            {
-                auto doc = xml::document(input.s1);
-                std::cout << doc;
-            }
-        }
+            add_test("parse 1", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_xml>(input);
 
-        static void test_001(const size_t testNum, TestInput &input)
-        {
-            {
-                auto doc = xml::document(input.s2);
-                std::cout << doc;
-            }
-        }
+                auto doc = xml::document(pInput->s1);
+                // std::cout << doc;
+            });
 
-        static void test_002(const size_t testNum, TestInput &input)
-        {
-            {
-                auto doc = xml::document(input.s3);
-                std::cout << doc;
-            }
-        }
+            add_test("parse 2", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_xml>(input);
 
-        static void test_003(const size_t testNum, TestInput &input)
-        {
-            {
-                auto doc = xml::document(input.s1);
+                auto doc = xml::document(pInput->s2);
+                // std::cout << doc;
+            });
+
+            add_test("parse 3", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_xml>(input);
+
+                auto doc = xml::document(pInput->s3);
+                // std::cout << doc;
+            });
+
+            add_test("header 1", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_xml>(input);
+
+                auto doc = xml::document(pInput->s1);
                 ASSERT_TRUE(doc.get_header()->get_name() == "xml");
 
                 ASSERT_TRUE(algorithm_rda::contains(
@@ -153,13 +147,12 @@ namespace rda
                 ASSERT_TRUE(algorithm_rda::contains(
                     doc.get_header()->get_attributes(),
                     std::make_pair<std::string, std::string>("encoding", "UTF-8")));
-            }
-        }
+            });
 
-        static void test_004(const size_t testNum, TestInput &input)
-        {
-            {
-                auto doc = xml::document(input.s2);
+            add_test("header 2", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_xml>(input);
+
+                auto doc = xml::document(pInput->s2);
                 ASSERT_TRUE(doc.get_header()->get_name() == "xml");
 
                 ASSERT_TRUE(algorithm_rda::contains(
@@ -168,24 +161,22 @@ namespace rda
                 ASSERT_TRUE(algorithm_rda::contains(
                     doc.get_header()->get_attributes(),
                     std::make_pair<std::string, std::string>("encoding", "UTF-8")));
-            }
-        }
+            });
 
-        static void test_005(const size_t testNum, TestInput &input)
-        {
-            {
-                auto doc = xml::document(input.s3);
+            add_test("empty header", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_xml>(input);
+
+                auto doc = xml::document(pInput->s3);
 
                 ASSERT_TRUE(doc.get_header()->get_name() == "");
 
                 ASSERT_TRUE(doc.get_header()->get_attributes().empty());
-            }
-        }
+            });
 
-        static void test_006(const size_t testNum, TestInput &input)
-        {
-            {
-                auto doc = xml::document(input.s1);
+            add_test("get children by name", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_xml>(input);
+
+                auto doc = xml::document(pInput->s1);
 
                 auto children = doc.get_children_by_name("");
                 ASSERT_TRUE(children.empty());
@@ -208,72 +199,44 @@ namespace rda
                 auto body = children[0]->get_children_by_name("body");
                 ASSERT_TRUE(body.size() == 1);
                 ASSERT_TRUE(body[0]->get_data() == "Dont forget me this weekend!");
-            }
-        }
+            });
 
-        static void test_007(const size_t testNum, TestInput &input)
-        {
-            {
-                auto doc = xml::document(input.s2);
+            add_test("find nodes by path", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_xml>(input);
+
+                auto doc = xml::document(pInput->s2);
 
                 std::vector<std::shared_ptr<xml::node>> nodes;
                 doc.find_nodes_by_path("breakfast_menu/food", nodes);
 
                 ASSERT_TRUE(nodes.size() == 5);
-            }
-        }
+            });
 
-        static void test_008(const size_t testNum, TestInput &input)
-        {
-            {
-                auto doc = xml::document(input.s2);
+            add_test("find nodes by name", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_xml>(input);
+
+                auto doc = xml::document(pInput->s2);
 
                 std::vector<std::pair<std::string, std::shared_ptr<xml::node>>> nodes;
                 doc.find_nodes_by_name("calories", nodes);
 
                 ASSERT_TRUE(nodes.size() == 5);
-            }
-        }
+            });
 
-        static void test_009(const size_t testNum, TestInput &input)
-        {
-            {
-                auto doc = xml::document(input.s2);
+            add_test("find nodes by data", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_xml>(input);
+
+                auto doc = xml::document(pInput->s2);
 
                 std::vector<std::pair<std::string, std::shared_ptr<xml::node>>> nodes;
                 doc.find_nodes_by_data("900", nodes);
 
                 ASSERT_TRUE(nodes.size() == 2);
-            }
+            });
         }
 
-        static void run_tests()
-        {
-            // vector to hold functions to unit tests
-            std::vector<std::function<void(const size_t, TestInput &)>> test_vec;
+    }; // class test_xml
 
-            // add all unit tests to the vector
-            test_vec.emplace_back(test_000);
-            test_vec.emplace_back(test_001);
-            test_vec.emplace_back(test_002);
-            test_vec.emplace_back(test_003);
-            test_vec.emplace_back(test_004);
-            test_vec.emplace_back(test_005);
-            test_vec.emplace_back(test_006);
-            test_vec.emplace_back(test_007);
-            test_vec.emplace_back(test_008);
-            test_vec.emplace_back(test_009);
-
-            // run each unit test
-            for (size_t i = 0; i < test_vec.size(); ++i)
-            {
-                TestInput input;
-                setup(i, input);
-                test_vec[i](i, input);
-                teardown(i, input);
-            }
-        }
-    } // namespace test_xml
 } // namespace rda
 
 POP_WARN_DISABLE
