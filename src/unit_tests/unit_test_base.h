@@ -43,9 +43,6 @@ namespace rda
             std::string description;
         };
 
-        // the name of the test module that is running
-        std::string module_name;
-
         // number of unit test cases added
         size_t num_tests = 0;
 
@@ -75,16 +72,13 @@ namespace rda
             return unit_test_input_base();
         }
 
+        // pure virtual. derived classes must return a module name for this set of tests
+        virtual std::string get_test_module_name() const = 0;
+
         // pure virtual. derived classes must override to add test cases
         virtual void create_tests() = 0;
 
     public:
-        // constructor
-        unit_test_base(const std::string &name)
-            : module_name(name)
-        {
-        }
-
         // destructor
         virtual ~unit_test_base() = default;
 
@@ -97,7 +91,7 @@ namespace rda
             // iterate over all the test cases
             for (size_t t(0); t < test_vector.size(); ++t)
             {
-                std::cout << "Running test: " << module_name << "[" << t << "] " << test_vector[t].description << std::endl;
+                std::cout << "Running test: " << get_test_module_name() << "[" << t << "] " << test_vector[t].description << std::endl;
 
                 try
                 {
