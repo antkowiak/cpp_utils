@@ -23,7 +23,7 @@
 
 int main()
 {
-    //rda::test_algorithm_rda::run_tests();
+    rda::test_algorithm_rda().run_tests();
     rda::test_bidirectional_map().run_tests();
     rda::test_cmdline_options().run_tests();
     rda::test_fileio().run_tests();
