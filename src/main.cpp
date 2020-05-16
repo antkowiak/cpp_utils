@@ -1,7 +1,6 @@
 
 //
 // main.cpp - Program entry point
-//  overloads.
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -26,7 +25,7 @@ int main()
 {
     //rda::test_algorithm_rda::run_tests();
     rda::test_bidirectional_map().run_tests();
-    //rda::test_cmdline_options::run_tests();
+    rda::test_cmdline_options().run_tests();
     //rda::test_fileio::run_tests();
     rda::test_fix_message().run_tests();
     //rda::test_json::run_tests();
