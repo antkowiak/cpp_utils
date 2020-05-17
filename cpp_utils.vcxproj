@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\algorithm_rda.h" />
+    <ClInclude Include="src\ansi_codes.h" />
     <ClInclude Include="src\arbnumber.h" />
     <ClInclude Include="src\benchmark.h" />
     <ClInclude Include="src\bidirectional_map.h" />

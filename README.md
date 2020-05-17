@@ -3,6 +3,8 @@ Library of useful and reusable CPP utilities and classes
 
 algorithm_rda.h - A collection of some useful algorithms.
 
+ansi_codes.h - Utility for printing ansi escape codes to the console.
+
 arbnumber.h - Utility for using and manipulating arbitrary precision floating point numbers.
 
 benchmark.h - Simple utility to benchmark how long a task takes to complete. Uses object lifetime.

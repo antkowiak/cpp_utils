@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 
+#include "../ansi_codes.h"
 #include "../platform_defs.h"
 
 PUSH_WARN_DISABLE
@@ -93,12 +94,17 @@ namespace rda
         // run all the test cases
         void run_tests()
         {
+            using namespace rda::ansi;
+
             // first, allow the derived class the opportunity to create test cases
             create_tests();
 
             // print heading
             std::cout << std::endl
-                      << "------------ " << get_test_module_name() << " ---------------" << std::endl;
+                      << "------------ "
+                      << Color(ansi_color::BLUE, ansi_color::BLACK, true, false)
+                      << get_test_module_name() << ColorReset()
+                      << " ---------------" << std::endl;
 
             // iterate over all the test cases
             for (size_t t(0); t < test_vector.size(); ++t)
@@ -125,13 +131,20 @@ namespace rda
                 catch (...)
                 {
                     // if an exception was thrown, fail
-                    std::cout << "Unexpected Exception thrown when running test case: " << t << std::endl;
+                    std::cout << Color(ansi_color::RED, ansi_color::BLACK)
+                              << "Unexpected Exception thrown when running test case: " << t
+                              << ColorReset() << std::endl;
                     ABORT();
                 }
             }
 
             // Any test failure will terminate the process, so if we reach here, all tests have succeeded.
-            std::cout << "------------ " << get_test_module_name() << ": All unit tests completed successfully." << std::endl;
+            std::cout << "------------ "
+                      << Color(ansi_color::BLUE, ansi_color::BLACK, true, false)
+                      << get_test_module_name()
+                      << Color(ansi_color::GREEN, ansi_color::BLACK)
+                      << " All unit tests completed successfully."
+                      << ColorReset() << std::endl;
         }
 
     protected:
@@ -147,7 +160,9 @@ namespace rda
         {
             if (!expression)
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_TRUE() Failure." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -158,7 +173,9 @@ namespace rda
         {
             if (expression)
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_FALSE() Failure." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -170,7 +187,9 @@ namespace rda
         {
             if (!c.empty())
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_EMPTY() assertion failed." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -182,7 +201,9 @@ namespace rda
         {
             if (c.empty())
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_NOT_EMPTY() assertion failed." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -197,7 +218,9 @@ namespace rda
             }
             catch (...)
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_NO_THROW() Failure." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -220,7 +243,9 @@ namespace rda
 
             if (!exception_thrown)
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_THROWS() Failure." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -234,7 +259,9 @@ namespace rda
 
             if (!equals)
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_EQUAL() assertion failed." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -248,7 +275,9 @@ namespace rda
 
             if (equals)
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_NOT_EQUAL() assertion failed." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -260,7 +289,9 @@ namespace rda
         {
             if (ptr != nullptr)
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_NULL() assertion failed." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -272,7 +303,9 @@ namespace rda
         {
             if (ptr == nullptr)
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_NOT_NULL() assertion failed." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -283,7 +316,9 @@ namespace rda
         {
             if (std::abs(d1 - d2) > epsilon)
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_FLOAT_EQUALS() Failure." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
@@ -294,7 +329,9 @@ namespace rda
         {
             if (std::abs(d1 - d2) < epsilon)
             {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_FLOAT_NOT_EQUALS() Failure." << std::endl;
+                std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
             ++assert_check_count;
