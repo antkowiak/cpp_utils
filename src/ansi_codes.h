@@ -42,9 +42,6 @@ namespace rda
         // ansi colors
         enum class ansi_color : uint8_t
         {
-            NORMAL = 0,
-            RESET = 0,
-
             BLACK = 0,
             RED = 1,
             GREEN = 2,
