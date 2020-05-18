@@ -158,7 +158,9 @@ namespace rda
                 // increment fieldEnd until the '=' is found, to find the end of the field
                 while (!is_equals(*fieldEnd) && fieldEnd < end)
                     ++fieldEnd;
-                *fieldEnd = EOL;
+
+                if (fieldEnd < end)
+                    *fieldEnd = EOL;
 
                 // pointer for the start of data is immediately after the '='
                 dataStart = fieldEnd + 1;
@@ -169,7 +171,8 @@ namespace rda
                     ++dataEnd;
 
                 // change the delimiter to a "end of line" terminator (for quicker access of string lookups when retrieving fields)
-                *dataEnd = EOL;
+                if (dataEnd < end)
+                    *dataEnd = EOL;
 
                 // conver the field to an integer type
                 auto field = static_cast<size_t>(atoi(fieldStart));
