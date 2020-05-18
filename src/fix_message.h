@@ -156,7 +156,7 @@ namespace rda
                 fieldEnd = fieldStart;
 
                 // increment fieldEnd until the '=' is found, to find the end of the field
-                while (!is_equals(*fieldEnd))
+                while (!is_equals(*fieldEnd) && fieldEnd < end)
                     ++fieldEnd;
                 *fieldEnd = EOL;
 
@@ -165,7 +165,7 @@ namespace rda
                 dataEnd = dataStart;
 
                 // increment the dataEnd until the next FIX delimiter is found
-                while (!is_delim(*dataEnd))
+                while (!is_delim(*dataEnd) && dataEnd < end)
                     ++dataEnd;
 
                 // change the delimiter to a "end of line" terminator (for quicker access of string lookups when retrieving fields)
