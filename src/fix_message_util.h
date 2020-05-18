@@ -70,7 +70,7 @@ namespace rda
             // print out a fix message in long, multi-line, human readable format
             // if a filter is specified (as a space or comma delimited list of tag numbers),
             // then only those tag numbers will be printed
-            void print_fix_message(const fix_message &fm, std::string filter = "") const
+            void print_fix_message(const fix_message &fm, std::string filter = "", const bool print_orig_msg = true) const
             {
                 bool filtered = !filter.empty();
                 std::vector<size_t> filtered_tags;
@@ -97,8 +97,9 @@ namespace rda
                     }
                 }
 
-                // first print the fix message itself
-                std::cout << fm.to_string() << std::endl;
+                // first print the fix message itself, if specified
+                if (print_orig_msg)
+                    std::cout << fm.to_string() << std::endl;
 
                 // iterate over fix fields
                 for (size_t i = 1; i <= fix_message::MAX_FIX_ID; ++i)
