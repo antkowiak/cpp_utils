@@ -26,7 +26,6 @@ namespace rda
     {
         class fix_message_util
         {
-
         private:
             // the parsed json data, containing definitions of fix messages
             std::shared_ptr<rda::json::node_object> fix_data;
