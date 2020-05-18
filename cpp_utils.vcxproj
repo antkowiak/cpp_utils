@@ -152,6 +152,7 @@
     <ClInclude Include="src\csv.h" />
     <ClInclude Include="src\fix_message.h" />
     <ClInclude Include="src\fileio.h" />
+    <ClInclude Include="src\fix_message_util.h" />
     <ClInclude Include="src\json.h" />
     <ClInclude Include="src\lifetime.h" />
     <ClInclude Include="src\one_to_one_map.h" />
@@ -182,6 +183,7 @@
     <None Include=".clang-format" />
     <None Include=".gitignore" />
     <None Include="compile_commands.json" />
+    <None Include="fix_messages_5_0.json" />
     <None Include="Makefile" />
     <None Include="README.md" />
     <None Include="src\.clang-format" />

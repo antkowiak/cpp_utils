@@ -536,6 +536,14 @@ namespace rda
                     input = input.substr(0, input.size() - 1);
             }
 
+            // Replace all character from 'from' to 'to'
+            static void string_replace_all(std::string &input, const char from, const char to)
+            {
+                for (auto &c : input)
+                    if (c == from)
+                        c = to;
+            }
+
             // Convert string to lower-case
             static void to_lower_case(std::string &input)
             {

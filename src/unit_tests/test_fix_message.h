@@ -18,6 +18,7 @@
 #include "../platform_defs.h"
 
 #include "../fix_message.h"
+#include "../fix_message_util.h"
 
 PUSH_WARN_DISABLE
 WARN_DISABLE(4100, "-Wunused-parameter")
@@ -140,6 +141,20 @@ namespace rda
                 ASSERT_FALSE(std::is_nothrow_copy_assignable<fix_message>::value);
                 ASSERT_FALSE(std::is_assignable<fix_message, fix_message>::value);
                 ASSERT_FALSE(std::is_assignable<fix_message &, fix_message>::value);
+            });
+
+            add_test("fix message util - print human readable", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_fix_message>(input);
+
+                fix_message fm1(pInput->str1);
+                fix_message fm2(pInput->str2);
+                fix_message fm3(pInput->str3);
+                fix_message fm4(pInput->str4);
+
+                // rda::fix::fix_message_util::GetInstance().print_fix_message(fm1);
+                // rda::fix::fix_message_util::GetInstance().print_fix_message(fm2);
+                // rda::fix::fix_message_util::GetInstance().print_fix_message(fm3);
+                // rda::fix::fix_message_util::GetInstance().print_fix_message(fm4, "35,54   55  38 ");
             });
         }
 

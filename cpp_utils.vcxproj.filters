@@ -123,6 +123,9 @@
     <ClInclude Include="src\ansi_codes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\fix_message_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -137,6 +140,7 @@
     </None>
     <None Include=".clang-format" />
     <None Include="compile_commands.json" />
+    <None Include="fix_messages_5_0.json" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

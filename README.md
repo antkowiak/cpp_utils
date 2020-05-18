@@ -21,6 +21,8 @@ fileio.h - Utility for reading and writing files.
 
 fix_message.h - Utility for quickly retrieving fields from a FIX message string.
 
+fix_message_util.h - Utility for FIX Messages.
+
 json.h - Light-weight parser for json-like text.
 
 lifetime.h - Utility to benchmark the lifetime of c++ objects in containers.

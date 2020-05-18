@@ -10,19 +10,20 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
-#include <map>
 #include <memory>
+#include <sstream>
 #include <string>
-#include <vector>
+#include <utility>
 
 namespace rda
 {
     class fix_message
     {
-    private:
+    public:
         // maximum FIX field id number
-        const static size_t MAX_FIX_ID = 957;
+        constexpr static const size_t MAX_FIX_ID = 1139;
 
+    private:
         // buffer size to hold content of a fix message
         const size_t MAX_FIX_BUFFER = 255;
 
@@ -37,7 +38,7 @@ namespace rda
         char *buffer = nullptr;
 
         // array to index fields of the fix message
-        std::array<const char *, MAX_FIX_ID> data{nullptr};
+        std::array<const char *, MAX_FIX_ID + 1> data{nullptr};
 
     public:
         // no default constructor
@@ -75,6 +76,30 @@ namespace rda
             if (field > 0 && field <= MAX_FIX_ID)
                 return data[field];
             return nullptr;
+        }
+
+        // return string representation of this fix message. caution: not for use in production.
+        // this is very slow.
+        std::string to_string() const
+        {
+            // vector to hold tags and pointers to values
+            std::vector<std::pair<size_t, const char *>> char_ptrs;
+
+            // add all tags and values to the vector
+            for (size_t i = 1; i <= MAX_FIX_ID; ++i)
+                if (data[i] != nullptr)
+                    char_ptrs.emplace_back(std::pair<size_t, const char *>(i, data[i]));
+
+            // sort based on the pointers (to retain original order of the tags)
+            std::sort(char_ptrs.begin(), char_ptrs.end(), [](auto &e1, auto &e2) { return e1.second < e2.second; });
+
+            std::stringstream ss;
+
+            // for each of the tags, build up a fix message string
+            for (auto e : char_ptrs)
+                ss << std::to_string(e.first) << "=" << std::string(e.second) << "|";
+
+            return ss.str();
         }
 
     private:
@@ -159,4 +184,5 @@ namespace rda
             }
         }
     }; // class fix_message
+
 } // namespace rda
