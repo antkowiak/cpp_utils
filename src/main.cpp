@@ -19,6 +19,7 @@
 #include "unit_tests/test_one_to_one_map.h"
 #include "unit_tests/test_statemachine.h"
 #include "unit_tests/test_toolean.h"
+#include "unit_tests/test_utility_rda.h"
 #include "unit_tests/test_xml.h"
 #include "unit_tests/test_ymd.h"
 
@@ -35,6 +36,7 @@ int main()
     rda::test_one_to_one_map().run_tests();
     rda::test_statemachine().run_tests();
     rda::test_toolean().run_tests();
+    rda::test_utility_rda().run_tests();
     rda::test_xml().run_tests();
     rda::test_ymd().run_tests();
 
