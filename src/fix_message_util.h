@@ -12,8 +12,8 @@
 #include <string>
 
 #include "algorithm_rda.h"
+#include "fix_db.h"
 #include "fix_message.h"
-#include "fileio.h"
 #include "json.h"
 #include "platform_defs.h"
 
@@ -33,9 +33,7 @@ namespace rda
             // private constructor
             fix_message_util()
             {
-                rda::fileio f("fix_messages_5_0.json");
-                f.read();
-                fix_data = rda::json::parse(f.to_string());
+                fix_data = rda::json::parse(rda::fix_db::get());
             }
 
         public:

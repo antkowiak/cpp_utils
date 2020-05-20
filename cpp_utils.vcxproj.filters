@@ -16,6 +16,9 @@
     <Filter Include="Header Files\unit_tests">
       <UniqueIdentifier>{2c9669cd-5f2c-4341-aa38-9f2661f2382d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{57f6030a-3bec-4015-ad44-a6ad2618cd4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\unit_tests\test_algorithm_rda.h">
@@ -132,6 +135,9 @@
     <ClInclude Include="src\unit_tests\test_utility_rda.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
+    <ClInclude Include="src\fix_db.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -147,6 +153,9 @@
     <None Include=".clang-format" />
     <None Include="compile_commands.json" />
     <None Include="fix_messages_5_0.json" />
+    <None Include="scripts\generate_fix_db.sh">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

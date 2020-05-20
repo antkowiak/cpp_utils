@@ -1,8 +1,7 @@
 #pragma once
 
 //
-// fix_message.h - Utility for quickly retrieving fields from a FIX message
-//  string.
+// fix_message.h - Utility for quickly retrieving fields from a FIX message string.
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -10,6 +9,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <cstring>
 #include <memory>
 #include <sstream>
 #include <string>

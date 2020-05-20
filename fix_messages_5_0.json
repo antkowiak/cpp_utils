@@ -2197,6 +2197,132 @@
       "3": "Expected entry",
       "4": "Entry from previous business day",
       "5": "Theoretical Price value"
+    },
+    "291": {
+      "1": "Bankrupt",
+      "2": "Pending delisting",
+      "3": "Restricted"
+    },
+    "292": {
+      "A": "Ex-Dividend",
+      "B": "Ex-Distribution",
+      "C": "Ex-Rights",
+      "D": "New",
+      "E": "Ex-Interest",
+      "F": "Cash Dividend",
+      "G": "Stock Dividend",
+      "H": "Non-Integer Stock Split",
+      "I": "Reverse Stock Split",
+      "J": "Standard-Integer Stock Split",
+      "K": "Position Consolidation",
+      "L": "Liquidation Reorganization",
+      "M": "Merger Reorganization",
+      "N": "Rights Offering",
+      "O": "Shareholder Meeting",
+      "P": "Spinoff",
+      "Q": "Tender Offer",
+      "R": "Warrant",
+      "S": "Special Action",
+      "T": "Symbol Conversion",
+      "U": "CUSIP / Name Change",
+      "V": "Leap Rollover"
+    },
+    "297": {
+      "0": "Accepted",
+      "1": "Cancel for Symbol(s)",
+      "10": "Pending",
+      "11": "Pass",
+      "12": "Locked Market Warning",
+      "13": "Cross Market Warning",
+      "14": "Canceled Due To Lock Market",
+      "15": "Canceled Due To Cross Market",
+      "2": "Canceled for Security Type(s)",
+      "3": "Canceled for Underlying",
+      "4": "Canceled All",
+      "5": "Rejected",
+      "6": "Removed from Market",
+      "7": "Expired",
+      "8": "Query",
+      "9": "Quote Not Found"
+    },
+    "298": {
+      "1": "Cancel for Symbol(s)",
+      "2": "Cancel for Security Type(s)",
+      "3": "Cancel for Underlying Symbol",
+      "4": "Cancel All Quotes",
+      "5": "Cancel quote specified in QuoteID"
+    },
+    "300": {
+      "1": "Unknown Symbol (security)",
+      "2": "Exchange (Security) closed",
+      "3": "Quote <S> exceeds limit",
+      "4": "Too late to enter",
+      "5": "Unknown Quote <S>",
+      "6": "Duplicate Quote <S>",
+      "7": "Invalid bid/ask spread",
+      "8": "Invalid price",
+      "9": "Not authorized to quote security",
+      "99": "Other"
+    },
+    "301": {
+      "0": "No Acknowledgement (default)",
+      "1": "Acknowledge only negative or erroneous quotes",
+      "2": "Acknowledge each quote messages"
+    },
+    "303": {
+      "1": "Manual",
+      "2": "Automatic"
+    },
+    "321": {
+      "0": "Request Security identity and specifications",
+      "1": "Request Security identity for the specifications provided (name of the security is not supplied)",
+      "2": "Request List Security Types",
+      "3": "Request List Securities (can be qualified with Symbol, SecurityType, TradingSessionID, SecurityExchange. If provided then only list Securities for the specific type.)"
+    },
+    "323": {
+      "1": "Accept security proposal as-is",
+      "2": "Accept security proposal with revisions as indicated in the message",
+      "3": "List of security types returned per request",
+      "4": "List of securities returned per request",
+      "5": "Reject security proposal",
+      "6": "Cannot match selection criteria"
+    },
+    "325": {
+      "N": "Message is being sent as a result of a prior request",
+      "Y": "Message is being secnt unsolicited"
+    },
+    "326": {
+      "1": "Opening delay",
+      "10": "Market on Close Imbalance Sell",
+      "11": "(not assigned)",
+      "12": "No Market Imbalance",
+      "13": "No Market on Close Imbalance",
+      "14": "ITS Pre-opening",
+      "15": "New Price Indication",
+      "16": "Trade Dissemination Time",
+      "17": "Ready to trade (start of session)",
+      "18": "Not available for trading (end of session)",
+      "19": "Not traded on this market",
+      "2": "Trading halt",
+      "20": "Unknown or Invalid",
+      "21": "Pre-open",
+      "22": "Opening Rotation",
+      "23": "Fast Market",
+      "3": "Resume",
+      "4": "No Open / No Resume",
+      "5": "Price indication",
+      "6": "Trading Range Indication",
+      "7": "Market Imbalance Buy",
+      "8": "Market Imbalance Sell",
+      "9": "Market on Close Imbalance Buy"
+    },
+    "327": {
+      "D": "News Dissemination",
+      "E": "Order Influx",
+      "I": "Order Imbalance",
+      "M": "Additional Information",
+      "P": "New Pending",
+      "X": "Equipment Changeover"
     }
   }
 }

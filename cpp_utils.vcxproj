@@ -150,6 +150,7 @@
     <ClInclude Include="src\cmdline_options.h" />
     <ClInclude Include="src\comparable.h" />
     <ClInclude Include="src\csv.h" />
+    <ClInclude Include="src\fix_db.h" />
     <ClInclude Include="src\fix_message.h" />
     <ClInclude Include="src\fileio.h" />
     <ClInclude Include="src\fix_message_util.h" />
@@ -188,6 +189,7 @@
     <None Include="fix_messages_5_0.json" />
     <None Include="Makefile" />
     <None Include="README.md" />
+    <None Include="scripts\generate_fix_db.sh" />
     <None Include="src\.clang-format" />
     <None Include="src\unit_tests\.clang-format" />
     <None Include="TODO.md" />
