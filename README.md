@@ -35,6 +35,8 @@ platform_defs_posix.h - Useful platform-dependent macros and utilities for POSIX
 
 platform_defs_windows.h - Useful platform-dependent macros and utilities for Windows.
 
+regex_builder.h - Utility to build regular expressions.
+
 statemachine.h - Utility to create a simple state machine. Functions can be called on transitions and when states are entered.
 
 table.h - Utility to represent and access data elements in a table/matrix format.
