@@ -133,7 +133,6 @@ namespace rda
                     std::string regex_str;
                     regex_str = rda::regex::append(regex_str, rda::regex::ANYTHING, false);
                     regex_str = rda::regex::append(regex_str, "abc", true);
-                    //regex_str = rda::regex::append_optional(regex_str, rda::regex::ANYTHING, false); // GNU compiler doesn't handle this properly. VC and CLANG work fine
                     regex_str = rda::regex::append_optional(regex_str, "def", true);
                     regex_str = rda::regex::append_optional(regex_str, rda::regex::ANYTHING, false);
                     regex_str = rda::regex::append(regex_str, "jkl", true);
@@ -147,7 +146,6 @@ namespace rda
                     ASSERT_TRUE(sm[2] == "def");
                     ASSERT_TRUE(sm[3] == "jkl");
                 }
-
 
                 });
 
