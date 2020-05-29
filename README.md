@@ -39,6 +39,8 @@ regex_builder.h - Utility to build regular expressions.
 
 statemachine.h - Utility to create a simple state machine. Functions can be called on transitions and when states are entered.
 
+sync_rda.h - A collection of some useful utils for synchronization.
+
 table.h - Utility to represent and access data elements in a table/matrix format.
 
 toolean.h - Utility for a "trinary" boolean that can hold three states: true, false, other.  (Kind of a joke.)

@@ -144,6 +144,12 @@
     <ClInclude Include="src\unit_tests\test_regex_builder.h">
       <Filter>Header Files\unit_tests</Filter>
     </ClInclude>
+    <ClInclude Include="src\sync_rda.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unit_tests\test_sync_rda.h">
+      <Filter>Header Files\unit_tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
