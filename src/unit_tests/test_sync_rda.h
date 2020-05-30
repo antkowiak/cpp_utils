@@ -6,6 +6,7 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
+#include <array>
 #include <cstdlib>
 #include <exception>
 #include <functional>
@@ -23,6 +24,7 @@
 
 PUSH_WARN_DISABLE
 WARN_DISABLE(4100, "-Wunused-parameter")
+WARN_DISABLE_MS(6262) // stack size exceeds
 
 namespace rda
 {
@@ -286,6 +288,27 @@ namespace rda
                 std::vector<size_t> compare_vec(100000 - 6);
                 std::iota(compare_vec.begin(), compare_vec.end(), 6);
                 ASSERT_EQUAL(my_vec, compare_vec);
+                });
+
+            add_test("divide_work_over_range 0 100000 4 array with no mutex", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_sync_rda>(input);
+
+                std::array<size_t, 100000> my_arr;
+
+                rda::sync::divide_work_over_range(0, 100000, 4, [&my_arr](const size_t start, const size_t end)
+                    {
+                        for (size_t i = start; i < end; ++i)
+                        {
+                            my_arr[i] = i;
+                        }
+                    }
+                );
+
+                std::vector<size_t> compare_arr(100000);
+                std::iota(compare_arr.begin(), compare_arr.end(), 0);
+
+                for (size_t i = 0; i < 100000; ++i)
+                    ASSERT_EQUAL(my_arr[i], compare_arr[i]);
                 });
 
         }
