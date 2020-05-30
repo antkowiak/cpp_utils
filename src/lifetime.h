@@ -65,6 +65,13 @@ namespace rda
             std::cout << generate_string("COPY_CONSTRUCT", *this, &rhs) << std::endl;
         }
 
+        lifetime(const lifetime&& rhs) noexcept
+        {
+            name = rhs.name;
+            id = ++counter;
+            std::cout << generate_string("MOVE_CONSTRUCT", *this, &rhs) << std::endl;
+        }
+
         ~lifetime()
         {
             std::cout << generate_string("DESTRUCT", *this) << std::endl;
