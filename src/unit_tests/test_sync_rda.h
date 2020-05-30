@@ -85,10 +85,10 @@ namespace rda
                     }
                 );
 
-                std::sort(my_vec.begin(), my_vec.end());
                 std::vector<size_t> compare_vec(100000);
                 std::iota(compare_vec.begin(), compare_vec.end(), 0);
-                ASSERT_EQUAL(my_vec, compare_vec);
+
+                ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(my_vec, compare_vec);
                 });
 
             add_test("divide_work_over_range 0 100000 3", [](std::shared_ptr<unit_test_input_base> input) {
@@ -107,10 +107,10 @@ namespace rda
                     }
                 );
 
-                std::sort(my_vec.begin(), my_vec.end());
                 std::vector<size_t> compare_vec(100000);
                 std::iota(compare_vec.begin(), compare_vec.end(), 0);
-                ASSERT_EQUAL(my_vec, compare_vec);
+
+                unit_test_base::ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(my_vec, compare_vec);
                 });
 
             add_test("divide_work_over_range 0 100000 2", [](std::shared_ptr<unit_test_input_base> input) {
@@ -129,10 +129,10 @@ namespace rda
                     }
                 );
 
-                std::sort(my_vec.begin(), my_vec.end());
                 std::vector<size_t> compare_vec(100000);
                 std::iota(compare_vec.begin(), compare_vec.end(), 0);
-                ASSERT_EQUAL(my_vec, compare_vec);
+
+                unit_test_base::ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(my_vec, compare_vec);
                 });
 
 
@@ -152,10 +152,10 @@ namespace rda
                     }
                 );
 
-                std::sort(my_vec.begin(), my_vec.end());
                 std::vector<size_t> compare_vec(100000);
                 std::iota(compare_vec.begin(), compare_vec.end(), 0);
-                ASSERT_EQUAL(my_vec, compare_vec);
+
+                unit_test_base::ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(my_vec, compare_vec);
                 });
 
             add_test("divide_work_over_range 1 100000 4", [](std::shared_ptr<unit_test_input_base> input) {
@@ -174,10 +174,10 @@ namespace rda
                     }
                 );
 
-                std::sort(my_vec.begin(), my_vec.end());
                 std::vector<size_t> compare_vec(100000 - 1);
                 std::iota(compare_vec.begin(), compare_vec.end(), 1);
-                ASSERT_EQUAL(my_vec, compare_vec);
+
+                unit_test_base::ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(my_vec, compare_vec);
                 });
 
             add_test("divide_work_over_range 2 100000 4", [](std::shared_ptr<unit_test_input_base> input) {
@@ -196,10 +196,10 @@ namespace rda
                     }
                 );
 
-                std::sort(my_vec.begin(), my_vec.end());
                 std::vector<size_t> compare_vec(100000 - 2);
                 std::iota(compare_vec.begin(), compare_vec.end(), 2);
-                ASSERT_EQUAL(my_vec, compare_vec);
+
+                unit_test_base::ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(my_vec, compare_vec);
                 });
 
             add_test("divide_work_over_range 3 100000 4", [](std::shared_ptr<unit_test_input_base> input) {
@@ -218,10 +218,10 @@ namespace rda
                     }
                 );
 
-                std::sort(my_vec.begin(), my_vec.end());
                 std::vector<size_t> compare_vec(100000 - 3);
                 std::iota(compare_vec.begin(), compare_vec.end(), 3);
-                ASSERT_EQUAL(my_vec, compare_vec);
+
+                unit_test_base::ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(my_vec, compare_vec);
                 });
 
             add_test("divide_work_over_range 4 100000 4", [](std::shared_ptr<unit_test_input_base> input) {
@@ -240,10 +240,10 @@ namespace rda
                     }
                 );
 
-                std::sort(my_vec.begin(), my_vec.end());
                 std::vector<size_t> compare_vec(100000 - 4);
                 std::iota(compare_vec.begin(), compare_vec.end(), 4);
-                ASSERT_EQUAL(my_vec, compare_vec);
+
+                unit_test_base::ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(my_vec, compare_vec);
                 });
 
             add_test("divide_work_over_range 5 100000 4", [](std::shared_ptr<unit_test_input_base> input) {
@@ -262,10 +262,10 @@ namespace rda
                     }
                 );
 
-                std::sort(my_vec.begin(), my_vec.end());
                 std::vector<size_t> compare_vec(100000 - 5);
                 std::iota(compare_vec.begin(), compare_vec.end(), 5);
-                ASSERT_EQUAL(my_vec, compare_vec);
+
+                unit_test_base::ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(my_vec, compare_vec);
                 });
 
             add_test("divide_work_over_range 6 100000 4", [](std::shared_ptr<unit_test_input_base> input) {
@@ -284,10 +284,10 @@ namespace rda
                     }
                 );
 
-                std::sort(my_vec.begin(), my_vec.end());
                 std::vector<size_t> compare_vec(100000 - 6);
                 std::iota(compare_vec.begin(), compare_vec.end(), 6);
-                ASSERT_EQUAL(my_vec, compare_vec);
+
+                unit_test_base::ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(my_vec, compare_vec);
                 });
 
             add_test("divide_work_over_range 0 100000 4 array with no mutex", [](std::shared_ptr<unit_test_input_base> input) {
@@ -298,17 +298,14 @@ namespace rda
                 rda::sync::divide_work_over_range(0, 100000, 4, [&my_arr](const size_t start, const size_t end)
                     {
                         for (size_t i = start; i < end; ++i)
-                        {
                             my_arr[i] = i;
-                        }
                     }
                 );
 
                 std::vector<size_t> compare_arr(100000);
                 std::iota(compare_arr.begin(), compare_arr.end(), 0);
 
-                for (size_t i = 0; i < 100000; ++i)
-                    ASSERT_EQUAL(my_arr[i], compare_arr[i]);
+                unit_test_base::ASSERT_EQUAL_CONTAINER(my_arr, compare_arr);
                 });
 
         }

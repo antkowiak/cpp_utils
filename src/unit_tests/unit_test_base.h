@@ -6,6 +6,7 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
+#include <algorithm>
 #include <cstdlib>
 #include <exception>
 #include <functional>
@@ -277,6 +278,142 @@ namespace rda
             {
                 std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
                 std::cout << "ASSERT_NOT_EQUAL() assertion failed." << std::endl;
+                std::cout << rda::ansi::ColorReset();
+                ABORT();
+            }
+            ++assert_check_count;
+        }
+
+        // check if two containers are equal (have same size, and have equivalent elements in order)
+        template<typename T, typename U>
+        static void ASSERT_EQUAL_CONTAINER(const T& obj1, const U& obj2)
+        {
+            auto iter1 = obj1.cbegin();
+            auto iter2 = obj2.cbegin();
+
+            bool equals = obj1.size() == obj2.size();
+
+            while (equals && iter1 != obj1.cend() && iter2 != obj2.cend())
+            {
+                if (*iter1 != *iter2)
+                {
+                    equals = false;
+                    break;
+                }
+
+                ++iter1;
+                ++iter2;
+            }
+
+            if (!equals)
+            {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
+                std::cout << "ASSERT_EQUAL_CONTAINER() assertion failed." << std::endl;
+                std::cout << rda::ansi::ColorReset();
+                ABORT();
+            }
+            ++assert_check_count;
+        }
+
+        // check if two containers are not equal (either have different sizes, or elements have equivalent elements in order)
+        template<typename T, typename U>
+        static void ASSERT_NOT_EQUAL_CONTAINER(const T& obj1, const U& obj2)
+        {
+            auto iter1 = obj1.cbegin();
+            auto iter2 = obj2.cbegin();
+
+            bool equals = obj1.size() == obj2.size();
+
+            while (equals && iter1 != obj1.cend() && iter2 != obj2.cend())
+            {
+                if (*iter1 != *iter2)
+                {
+                    equals = false;
+                    break;
+                }
+
+                ++iter1;
+                ++iter2;
+            }
+
+            if (equals)
+            {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
+                std::cout << "ASSERT_NOT_EQUAL_CONTAINER() assertion failed." << std::endl;
+                std::cout << rda::ansi::ColorReset();
+                ABORT();
+            }
+            ++assert_check_count;
+        }
+
+        // check if two containers are equal (have same size, and have equivalent elements in any order)
+        template<typename T, typename U>
+        static void ASSERT_EQUAL_CONTAINER_IGNORE_ORDER(const T& input1, const U& input2)
+        {
+            T obj1(input1);
+            U obj2(input2);
+
+            std::sort(obj1.begin(), obj1.end());
+            std::sort(obj2.begin(), obj2.end());
+
+            auto iter1 = obj1.cbegin();
+            auto iter2 = obj2.cbegin();
+
+            bool equals = obj1.size() == obj2.size();
+
+            while (equals && iter1 != obj1.cend() && iter2 != obj2.cend())
+            {
+                if (*iter1 != *iter2)
+                {
+                    equals = false;
+                    break;
+                }
+
+                ++iter1;
+                ++iter2;
+            }
+
+            if (!equals)
+            {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
+                std::cout << "ASSERT_EQUAL_CONTAINER_IGNORE_ORDER() assertion failed." << std::endl;
+                std::cout << rda::ansi::ColorReset();
+                ABORT();
+            }
+            ++assert_check_count;
+        }
+
+        // check if two containers are not equal (have different size, or have different elements, independent of order)
+        template<typename T, typename U>
+        static void ASSERT_NOT_EQUAL_CONTAINER_IGNORE_ORDER(const T& input1, const U& input2)
+        {
+            T obj1(input1);
+            U obj2(input2);
+
+            std::sort(obj1.begin(), obj1.end());
+            std::sort(obj2.begin(), obj2.end());
+
+            auto iter1 = obj1.cbegin();
+            auto iter2 = obj2.cbegin();
+
+            bool equals = obj1.size() == obj2.size();
+
+            while (equals && iter1 != obj1.cend() && iter2 != obj2.cend())
+            {
+                if (*iter1 != *iter2)
+                {
+                    equals = false;
+                    break;
+                }
+
+                ++iter1;
+                ++iter2;
+            }
+
+            if (equals)
+            {
+                std::cout << rda::ansi::Color(rda::ansi::ansi_color::RED, rda::ansi::ansi_color::BLACK);
+                std::cout << "ASSERT_NOT_EQUAL_CONTAINER_IGNORE_ORDER() assertion failed." << std::endl;
                 std::cout << rda::ansi::ColorReset();
                 ABORT();
             }
