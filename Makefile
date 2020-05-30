@@ -84,7 +84,7 @@ endef
 all : gnu clang
 
 gnu : Makefile src/main.cpp src/*.h src/unit_tests/*.h
-	g++ -g -std=c++14 \
+	g++ -g -std=c++14 -pthread \
 	-Wall -Wextra -Wpedantic \
 	src/main.cpp -o test_cpp_utils_gnu
 
@@ -97,7 +97,7 @@ run_gnu :
 	./test_cpp_utils_gnu
 
 clang : Makefile src/main.cpp src/*.h src/unit_tests/*.h
-	clang++ -g -std=c++14 \
+	clang++ -g -std=c++14 -pthread \
 	-Wall -Wextra -Wpedantic \
 	src/main.cpp -o test_cpp_utils_clang
 

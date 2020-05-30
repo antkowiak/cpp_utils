@@ -31,7 +31,7 @@ namespace rda
             std::vector<std::thread> thread_vector;
 
             // calculates the number of elements each thread should work on (never zero)
-            const size_t span = std::max(1ULL, (end - start) / num_threads);
+            const size_t span = std::max(static_cast<size_t>(1), (end - start) / num_threads);
 
             // start index for an individual thread
             size_t start_point = start;
