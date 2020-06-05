@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "unit_test_base.h"
@@ -82,10 +83,31 @@ namespace rda
                 ASSERT_FALSE(std::is_copy_constructible<rda::utility::smart_malloc<char>>::value);
                 ASSERT_FALSE(std::is_trivially_copy_assignable<rda::utility::smart_malloc<char>>::value);
                 ASSERT_FALSE(std::is_nothrow_copy_assignable<rda::utility::smart_malloc<char>>::value);
-                ASSERT_FALSE(std::is_assignable<rda::utility::smart_malloc<char>, rda::utility::smart_malloc<char>>::value);
-                ASSERT_FALSE(std::is_assignable<rda::utility::smart_malloc<char> &, rda::utility::smart_malloc<char>>::value);
                 ASSERT_FALSE(std::is_default_constructible<rda::utility::smart_malloc<char>>::value);
             });
+
+            add_test("smart_malloc move", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_utility_rda>(input);
+
+                rda::utility::smart_malloc<char> data(30);
+
+                ASSERT_NOT_NULL(data.get());
+                ASSERT_TRUE(data.is_valid());
+                ASSERT_TRUE(data.size() == 30);
+
+                rda::utility::smart_malloc<char> data2 = std::move(data);
+
+                ASSERT_NOT_NULL(data2.get());
+                ASSERT_TRUE(data2.is_valid());
+                ASSERT_TRUE(data2.size() == 30);
+
+                ASSERT_NULL(data.get());
+                ASSERT_FALSE(data.is_valid());
+                ASSERT_TRUE(data.size() == 0);
+
+                });
+
+
         }
     }; // class test_utility_rda
 

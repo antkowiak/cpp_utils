@@ -9,6 +9,7 @@
 //
 
 #include <cstdlib>
+#include <utility>
 
 namespace rda
 {
@@ -61,11 +62,26 @@ namespace rda
             // no copy constructor
             smart_malloc(const smart_malloc &) = delete;
 
-            // no move constructor
-            smart_malloc(const smart_malloc &&) = delete;
-
             // no assignment operator
-            smart_malloc &operator=(smart_malloc &&) = delete;
+            smart_malloc& operator = (const smart_malloc& rhs) = delete;
+
+            // move constructor
+            smart_malloc(smart_malloc&& rhs) noexcept
+                : ptr(rhs.ptr), allocated_size(rhs.allocated_size)
+            {
+                rhs.ptr = nullptr;
+                rhs.allocated_size = 0;
+            }
+
+            // move assignment operator
+            smart_malloc& operator=(smart_malloc&& rhs) noexcept
+            {
+                ptr = rhs.ptr;
+                allocated_size = rhs.allocated_size;
+
+                rhs.ptr = nullptr;
+                rhs.allocated_size = 0;
+            }
 
         private:
             // the pointer to the allocated memory
