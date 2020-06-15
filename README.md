@@ -27,6 +27,8 @@ json.h - Light-weight parser for json-like text.
 
 lifetime.h - Utility to benchmark the lifetime of c++ objects in containers.
 
+moaht.h - Minimal Implementation of an Open Addressing Hash Table, indexed by integer.
+
 one_to_one_map.h - Wraps a std::map where the key and value are the same type, and can be searched by key or value.
 
 platform_defs.h - Useful platform-dependent macros and utilities.

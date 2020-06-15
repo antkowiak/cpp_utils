@@ -156,6 +156,7 @@
     <ClInclude Include="src\fix_message_util.h" />
     <ClInclude Include="src\json.h" />
     <ClInclude Include="src\lifetime.h" />
+    <ClInclude Include="src\moaht.h" />
     <ClInclude Include="src\one_to_one_map.h" />
     <ClInclude Include="src\platform_defs.h" />
     <ClInclude Include="src\platform_defs_posix.h" />
