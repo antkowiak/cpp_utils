@@ -153,6 +153,9 @@
     <ClInclude Include="src\moaht.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

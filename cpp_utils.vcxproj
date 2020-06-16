@@ -154,6 +154,7 @@
     <ClInclude Include="src\fix_message.h" />
     <ClInclude Include="src\fileio.h" />
     <ClInclude Include="src\fix_message_util.h" />
+    <ClInclude Include="src\graph.h" />
     <ClInclude Include="src\json.h" />
     <ClInclude Include="src\lifetime.h" />
     <ClInclude Include="src\moaht.h" />
