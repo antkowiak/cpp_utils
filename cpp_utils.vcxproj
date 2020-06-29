@@ -157,6 +157,7 @@
     <ClInclude Include="src\graph.h" />
     <ClInclude Include="src\json.h" />
     <ClInclude Include="src\lifetime.h" />
+    <ClInclude Include="src\matrix.h" />
     <ClInclude Include="src\moaht.h" />
     <ClInclude Include="src\one_to_one_map.h" />
     <ClInclude Include="src\platform_defs.h" />
