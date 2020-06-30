@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <functional>
+#include <initializer_list>
 #include <sstream>
 #include <utility>
 #include <vector>
@@ -74,6 +75,20 @@ namespace rda
 			return *this;
 		}
 
+		// assignment operator with initializer list
+		matrix& operator = (const std::initializer_list<T>& rhs)
+		{
+			assign(rhs);
+			return *this;
+		}
+
+		// assignment operator with a list of initializer lists
+		matrix& operator = (const std::initializer_list<std::initializer_list<T>>& rhs)
+		{
+			assign(rhs);
+			return *this;
+		}
+
 		// move assignment operator
 		matrix& operator = (matrix&& rhs) noexcept
 		{
@@ -85,6 +100,23 @@ namespace rda
 			rhs.m_rows = 0;
 			rhs.m_data.clear();
 			return *this;
+		}
+
+		// comparison operator for equality
+		bool operator == (const matrix<T>& rhs) const
+		{
+			if (m_columns != rhs.m_columns)
+				return false;
+			if (m_rows != rhs.m_rows)
+				return false;
+
+			return m_data == rhs.m_data;
+		}
+
+		// comparison operator for inequality
+		bool operator != (const matrix<T>& rhs) const
+		{
+			return !(rhs == *this);
 		}
 
 		// returns a reference to the element at {col, row}
@@ -103,6 +135,42 @@ namespace rda
 		void set(const std::size_t col, const std::size_t row, const T& element)
 		{
 			m_data[index(col, row)] = element;
+		}
+
+		// assign a list of values to the matrix
+		void assign(const std::initializer_list<T> & data)
+		{
+			auto iter = data.begin();
+
+			for (std::size_t i = 0; i < m_data.size(); ++i)
+			{
+				if (iter == data.end())
+					break;
+				m_data[i] = *iter;
+				++iter;
+			}
+		}
+
+		// assign a list of list of values to the matrix
+		void assign(const std::initializer_list<std::initializer_list<T>>& data)
+		{
+			auto row_iter = data.begin();
+			for (std::size_t r = 0; r < m_rows; ++r)
+			{
+				if (row_iter == data.end())
+					break;
+
+				auto col_iter = row_iter->begin();
+				for (std::size_t c = 0; c < m_columns; ++c)
+				{
+					if (col_iter == row_iter->end())
+						break;
+					m_data[index(c, r)] = *col_iter;
+					++col_iter;
+				}
+
+				++row_iter;
+			}
 		}
 
 		// clear the matrix (sets all elements to default constructed value)
@@ -215,6 +283,33 @@ namespace rda
 			return prod;
 		}
 
+		// carve out a sub-matrix
+		matrix<T> carve(std::size_t c1, std::size_t c2, std::size_t r1, std::size_t r2) const
+		{
+			if (c2 > m_columns)
+				c2 = m_columns;
+			if (r2 > m_rows)
+				r2 = m_rows;
+
+			if (c1 >= c2)
+				return matrix<T>();
+			if (r1 >= r2)
+				return matrix<T>();
+
+			const std::size_t cols = c2 - c1;
+			const std::size_t rows = r2 - r1;
+
+			rda::matrix<T> m(cols, rows);
+
+			for (std::size_t r = 0; r < rows ; ++r)
+				for (std::size_t c = 0; c < cols; ++c)
+				{
+					m.m_data[m.index(c, r)] = m_data[index(c + c1, r + r1)];
+				}
+
+			return m;
+		}
+
 		// return a string representation of the matrix
 		std::string to_string(
 			const std::function<std::string(const T&)>& to_string_func,
@@ -236,6 +331,35 @@ namespace rda
 			}
 
 			return ss.str();
+		}
+
+	public:
+		// return a "0" initialized matrix of the given dimensions
+		static matrix<T> zero(const std::size_t cols, const std::size_t rows)
+		{
+			matrix<T> m(cols, rows);
+			std::fill(m.m_data.begin(), m.m_data.end(), 0);
+		}
+
+		// return a "1" initialized matrix of the given dimensions
+		static matrix<T> one(const std::size_t cols, const std::size_t rows)
+		{
+			matrix<T> m(cols, rows);
+			std::fill(m.m_data.begin(), m.m_data.end(), 1);
+		}
+
+		// return an identity matrix (initialized with 0's and 1's)
+		static matrix<T> identity(const std::size_t cols, const std::size_t rows)
+		{
+			matrix<T> m(cols, rows);
+			std::fill(m.m_data.begin(), m.m_data.end(), 0);
+
+			const std::size_t dim = std::min(cols, rows);
+
+			for (std::size_t i = 0; i < dim; ++i)
+				m.set(i, i, 1);
+
+			return m;
 		}
 
 	}; // class matrix
