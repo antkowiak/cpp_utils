@@ -280,7 +280,7 @@ namespace rda
 			return prod;
 		}
 
-		// carve out a sub-matrix
+		// carve out a sub-matrix spanning cols from [c1, c2) and rows [r1, r2)
 		matrix<T> carve(std::size_t c1, std::size_t c2, std::size_t r1, std::size_t r2) const
 		{
 			if (c2 > m_columns)
@@ -328,6 +328,12 @@ namespace rda
 		}
 
 	public:
+		// return an empty/null matrix
+		static matrix<T> null()
+		{
+			return matrix<T>();
+		}
+
 		// return a "0" initialized matrix of the given dimensions
 		static matrix<T> zero(const std::size_t cols, const std::size_t rows)
 		{
