@@ -105,12 +105,9 @@ namespace rda
 		// comparison operator for equality
 		bool operator == (const matrix<T>& rhs) const
 		{
-			if (m_columns != rhs.m_columns)
-				return false;
-			if (m_rows != rhs.m_rows)
-				return false;
-
-			return m_data == rhs.m_data;
+			return m_columns == rhs.m_columns &&
+				m_rows == rhs.m_rows &&
+				m_data == rhs.m_data;
 		}
 
 		// comparison operator for inequality
