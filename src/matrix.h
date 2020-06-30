@@ -285,12 +285,11 @@ namespace rda
 		{
 			if (c2 > m_columns)
 				c2 = m_columns;
+
 			if (r2 > m_rows)
 				r2 = m_rows;
 
-			if (c1 >= c2)
-				return matrix<T>();
-			if (r1 >= r2)
+			if (c1 >= c2 || r1 >= r2)
 				return matrix<T>();
 
 			const std::size_t cols = c2 - c1;
@@ -300,9 +299,7 @@ namespace rda
 
 			for (std::size_t r = 0; r < rows ; ++r)
 				for (std::size_t c = 0; c < cols; ++c)
-				{
 					m.m_data[m.index(c, r)] = m_data[index(c + c1, r + r1)];
-				}
 
 			return m;
 		}
