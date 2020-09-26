@@ -33,6 +33,8 @@ matrix.h - Simple matrix class.
 
 moaht.h - Minimal Implementation of an Open Addressing Hash Table, indexed by integer.
 
+object_builder.h - Object Builder helper class.
+
 one_to_one_map.h - Wraps a std::map where the key and value are the same type, and can be searched by key or value.
 
 platform_defs.h - Useful platform-dependent macros and utilities.

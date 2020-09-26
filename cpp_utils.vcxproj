@@ -159,6 +159,7 @@
     <ClInclude Include="src\lifetime.h" />
     <ClInclude Include="src\matrix.h" />
     <ClInclude Include="src\moaht.h" />
+    <ClInclude Include="src\object_builder.h" />
     <ClInclude Include="src\one_to_one_map.h" />
     <ClInclude Include="src\platform_defs.h" />
     <ClInclude Include="src\platform_defs_posix.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="src\unit_tests\test_fileio.h" />
     <ClInclude Include="src\unit_tests\test_fix_message.h" />
     <ClInclude Include="src\unit_tests\test_json.h" />
+    <ClInclude Include="src\unit_tests\test_object_builder.h" />
     <ClInclude Include="src\unit_tests\test_one_to_one_map.h" />
     <ClInclude Include="src\unit_tests\test_regex_builder.h" />
     <ClInclude Include="src\unit_tests\test_statemachine.h" />
