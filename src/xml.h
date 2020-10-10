@@ -474,7 +474,7 @@ namespace rda
                                 strip_leading_and_trailing_whitespace(key);
 
                             // if the key is valid
-                            if (!key.empty())
+                            if (!key.empty() && key != "/")
                             {
                                 // then insert it into the vector of attributes
                                 created_node->attributes.emplace_back(std::pair<std::string, std::string>(key, value));
@@ -503,7 +503,7 @@ namespace rda
 
                 // if the key was a valid string, then add the key=value pair to the
                 // attribute vector
-                if (!key.empty())
+                if (!key.empty() && key != "/")
                     created_node->attributes.emplace_back(std::pair<std::string, std::string>(key, value));
 
                 // return the node object
