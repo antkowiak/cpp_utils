@@ -305,7 +305,7 @@ namespace rda
 
                     // detect if this is a closing tag
                     bool is_closing = is_closing_tag(tag->name, 0);
-                    bool is_self_closing = is_self_closing_tag(tag->name);
+                    bool is_self_closing = is_self_closing_tag(tag_text);
 
                     algorithm_rda::string_index_utils::strip_leading_and_trailing_whitespace(
                         tag->name);
