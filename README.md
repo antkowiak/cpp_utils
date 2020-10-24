@@ -25,6 +25,8 @@ fix_message_util.h - Utility for FIX Messages.
 
 graph.h - Graph data structure.
 
+htmldoc.h - Utility to generate html pages.
+
 json.h - Light-weight parser for json-like text.
 
 lifetime.h - Utility to benchmark the lifetime of c++ objects in containers.
