@@ -272,7 +272,7 @@ namespace rda
 			NODE_FACTORY(wbr)
 
 
-			class document
+		class document
 		{
 		public:
 			document() {}
