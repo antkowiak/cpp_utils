@@ -8,6 +8,7 @@
 // 2020-10-24
 //
 
+#include <initializer_list>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -22,6 +23,7 @@ namespace rda
 		{
 		public:
 			attribute(const std::string& key, const std::string& value) : m_key(key), m_value(value) {}
+			attribute(const attribute& rhs) : m_key(rhs.m_key), m_value(rhs.m_value) {}
 			virtual ~attribute() = default;
 			std::string get_key() const { return m_key; }
 			std::string get_value() const { return m_value; }
@@ -40,12 +42,14 @@ namespace rda
 			void set_content(const std::string& content) { m_children.clear(); m_content = content; }
 			void set_content(const int content) { m_children.clear(); m_content = std::to_string(content); }
 			void set_content(const double content) { m_children.clear(); m_content = std::to_string(content); }
+			virtual void add_attribute(const attribute& attrib) { m_attributes.push_back(std::make_shared<attribute>(attrib)); }
 			virtual void add_attribute(const std::string& key, const std::string& value) { m_attributes.push_back(std::make_shared<attribute>(key, value)); }
 			virtual void add_attribute(const std::string& key, const int value) { m_attributes.push_back(std::make_shared<attribute>(key, std::to_string(value))); }
 			virtual void add_attribute(const std::string& key, const double value) { m_attributes.push_back(std::make_shared<attribute>(key, std::to_string(value))); }
 			virtual void add_attribute(std::shared_ptr<attribute> pAttribute) { m_attributes.push_back(pAttribute); }
 			virtual void add_style(const std::string& style) { m_styles.push_back(style); }
 			virtual void add_child(std::shared_ptr<node> pNode) { m_content.clear(); if (pNode) m_children.push_back(pNode); }
+			virtual void add_children(std::vector<std::shared_ptr<node>>& children) { for (auto c : children) add_child(c); }
 
 			virtual std::string to_string() const
 			{
@@ -149,8 +153,65 @@ namespace rda
 		typedef std::shared_ptr<node> TNode;
 
 #define NODE_FACTORY(NODE_NAME) \
-    class node_##NODE_NAME : public node { public: node_##NODE_NAME() : node(#NODE_NAME) {} \
-    static std::shared_ptr<node_##NODE_NAME> create() { return std::make_shared<node_##NODE_NAME>(); }};
+    class node_##NODE_NAME : public node                                                                            \
+    {                                                                                                               \
+        public:                                                                                                     \
+            node_##NODE_NAME() : node(#NODE_NAME) {}                                                                \
+                                                                                                                    \
+        static std::shared_ptr<node_##NODE_NAME> create()                                                           \
+        {                                                                                                           \
+            return std::make_shared<node_##NODE_NAME>();                                                            \
+        }                                                                                                           \
+                                                                                                                    \
+        static std::shared_ptr<node_##NODE_NAME> create(std::shared_ptr<node> pParent)                              \
+        {                                                                                                           \
+            auto pNode = std::make_shared<node_##NODE_NAME>();                                                      \
+            pParent->add_child(pNode);                                                                              \
+            return pNode;                                                                                           \
+        }                                                                                                           \
+                                                                                                                    \
+        static std::shared_ptr<node_##NODE_NAME> create(std::shared_ptr<node> pParent,                              \
+                                                        const std::initializer_list<std::string> & styles)          \
+        {                                                                                                           \
+            auto pNode = std::make_shared<node_##NODE_NAME>();                                                      \
+            for (const auto & style : styles)                                                                       \
+		        pNode->add_style(style);                                                                            \
+            if (pParent)                                                                                            \
+                pParent->add_child(pNode);                                                                          \
+            return pNode;                                                                                           \
+        }                                                                                                           \
+                                                                                                                    \
+        static std::shared_ptr<node_##NODE_NAME> create(std::shared_ptr<node> pParent,                              \
+                                                        const std::initializer_list<std::string> & styles,          \
+                                                        const std::initializer_list<attribute> & attributes)        \
+        {                                                                                                           \
+            auto pNode = std::make_shared<node_##NODE_NAME>();                                                      \
+            for (const auto & style : styles)                                                                       \
+		        pNode->add_style(style);                                                                            \
+            for (const auto & attrib : attributes)                                                                  \
+                pNode->add_attribute(attrib);                                                                       \
+		    if (pParent)                                                                                            \
+                pParent->add_child(pNode);                                                                          \
+            return pNode;                                                                                           \
+        }                                                                                                           \
+                                                                                                                    \
+        static std::shared_ptr<node_##NODE_NAME> create(std::shared_ptr<node> pParent,                              \
+                                                        const std::initializer_list<std::string> & styles,          \
+                                                        const std::initializer_list<attribute> & attributes,        \
+                                                        const std::string & content)                                \
+        {                                                                                                           \
+            auto pNode = std::make_shared<node_##NODE_NAME>();                                                      \
+            for (const auto & style : styles)                                                                       \
+		        pNode->add_style(style);                                                                            \
+            for (const auto & attrib : attributes)                                                                  \
+                pNode->add_attribute(attrib);                                                                       \
+            pNode->set_content(content);                                                                            \
+		    if (pParent)                                                                                            \
+                pParent->add_child(pNode);                                                                          \
+            return pNode;                                                                                           \
+        }                                                                                                           \
+                                                                                                                    \
+    };
 
 		NODE_FACTORY(a)
 			NODE_FACTORY(abbr)
@@ -271,6 +332,13 @@ namespace rda
 			NODE_FACTORY(video)
 			NODE_FACTORY(wbr)
 
+			typedef std::initializer_list<std::string> TStyles;
+		typedef std::initializer_list<attribute> TAttribs;
+		typedef std::initializer_list<attribute> TAttributes;
+
+		constexpr const TStyles NO_STYLES = {};
+		constexpr const TAttributes NO_ATTRIBS = {};
+		constexpr const TAttributes NO_ATTRIBUTES = {};
 
 		class document
 		{
