@@ -13,6 +13,7 @@
 #include <exception>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <string>
 #include <type_traits>
@@ -23,6 +24,8 @@
 
 PUSH_WARN_DISABLE
 WARN_DISABLE_MS(4996)
+
+#undef min
 
 namespace rda
 {
