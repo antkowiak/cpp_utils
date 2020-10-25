@@ -300,7 +300,7 @@ namespace rda
                 ASSERT_TRUE(j->get_boolean_by_path("test1"));
                 ASSERT_EQUAL(j->get_string_by_path("test2"), std::string("test string2"));
                 ASSERT_FLOAT_EQUALS(j->get_float_by_path("test4"), 30.1);
-                ASSERT_EQUAL(j->get_integer_by_path("test5"), static_cast<long>(789));
+                ASSERT_EQUAL(j->get_integer_by_path("test5"), static_cast<int64_t>(789));
             });
 
             add_test("pretty string", [](std::shared_ptr<unit_test_input_base> input) {

@@ -8,6 +8,7 @@
 // 2020-05-02
 //
 
+#include <cstdint>
 #include <iostream>
 #include <limits>
 #include <sstream>
@@ -31,7 +32,7 @@ namespace rda
             JDT_UNDEFINED,
             JDT_NULL,
             JDT_BOOLEAN, // bool
-            JDT_INTEGER, // long
+            JDT_INTEGER, // int64_t
             JDT_FLOAT,   // double
             JDT_ARRAY,   // vector<shared_ptr<node>>
             JDT_OBJECT,  // vector<shared_ptr<node>>
@@ -688,7 +689,7 @@ namespace rda
         {
         public:
             // integer data
-            long data = 0;
+            int64_t data = 0;
 
             // constructor
             node_integer(const std::string &key_, const std::vector<std::string> &tokens,
@@ -700,7 +701,7 @@ namespace rda
             }
 
             // constructor
-            node_integer(const std::string &key_, const long value)
+            node_integer(const std::string &key_, const int64_t value)
             {
                 type = JsonDataType::JDT_INTEGER;
                 key = key_;
@@ -744,11 +745,11 @@ namespace rda
 
         protected:
             // parse and return an integer number value
-            static long parse_integer(const std::vector<std::string> &tokens,
-                                      size_t &token_index)
+            static int64_t parse_integer(const std::vector<std::string> &tokens,
+                                         size_t &token_index)
             {
                 if (token_index < tokens.size())
-                    return (atol(tokens[token_index].c_str()));
+                    return (atoll(tokens[token_index].c_str()));
 
                 return 0;
             }
@@ -1301,7 +1302,7 @@ namespace rda
             }
 
             // return an integer specified by the path from a json object
-            long get_integer_by_path(const std::string &path) const
+            int64_t get_integer_by_path(const std::string &path) const
             {
                 std::shared_ptr<node> n = get_node_by_path(path);
 
