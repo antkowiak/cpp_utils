@@ -104,7 +104,7 @@ namespace rda
                 ifs.open(path, std::ios::binary | std::ios::ate);
                 if (ifs.is_open() && ifs.good() && ifs.tellg() != -1)
                 {
-                    file_size = ifs.tellg();
+                    file_size = static_cast<size_t>(ifs.tellg());
 
                     if (file_size == static_cast<size_t>(-1))
                         throw(std::exception());

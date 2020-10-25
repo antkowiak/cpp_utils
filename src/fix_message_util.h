@@ -88,7 +88,7 @@ namespace rda
                         if (!v.empty())
                         {
                             // try to convert the token to a tag number, and add to the filter vector
-                            const size_t tag = std::atoll(v.c_str());
+                            const size_t tag = std::atol(v.c_str());
                             if (tag != 0)
                                 filtered_tags.emplace_back(tag);
                         }

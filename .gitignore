@@ -4,6 +4,7 @@
 
 /.vs
 /x64
+/Debug
 test_cpp_utils
 test_cpp_utils_gnu
 test_cpp_utils_clang
