@@ -189,6 +189,7 @@
     <ClInclude Include="src\unit_tests\unit_test_base.h" />
     <ClInclude Include="src\unit_tests\unit_test_template.h" />
     <ClInclude Include="src\utility_rda.h" />
+    <ClInclude Include="src\web_grab.h" />
     <ClInclude Include="src\xml.h" />
     <ClInclude Include="src\ymd.h" />
   </ItemGroup>

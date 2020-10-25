@@ -168,6 +168,9 @@
     <ClInclude Include="src\htmldoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\web_grab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
