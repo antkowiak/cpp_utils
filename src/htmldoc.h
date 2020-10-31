@@ -15,6 +15,8 @@
 #include <string>
 #include <vector>
 
+#include "htmlchars.h"
+
 namespace rda
 {
 	namespace htmldoc
@@ -32,6 +34,34 @@ namespace rda
 			std::string m_key;
 			std::string m_value;
 		}; // class attribute
+
+		std::string replace_all_substr(std::string& str, const std::string& from, const std::string& to)
+		{
+			std::string retStr(str);
+
+			if (from.empty())
+				return retStr;
+
+			size_t pos = 0;
+			while ((pos = retStr.find(from, pos)) != std::string::npos)
+			{
+				retStr.replace(pos, from.length(), to);
+				pos += to.length();
+			}
+			return retStr;
+		}
+
+		std::string prepare_content(const std::string& content, bool convertSpaces = true)
+		{
+			std::string output(content);
+			output = replace_all_substr(output, "&", rda::htmlchars::SYM_AMPERSAND);
+			output = replace_all_substr(output, "<", rda::htmlchars::SYM_LESS_THAN_SIGN);
+			output = replace_all_substr(output, ">", rda::htmlchars::SYM_GREATER_THAN_SIGN);
+			output = replace_all_substr(output, "\"", rda::htmlchars::SYM_AMPERSAND);
+			if (convertSpaces)
+				output = replace_all_substr(output, " ", rda::htmlchars::SYM_NO_BREAK_SPACE);
+			return output;
+		}
 
 		class node
 		{
@@ -412,7 +442,7 @@ namespace rda
 			const char* const description;
 		};
 
-		static const std::initializer_list<attribute_info> ATTRIBUTE_INFO =
+		const std::initializer_list<attribute_info> ATTRIBUTE_INFO =
 		{
                     {"accesskey", {"*"},"Specifies a shortcut key to activate/focus an element"},
                     {"class", {"*"},"Specifies one or more classnames for an element (refers to a class in a style sheet)"},

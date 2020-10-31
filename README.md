@@ -25,6 +25,8 @@ fix_message_util.h - Utility for FIX Messages.
 
 graph.h - Graph data structure.
 
+htmlchars.h - HTML Characters.
+
 htmldoc.h - Utility to generate html pages.
 
 json.h - Light-weight parser for json-like text.
