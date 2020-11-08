@@ -26,6 +26,22 @@ namespace rda
 {
     namespace json
     {
+        // useful typedefs
+        class node_null;
+        class node_boolean;
+        class node_integer;
+        class node_float;
+        class node_array;
+        class node_object;
+        class node_string;
+        typedef std::shared_ptr<rda::json::node_null>    JsonNull;
+        typedef std::shared_ptr<rda::json::node_boolean> JsonBool;
+        typedef std::shared_ptr<rda::json::node_integer> JsonInt;
+        typedef std::shared_ptr<rda::json::node_float>   JsonFloat;
+        typedef std::shared_ptr<rda::json::node_array>   JsonArray;
+        typedef std::shared_ptr<rda::json::node_object>  JsonObject;
+        typedef std::shared_ptr<rda::json::node_string>  JsonString;
+
         // enumeration of json node data types
         enum class JsonDataType
         {
