@@ -193,7 +193,7 @@ namespace rda
                 static const std::vector<char> INTEGER_REMAINING_CHARS = {
                     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-                if (input == "0")
+                if (input == "0" || input == "-0")
                     return true;
 
                 if (input.empty())
