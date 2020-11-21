@@ -61,7 +61,7 @@ namespace rda
         namespace data_validator_helpers
         {
             // returns true if input at index starts with a given character
-            static bool starts_with(const std::string &input, const char starts_with_char,
+            bool starts_with(const std::string &input, const char starts_with_char,
                                     const size_t index)
             {
                 if (index < input.size())
@@ -72,7 +72,7 @@ namespace rda
 
             // returns true if input at index starts with one of the characters in a given
             // vector of chars
-            static bool starts_with(const std::string &input,
+            bool starts_with(const std::string &input,
                                     const std::vector<char> &starts_with_chars,
                                     const size_t index)
             {
@@ -84,7 +84,7 @@ namespace rda
             }
 
             // returns true if input ends with a given character
-            static bool ends_with(const std::string &input, const char ends_with_char)
+            bool ends_with(const std::string &input, const char ends_with_char)
             {
                 if (input.empty())
                     return false;
@@ -94,7 +94,7 @@ namespace rda
 
             // returns true if all remaining input characters (at and after index) are in a
             // given vector of chars
-            static bool all_chars_match(const std::string &input,
+            bool all_chars_match(const std::string &input,
                                         const std::vector<char> &match_chars,
                                         size_t index)
             {
@@ -108,7 +108,7 @@ namespace rda
 
             // returns the number of times match_char occurs in the given input (starting at
             // index)
-            static size_t count_matches(const std::string &input, const char match_char,
+            size_t count_matches(const std::string &input, const char match_char,
                                         size_t index)
             {
                 size_t count = 0;
@@ -122,7 +122,7 @@ namespace rda
 
             // returns the number of times any one of the characters in match_char vector
             // occurs in teh given input (starting at index)
-            static size_t count_matches(const std::string &input,
+            size_t count_matches(const std::string &input,
                                         const std::vector<char> &match_chars,
                                         size_t index)
             {
@@ -138,7 +138,7 @@ namespace rda
 
             // returns true if input (starting at index) contains the 'before' character,
             // followed by one of the 'after' characters
-            static bool immediately_preceeds(const std::string &input, const char before,
+            bool immediately_preceeds(const std::string &input, const char before,
                                              const std::vector<char> &after, size_t index)
             {
                 for (; index + 1 < input.size(); ++index)
@@ -154,7 +154,7 @@ namespace rda
             // returns true if the input (starting at index) contains the 'before'
             // character, and contains at least one 'after' character at a higher index than
             // 'before'
-            static bool preceeds(const std::string &input, const char before,
+            bool preceeds(const std::string &input, const char before,
                                  const std::vector<char> &after, size_t index)
             {
                 const size_t before_pos = input.find(before, index);
@@ -175,23 +175,23 @@ namespace rda
         namespace data_validators
         {
             // returns true if input represents a null json type
-            static bool is_type_null(const std::string &input)
+            bool is_type_null(const std::string &input)
             {
                 return (input == "null");
             }
 
             // returns true if input represents a boolean json type
-            static bool is_type_boolean(const std::string &input)
+            bool is_type_boolean(const std::string &input)
             {
                 return (input == "true" || input == "false");
             }
 
             // returns true if input represents an integer number json type
-            static bool is_type_integer(const std::string &input)
+            bool is_type_integer(const std::string &input)
             {
-                static const std::vector<char> INTEGER_START_CHARS = {
+                const std::vector<char> INTEGER_START_CHARS = {
                     '-', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-                static const std::vector<char> INTEGER_REMAINING_CHARS = {
+                const std::vector<char> INTEGER_REMAINING_CHARS = {
                     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
                 if (input == "0" || input == "-0")
@@ -211,16 +211,16 @@ namespace rda
             }
 
             // returns true if input represents a floating point number json type
-            static bool is_type_float(const std::string &input)
+            bool is_type_float(const std::string &input)
             {
-                static const std::vector<char> E_CHARS = {'e', 'E'};
-                static const std::vector<char> DIGIT_CHARS = {'0', '1', '2', '3', '4',
+                const std::vector<char> E_CHARS = {'e', 'E'};
+                const std::vector<char> DIGIT_CHARS = {'0', '1', '2', '3', '4',
                                                               '5', '6', '7', '8', '9'};
-                static const std::vector<char> DIGIT_OR_E = {'0', '1', '2', '3', '4', '5',
+                const std::vector<char> DIGIT_OR_E = {'0', '1', '2', '3', '4', '5',
                                                              '6', '7', '8', '9', 'e', 'E'};
-                static const std::vector<char> FLOAT_START_CHARS = {
+                const std::vector<char> FLOAT_START_CHARS = {
                     '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-                static const std::vector<char> FLOAT_CHARS = {
+                const std::vector<char> FLOAT_CHARS = {
                     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '.', 'e', 'E'};
 
                 // empty tokens are not floating point numbers
@@ -283,20 +283,20 @@ namespace rda
             }
 
             // returns true if input represents an array json type
-            static bool is_type_array(const std::string &input)
+            bool is_type_array(const std::string &input)
             {
                 return (input == "[");
             }
 
             // returns true if input represents an object json type
-            static bool is_type_object(const std::string &input)
+            bool is_type_object(const std::string &input)
             {
                 return (input == "{");
             }
 
             // returns true if input represents a string json type (always returns true
             // because any text can be a string)
-            static bool is_type_string(const std::string &input)
+            bool is_type_string(const std::string &input)
             {
                 static_cast<void>(input); // unused
 
@@ -305,42 +305,41 @@ namespace rda
             }
 
             // returns true if input represents the close of a json array
-            static bool is_close_array(const std::string &input)
+            bool is_close_array(const std::string &input)
             {
                 return (input == "]");
             }
 
             // returns true if input represents the close of a json object
-            static bool is_close_object(const std::string &input)
+            bool is_close_object(const std::string &input)
             {
                 return (input == "}");
             }
 
             // returns true if input represents the json comma separator
-            static bool is_comma(const std::string &input)
+            bool is_comma(const std::string &input)
             {
                 return (input == ",");
             }
 
             // returns true if input represents the json colon separator between a
             // {"key":"value"} pair
-            static bool is_colon(const std::string &input)
+            bool is_colon(const std::string &input)
             {
                 return (input == ":");
             }
 
             // returns true if input can be used as a key in a json {"key":"value"} pair
-            static bool is_key(const std::string &input)
+            bool is_key(const std::string &input)
             {
-                static const std::vector<std::string> NON_KEY_TOKENS = {",", "[", "]", "{",
-                                                                        "}"};
+                const std::vector<std::string> NON_KEY_TOKENS = {",", "[", "]", "{", "}"};
 
                 return (std::find(NON_KEY_TOKENS.cbegin(), NON_KEY_TOKENS.cend(), input) ==
                         NON_KEY_TOKENS.cend());
             }
 
             // returns true if the input at index is a whitespace character
-            static bool is_whitespace(const std::string &input, const size_t index)
+            bool is_whitespace(const std::string &input, const size_t index)
             {
                 if (index < input.size())
                 {
@@ -352,7 +351,7 @@ namespace rda
             }
 
             // returns true if the input at index is a json delimeter character
-            static bool is_json_delimiter(const std::string &input, const size_t index)
+            bool is_json_delimiter(const std::string &input, const size_t index)
             {
                 if (index < input.size())
                 {
@@ -366,7 +365,7 @@ namespace rda
             }
 
             // returns true if the input at index is a quote character
-            static bool is_quote(const std::string &input, const size_t index)
+            bool is_quote(const std::string &input, const size_t index)
             {
                 if (index < input.size())
                     return (input[index] == '"');
@@ -375,7 +374,7 @@ namespace rda
             }
 
             // returns true if the input at index is a backslash character
-            static bool is_backslash(const std::string &input, const size_t index)
+            bool is_backslash(const std::string &input, const size_t index)
             {
                 if (index < input.size())
                     return (input[index] == '\\');
@@ -385,7 +384,7 @@ namespace rda
 
             // returns true if the input at index is the beginning of two consecutive
             // backslashes (escaped backslash)
-            static bool has_two_consecutive_backslashes(const std::string &input,
+            bool has_two_consecutive_backslashes(const std::string &input,
                                                         const size_t index)
             {
                 if (index + 1 < input.size())
@@ -396,7 +395,7 @@ namespace rda
             }
 
             // returns true if the input at index is the beginning of an escaped quote
-            static bool has_escaped_quote(const std::string &input, const size_t index)
+            bool has_escaped_quote(const std::string &input, const size_t index)
             {
                 if (index + 1 < input.size())
                     return (data_validators::is_backslash(input, index) &&
@@ -411,7 +410,7 @@ namespace rda
         namespace parse_helpers
         {
             // inspect input to determine the json data type it corresponds to
-            static JsonDataType determine_data_type(const std::string &input)
+            JsonDataType determine_data_type(const std::string &input)
             {
                 if (data_validators::is_type_null(input))
                     return JsonDataType::JDT_NULL;
@@ -438,7 +437,7 @@ namespace rda
             }
 
             // read and return a quoted string, escaping backspaces and quotes as necessary
-            static std::string read_quoted_token(const std::string &input, size_t &index)
+            std::string read_quoted_token(const std::string &input, size_t &index)
             {
                 std::string output;
 
@@ -477,7 +476,7 @@ namespace rda
             }
 
             // read and return an unquoted token
-            static std::string read_non_quoted_token(const std::string &input,
+            std::string read_non_quoted_token(const std::string &input,
                                                      size_t &index)
             {
                 std::string output;
@@ -502,7 +501,7 @@ namespace rda
             }
 
             // reads a token, based on whether it is quoted or not
-            static std::string read_token(const std::string &input, size_t &index)
+            std::string read_token(const std::string &input, size_t &index)
             {
                 if (index < input.size())
                 {
@@ -516,7 +515,7 @@ namespace rda
             }
 
             // splits a complete json string into a vector of json token strings
-            static std::vector<std::string> tokenize(const std::string &input,
+            std::vector<std::string> tokenize(const std::string &input,
                                                      size_t &index)
             {
                 std::vector<std::string> tokens;
@@ -982,7 +981,7 @@ namespace rda
         }; // class node_string
 
         // fwd dec of parsing factory (used by node_array and node_object classes)
-        static void add_object_or_array_data(
+        void add_object_or_array_data(
             std::vector<std::shared_ptr<node>> &object_data,
             const JsonDataType data_type, const std::string &key_name,
             const std::vector<std::string> &tokens, size_t &token_index);
@@ -1562,7 +1561,7 @@ namespace rda
         }; // class node_object
 
         // parsing factory (used by node_array and node_object classes)
-        static void add_object_or_array_data(
+        void add_object_or_array_data(
             std::vector<std::shared_ptr<node>> &object_data,
             const JsonDataType data_type, const std::string &key_name,
             const std::vector<std::string> &tokens, size_t &token_index)
@@ -1627,7 +1626,7 @@ namespace rda
         }
 
         // parse a json string and return a smart pointer to the object data
-        static std::shared_ptr<node_object> parse(const std::string &input,
+        std::shared_ptr<node_object> parse(const std::string &input,
                                                   const size_t start_index = 0)
         {
             size_t parse_index = start_index;
