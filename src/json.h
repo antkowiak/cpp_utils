@@ -538,15 +538,35 @@ namespace rda
         // base class for json data nodes
         class node
         {
-        public:
+        protected:
             // node data type
-            JsonDataType type = JsonDataType::JDT_UNDEFINED;
+            const JsonDataType type = JsonDataType::JDT_UNDEFINED;
 
             // key name
-            std::string key = "";
+            const std::string key = "";
+
+        public:
+
+            // constructor
+            node(const JsonDataType type_, const std::string& key_)
+                : type(type_), key(key_)
+            {
+            }
 
             // virtual destructor because this is a base class
             virtual ~node() = default;
+
+            // returns the json node type
+            virtual JsonDataType get_type() const
+            {
+                return type;
+            }
+
+            // returns the key name
+            virtual std::string get_key() const
+            {
+                return key;
+            }
 
             // return a string representation of the node
             virtual std::string to_string() const
@@ -574,21 +594,23 @@ namespace rda
         {
         public:
             // constructor
-            node_null(const std::string &key_, const std::vector<std::string> &tokens,
-                      size_t &token_index)
+            node_null(const std::string &key_, const std::vector<std::string> &tokens, size_t &token_index)
+                : node(JsonDataType::JDT_NULL, key_)
             {
                 static_cast<void>(tokens);      // unused
                 static_cast<void>(token_index); // unused
-
-                type = JsonDataType::JDT_NULL;
-                key = key_;
             }
 
             // constructor
             node_null(const std::string &key_)
+                : node(JsonDataType::JDT_NULL, key_)
             {
-                type = JsonDataType::JDT_NULL;
-                key = key_;
+            }
+
+            // get the data
+            void* get_data() const
+            {
+                return nullptr;
             }
 
             // return a string representation of the node
@@ -631,25 +653,27 @@ namespace rda
         // node to store boolean data type
         class node_boolean : public node
         {
-        public:
+        protected:
             // boolean data
-            bool data = false;
+            const bool data = false;
 
+        public:
             // constructor
-            node_boolean(const std::string &key_, const std::vector<std::string> &tokens,
-                         size_t &token_index)
+            node_boolean(const std::string &key_, const std::vector<std::string> &tokens, size_t &token_index)
+                : node(JsonDataType::JDT_BOOLEAN, key_), data(parse_boolean(tokens, token_index))
             {
-                type = JsonDataType::JDT_BOOLEAN;
-                key = key_;
-                data = parse_boolean(tokens, token_index);
             }
 
             // constructor
-            node_boolean(const std::string &key_, const bool value)
+            node_boolean(const std::string &key_, const bool data_)
+                : node(JsonDataType::JDT_BOOLEAN, key_), data(data_)
             {
-                type = JsonDataType::JDT_BOOLEAN;
-                key = key_;
-                data = value;
+            }
+
+            // get the data
+            bool get_data() const
+            {
+                return data;
             }
 
             // return a string representation of the node
@@ -706,25 +730,27 @@ namespace rda
         // node to store integer number data type
         class node_integer : public node
         {
-        public:
+        protected:
             // integer data
-            int64_t data = 0;
+            const int64_t data = 0;
 
+        public:
             // constructor
-            node_integer(const std::string &key_, const std::vector<std::string> &tokens,
-                         size_t &token_index)
+            node_integer(const std::string &key_, const std::vector<std::string> &tokens, size_t &token_index)
+                : node(JsonDataType::JDT_INTEGER, key_), data(parse_integer(tokens, token_index))
             {
-                type = JsonDataType::JDT_INTEGER;
-                key = key_;
-                data = parse_integer(tokens, token_index);
             }
 
             // constructor
-            node_integer(const std::string &key_, const int64_t value)
+            node_integer(const std::string &key_, const int64_t data_)
+                : node(JsonDataType::JDT_INTEGER, key_), data(data_)
             {
-                type = JsonDataType::JDT_INTEGER;
-                key = key_;
-                data = value;
+            }
+
+            // get the data
+            int64_t get_data() const
+            {
+                return data;
             }
 
             // return a string representation of the node
@@ -778,25 +804,27 @@ namespace rda
         // node to store floating point number data type
         class node_float : public node
         {
-        public:
+        protected:
             // float data
-            double data = 0.0f;
+            const double data = 0.0f;
 
+        public:
             // constructor
-            node_float(const std::string &key_, const std::vector<std::string> &tokens,
-                       size_t &token_index)
+            node_float(const std::string &key_, const std::vector<std::string> &tokens, size_t &token_index)
+                : node(JsonDataType::JDT_FLOAT, key_), data(parse_float(tokens, token_index))
             {
-                type = JsonDataType::JDT_FLOAT;
-                key = key_;
-                data = parse_float(tokens, token_index);
             }
 
             // constructor
-            node_float(const std::string &key_, const double value)
+            node_float(const std::string &key_, const double data_)
+                : node(JsonDataType::JDT_FLOAT, key_), data(data_)
             {
-                type = JsonDataType::JDT_FLOAT;
-                key = key_;
-                data = value;
+            }
+
+            // get the data
+            double get_data() const
+            {
+                return data;
             }
 
             // return a string representation of the node
@@ -850,25 +878,27 @@ namespace rda
         // node to store string data type
         class node_string : public node
         {
-        public:
+        protected:
             // string data
-            std::string data = "";
+            const std::string data = "";
 
+        public:
             // constructor
-            node_string(const std::string &key_, const std::vector<std::string> &tokens,
-                        size_t &token_index)
+            node_string(const std::string &key_, const std::vector<std::string> &tokens, size_t &token_index)
+                : node(JsonDataType::JDT_STRING, key_), data(parse_string(tokens, token_index))
             {
-                type = JsonDataType::JDT_STRING;
-                key = key_;
-                data = parse_string(tokens, token_index);
             }
 
             // constructor
-            node_string(const std::string &key_, const std::string &value)
+            node_string(const std::string &key_, const std::string &data_)
+                : node(JsonDataType::JDT_STRING, key_), data(data_)
             {
-                type = JsonDataType::JDT_STRING;
-                key = key_;
-                data = value;
+            }
+
+            // get the data
+            std::string get_data() const
+            {
+                return data;
             }
 
             // return a string representation of the node
@@ -931,8 +961,7 @@ namespace rda
             }
 
             // parse and return a string value
-            static std::string parse_string(const std::vector<std::string> &tokens,
-                                            size_t &token_index)
+            static std::string parse_string(const std::vector<std::string> &tokens, size_t &token_index)
             {
                 std::string output;
 
@@ -960,26 +989,63 @@ namespace rda
         // node to store array data type
         class node_array : public node
         {
-        public:
+        protected:
             // array data
             std::vector<std::shared_ptr<node>> data;
 
+        public:
             // constructor
-            node_array(const std::string &key_, const std::vector<std::string> &tokens,
-                       size_t &token_index)
+            node_array(const std::string &key_, const std::vector<std::string> &tokens, size_t &token_index)
+                : node(JsonDataType::JDT_ARRAY, key_), data(parse_array(tokens, token_index))
             {
-                type = JsonDataType::JDT_ARRAY;
-                key = key_;
-                data = parse_array(tokens, token_index);
             }
 
             // constructor
-            node_array(const std::string &key_,
-                       const std::vector<std::shared_ptr<node>> &value)
+            node_array(const std::string &key_, const std::vector<std::shared_ptr<node>> &data_)
+                : node(JsonDataType::JDT_ARRAY, key_), data(data_)
             {
-                type = JsonDataType::JDT_ARRAY;
-                key = key_;
-                data = value;
+            }
+
+            // get the data
+            const std::vector<std::shared_ptr<node>> & get_data() const
+            {
+                return data;
+            }
+
+            // const begin iterator
+            std::vector<std::shared_ptr<node>>::const_iterator cbegin() const
+            {
+                return data.cbegin();
+            }
+
+            // begin iterator
+            std::vector<std::shared_ptr<node>>::const_iterator begin() const
+            {
+                return data.begin();
+            }
+
+            // const end iterator
+            std::vector<std::shared_ptr<node>>::const_iterator cend() const
+            {
+                return data.cend();
+            }
+
+            // end iterator
+            std::vector<std::shared_ptr<node>>::const_iterator end() const
+            {
+                return data.end();
+            }
+
+            // returns the number of child elements
+            size_t size() const
+            {
+                return data.size();
+            }
+
+            // returns if the data is empty
+            bool empty() const
+            {
+                return data.empty();
             }
 
             // return a string representation of the node
@@ -1042,13 +1108,20 @@ namespace rda
                 return ss.str();
             }
 
+            // access child by index
+            std::shared_ptr<node> operator[](const size_t index) const
+            {
+                if (index >= data.size())
+                    return nullptr;
+                return data[index];
+            }
+
             // add a child node
             void add_child(std::shared_ptr<node> child,
                            const size_t index = std::numeric_limits<size_t>::max())
             {
                 if (child != nullptr)
                 {
-                    child->key = "";
                     const size_t position = std::min(index, data.size());
                     data.insert(data.cbegin() + position, child);
                 }
@@ -1104,26 +1177,63 @@ namespace rda
         // node to store object data type
         class node_object : public node
         {
-        public:
+        protected:
             // object data
             std::vector<std::shared_ptr<node>> data;
 
+        public:
             // constructor
-            node_object(const std::string &key_, const std::vector<std::string> &tokens,
-                        size_t &token_index)
+            node_object(const std::string &key_, const std::vector<std::string> &tokens, size_t &token_index)
+                : node(JsonDataType::JDT_OBJECT, key_), data(parse_object(tokens, token_index))
             {
-                type = JsonDataType::JDT_OBJECT;
-                key = key_;
-                data = parse_object(tokens, token_index);
             }
 
             // constructor
-            node_object(const std::string &key_,
-                        const std::vector<std::shared_ptr<node>> &value)
+            node_object(const std::string &key_, const std::vector<std::shared_ptr<node>> &data_)
+                : node(JsonDataType::JDT_OBJECT, key_), data(data_)
             {
-                type = JsonDataType::JDT_OBJECT;
-                key = key_;
-                data = value;
+            }
+
+            // get the data
+            const std::vector<std::shared_ptr<node>> & get_data() const
+            {
+                return data;
+            }
+
+            // const begin iterator
+            std::vector<std::shared_ptr<node>>::const_iterator cbegin() const
+            {
+                return data.cbegin();
+            }
+
+            // begin iterator
+            std::vector<std::shared_ptr<node>>::const_iterator begin() const
+            {
+                return data.begin();
+            }
+
+            // const end iterator
+            std::vector<std::shared_ptr<node>>::const_iterator cend() const
+            {
+                return data.cend();
+            }
+
+            // end iterator
+            std::vector<std::shared_ptr<node>>::const_iterator end() const
+            {
+                return data.end();
+            }
+
+            // returns the number of child elements
+            size_t size() const
+            {
+                return data.size();
+            }
+
+            // returns if the data is empty
+            bool empty() const
+            {
+                return data.empty();
             }
 
             // return a string representation of the node
@@ -1186,15 +1296,10 @@ namespace rda
                 return ss.str();
             }
 
-            // access string representation of a child key (or path)
-            std::string operator[](const std::string &key_name) const
+            // access child by path
+            std::shared_ptr<node> operator[](const std::string &key_name) const
             {
-                auto n = get_node_by_path(key_name);
-
-                if (n != nullptr)
-                    return n->to_simple_string();
-
-                return "";
+                return get_node_by_path(key_name);
             }
 
             // add a child node
@@ -1213,7 +1318,7 @@ namespace rda
             {
                 auto iter = std::find_if(
                     data.cbegin(), data.cend(),
-                    [key_name](std::shared_ptr<node> n) { return key_name == n->key; });
+                    [key_name](std::shared_ptr<node> n) { return key_name == n->get_key(); });
 
                 if (iter != data.cend())
                     data.erase(iter);
@@ -1248,11 +1353,11 @@ namespace rda
 
                     for (auto c : level)
                     {
-                        if (c->key == path[i])
+                        if (c->get_key() == path[i])
                         {
                             if (i + 1 == path.size())
                                 retValue = c;
-                            else if (c->type == JsonDataType::JDT_OBJECT)
+                            else if (c->get_type() == JsonDataType::JDT_OBJECT)
                                 level = std::dynamic_pointer_cast<node_object>(c)->data;
                             else
                                 return nullptr;
@@ -1283,7 +1388,7 @@ namespace rda
                 if (n == nullptr)
                     return JsonDataType::JDT_UNDEFINED;
                 else
-                    return n->type;
+                    return n->get_type();
             }
 
             // return a json node_array object specified by path
@@ -1291,7 +1396,7 @@ namespace rda
             {
                 std::shared_ptr<node> n = get_node_by_path(path);
 
-                if (n == nullptr || n->type != JsonDataType::JDT_ARRAY)
+                if (n == nullptr || n->get_type() != JsonDataType::JDT_ARRAY)
                     return nullptr;
 
                 return std::dynamic_pointer_cast<node_array>(n);
@@ -1303,7 +1408,7 @@ namespace rda
             {
                 std::shared_ptr<node> n = get_node_by_path(path);
 
-                if (n == nullptr || n->type != JsonDataType::JDT_OBJECT)
+                if (n == nullptr || n->get_type() != JsonDataType::JDT_OBJECT)
                     return nullptr;
 
                 return std::dynamic_pointer_cast<node_object>(n);
@@ -1314,10 +1419,10 @@ namespace rda
             {
                 std::shared_ptr<node> n = get_node_by_path(path);
 
-                if (n == nullptr || n->type != JsonDataType::JDT_STRING)
+                if (n == nullptr || n->get_type() != JsonDataType::JDT_STRING)
                     return "";
 
-                return std::dynamic_pointer_cast<node_string>(n)->data;
+                return std::dynamic_pointer_cast<node_string>(n)->get_data();
             }
 
             // return an integer specified by the path from a json object
@@ -1325,10 +1430,10 @@ namespace rda
             {
                 std::shared_ptr<node> n = get_node_by_path(path);
 
-                if (n == nullptr || n->type != JsonDataType::JDT_INTEGER)
+                if (n == nullptr || n->get_type() != JsonDataType::JDT_INTEGER)
                     return 0;
 
-                return std::dynamic_pointer_cast<node_integer>(n)->data;
+                return std::dynamic_pointer_cast<node_integer>(n)->get_data();
             }
 
             // return a float specified by the path from a json object
@@ -1336,10 +1441,10 @@ namespace rda
             {
                 std::shared_ptr<node> n = get_node_by_path(path);
 
-                if (n == nullptr || n->type != JsonDataType::JDT_FLOAT)
+                if (n == nullptr || n->get_type() != JsonDataType::JDT_FLOAT)
                     return 0.0f;
 
-                return std::dynamic_pointer_cast<node_float>(n)->data;
+                return std::dynamic_pointer_cast<node_float>(n)->get_data();
             }
 
             // return a float specified by the path of a json object, which an be either
@@ -1350,10 +1455,10 @@ namespace rda
 
                 if (n != nullptr)
                 {
-                    if (n->type == JsonDataType::JDT_INTEGER)
-                        return static_cast<double>(std::dynamic_pointer_cast<node_integer>(n)->data);
-                    else if (n->type == JsonDataType::JDT_FLOAT)
-                        return std::dynamic_pointer_cast<node_float>(n)->data;
+                    if (n->get_type() == JsonDataType::JDT_INTEGER)
+                        return static_cast<double>(std::dynamic_pointer_cast<node_integer>(n)->get_data());
+                    else if (n->get_type() == JsonDataType::JDT_FLOAT)
+                        return std::dynamic_pointer_cast<node_float>(n)->get_data();
                 }
 
                 return 0.0f;
@@ -1364,10 +1469,10 @@ namespace rda
             {
                 std::shared_ptr<node> n = get_node_by_path(path);
 
-                if (n == nullptr || n->type != JsonDataType::JDT_BOOLEAN)
+                if (n == nullptr || n->get_type() != JsonDataType::JDT_BOOLEAN)
                     return false;
 
-                return std::dynamic_pointer_cast<node_boolean>(n)->data;
+                return std::dynamic_pointer_cast<node_boolean>(n)->get_data();
             }
 
         protected:

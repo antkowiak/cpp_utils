@@ -125,15 +125,15 @@ namespace rda
                 {
                     std::string s = R"({"testNum":0.0})";
                     auto j = json::parse(s);
-                    ASSERT_TRUE(j->type == json::JsonDataType::JDT_OBJECT);
+                    ASSERT_TRUE(j->get_type() == json::JsonDataType::JDT_OBJECT);
                     auto obj = std::dynamic_pointer_cast<json::node_object>(j);
                     bool found = false;
 
-                    for (auto n : obj->data)
+                    for (auto n : obj->get_data())
                     {
-                        ASSERT_TRUE(n->type == json::JsonDataType::JDT_FLOAT);
+                        ASSERT_TRUE(n->get_type() == json::JsonDataType::JDT_FLOAT);
                         auto casted = std::dynamic_pointer_cast<json::node_float>(n);
-                        ASSERT_FLOAT_EQUALS(casted->data, 0.0f);
+                        ASSERT_FLOAT_EQUALS(casted->get_data(), 0.0f);
                         found = true;
                     }
 
@@ -218,12 +218,12 @@ namespace rda
 
                 std::string s = R"({"test":null})";
                 auto j = json::parse(s);
-                ASSERT_TRUE(j->type == json::JsonDataType::JDT_OBJECT);
+                ASSERT_TRUE(j->get_type() == json::JsonDataType::JDT_OBJECT);
                 auto obj = std::dynamic_pointer_cast<json::node_object>(j);
-                ASSERT_TRUE(obj->data.size() == 1);
-                auto casted = std::dynamic_pointer_cast<json::node_null>(obj->data[0]);
-                ASSERT_TRUE(casted->key == "test");
-                ASSERT_TRUE(casted->type == json::JsonDataType::JDT_NULL);
+                ASSERT_TRUE(obj->size() == 1);
+                auto casted = std::dynamic_pointer_cast<json::node_null>(obj->get_data()[0]);
+                ASSERT_TRUE(casted->get_key() == "test");
+                ASSERT_TRUE(casted->get_type() == json::JsonDataType::JDT_NULL);
             });
 
             add_test("boolean node", [](std::shared_ptr<unit_test_input_base> input) {
@@ -391,16 +391,16 @@ namespace rda
                 ASSERT_TRUE(j->get_integer_by_path("wrap/b") == 999);
 
                 auto arr = j->get_array_by_path("wrap/c");
-                ASSERT_NOT_EMPTY(arr->data);
-                ASSERT_TRUE(arr->data.size() == 3);
+                ASSERT_NOT_EMPTY(arr->get_data());
+                ASSERT_TRUE(arr->size() == 3);
 
-                ASSERT_EQUAL(arr->data[0]->type, json::JsonDataType::JDT_INTEGER);
-                ASSERT_EQUAL(arr->data[1]->type, json::JsonDataType::JDT_INTEGER);
-                ASSERT_EQUAL(arr->data[2]->type, json::JsonDataType::JDT_INTEGER);
+                ASSERT_EQUAL(arr->get_data()[0]->get_type(), json::JsonDataType::JDT_INTEGER);
+                ASSERT_EQUAL(arr->get_data()[1]->get_type(), json::JsonDataType::JDT_INTEGER);
+                ASSERT_EQUAL(arr->get_data()[2]->get_type(), json::JsonDataType::JDT_INTEGER);
 
-                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(arr->data[0])->data == 1);
-                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(arr->data[1])->data == 2);
-                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(arr->data[2])->data == 3);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(arr->get_data()[0])->get_data() == 1);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(arr->get_data()[1])->get_data() == 2);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(arr->get_data()[2])->get_data() == 3);
             });
 
             add_test("escape characters test", [](std::shared_ptr<unit_test_input_base> input) {
@@ -455,16 +455,16 @@ namespace rda
                 a->add_child(std::make_shared<json::node_integer>("", 0), 0);
                 a->add_child(std::make_shared<json::node_integer>("", 4));
 
-                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->data[0])->data == 0);
-                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->data[4])->data == 4);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->get_data()[0])->get_data() == 0);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->get_data()[4])->get_data() == 4);
 
                 // std::cout << a->to_string() << std::endl;
 
                 a->remove_child(0);
-                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->data[0])->data == 1);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->get_data()[0])->get_data() == 1);
 
                 a->remove_child(0);
-                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->data[0])->data == 2);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>(a->get_data()[0])->get_data() == 2);
 
                 // std::cout << a->to_string() << std::endl;
             });
@@ -473,16 +473,50 @@ namespace rda
                 auto pInput = std::dynamic_pointer_cast<unit_test_input_json>(input);
 
                 auto j = json::parse(R"(
-                    { "a" : [ 1, 2, 3 ], "b" : false, "c": null, "d":45, "e" : { "o" : 0, "p": true, "q" : "q text" }, "f": "my text"
+                    { "a" : [ 1, 2, 3 ], "b" : false, "c": null, "d":45, "e" : { "o" : 0, "p": true, "q" : "q text" }, "f": "my text" }
                 )");
 
-                ASSERT_TRUE((*j)["a"] == "[1,2,3]");
-                ASSERT_TRUE((*j)["b"] == "false");
-                ASSERT_TRUE((*j)["c"] == "null");
-                ASSERT_TRUE((*j)["d"] == "45");
-                ASSERT_TRUE((*j)["f"] == "my text");
-                ASSERT_TRUE((*j)["g"] == "");
-                ASSERT_TRUE((*j)["e/q"] == "q text");
+               
+
+                auto arr = std::dynamic_pointer_cast<json::node_array>((*j)["a"]);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>((*arr)[0])->get_data() == 1);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>((*arr)[1])->get_data() == 2);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>((*arr)[2])->get_data() == 3);
+
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_boolean>((*j)["b"])->get_data() == false);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_null>((*j)["c"])->get_data() == nullptr);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>((*j)["d"])->get_data() == 45);
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_string>((*j)["f"])->get_data() == "my text");
+                ASSERT_TRUE(std::dynamic_pointer_cast<json::node_string>((*j)["e/q"])->get_data() == "q text");
+            });
+
+            add_test("iterator", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_json>(input);
+
+                auto j = json::parse(R"(
+                    { "a" : "a text", "c" : "c text" }
+                )");
+
+                bool a_found = false;
+                bool b_found = false;
+                bool c_found = false;
+
+                for (const auto& element : *j)
+                {
+                    if (const auto& stringObj = std::dynamic_pointer_cast<json::node_string>(element))
+                    {
+                        if (stringObj->get_key() == "a" && stringObj->get_data() == "a text")
+                            a_found = true;
+                        if (stringObj->get_key() == "b" && stringObj->get_data() == "b text")
+                            b_found = true;
+                        if (stringObj->get_key() == "c" && stringObj->get_data() == "c text")
+                            c_found = true;
+                    }
+                }
+
+                ASSERT_TRUE(a_found);
+                ASSERT_FALSE(b_found);
+                ASSERT_TRUE(c_found);
             });
         }
 
