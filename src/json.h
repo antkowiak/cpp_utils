@@ -27,6 +27,7 @@ namespace rda
     namespace json
     {
         // useful typedefs
+        class node;
         class node_null;
         class node_boolean;
         class node_integer;
@@ -1641,6 +1642,188 @@ namespace rda
             // create and return the object node
             size_t token_index = 0;
             return std::make_shared<node_object>("", tokens, token_index);
+        }
+
+        // cast the node to a null node
+        std::shared_ptr<node_null> get_node_null(std::shared_ptr<node> n)
+        {
+            return std::dynamic_pointer_cast<node_null>(n);
+        }
+
+        // get the null value of a node
+        void* get_value_null(const std::shared_ptr<node> n)
+        {
+            if (const auto& obj = get_node_null(n))
+                return obj->get_data();
+            return nullptr;
+        }
+
+        // try to get the null value of a node
+        std::pair<bool, void*> try_get_value_null(std::shared_ptr<node> n)
+        {
+            std::pair<bool, void*> p = { false, nullptr };
+            if (const auto& obj = get_node_null(n))
+            {
+                p.first = true;
+                p.second = get_value_null(obj);
+            }
+            return p;
+        }
+
+        // cast the node to a boolean node
+        std::shared_ptr<node_boolean> get_node_boolean(std::shared_ptr<node> n)
+        {
+            return std::dynamic_pointer_cast<node_boolean>(n);
+        }
+
+        // get the boolean value of a node
+        bool get_value_boolean(const std::shared_ptr<node> n)
+        {
+            if (const auto& obj = get_node_boolean(n))
+                return obj->get_data();
+            return false;
+        }
+
+        // try to get the boolean value of a node
+        std::pair<bool, bool> try_get_value_boolean(std::shared_ptr<node> n)
+        {
+            std::pair<bool, bool> p = { false, false };
+            if (const auto& obj = get_node_boolean(n))
+            {
+                p.first = true;
+                p.second = get_value_boolean(obj);
+            }
+            return p;
+        }
+
+        // cast the node to an integer node
+        std::shared_ptr<node_integer> get_node_integer(std::shared_ptr<node> n)
+        {
+            return std::dynamic_pointer_cast<node_integer>(n);
+        }
+
+        // get the integer value of a node
+        int64_t get_value_integer(std::shared_ptr<node> n)
+        {
+            if (const auto& obj = get_node_integer(n))
+                return obj->get_data();
+            return 0;
+        }
+
+        // try to get the integer value of a node
+        std::pair<bool, int64_t> try_get_value_integer(std::shared_ptr<node> n)
+        {
+            std::pair<bool, int64_t> p = { false, 0 };
+            if (const auto& obj = get_node_integer(n))
+            {
+                p.first = true;
+                p.second = get_value_integer(obj);
+            }
+            return p;
+        }
+
+        // cast the node to a float node
+        std::shared_ptr<node_float> get_node_float(std::shared_ptr<node> n)
+        {
+            return std::dynamic_pointer_cast<node_float>(n);
+        }
+
+        // get the float value of a node
+        double get_value_float(std::shared_ptr<node> n)
+        {
+            if (const auto& obj = get_node_float(n))
+                return obj->get_data();
+            return 0.0;
+        }
+
+        // try to get the float value of a node
+        std::pair<bool, double> try_get_value_float(std::shared_ptr<node> n)
+        {
+            std::pair<bool, double> p = { false, 0.0 };
+            if (const auto& obj = get_node_float(n))
+            {
+                p.first = true;
+                p.second = get_value_float(obj);
+            }
+            return p;
+        }
+
+        // cast the node to an array node
+        std::shared_ptr<node_array> get_node_array(std::shared_ptr<node> n)
+        {
+            return std::dynamic_pointer_cast<node_array>(n);
+        }
+
+        // get the array of a node
+        std::vector<std::shared_ptr<node>> get_value_array(std::shared_ptr<node> n)
+        {
+            if (const auto& obj = get_node_array(n))
+                return obj->get_data();
+            return std::vector<std::shared_ptr<node>>();
+        }
+
+        // try to get the array of a node
+        std::pair<bool, std::vector<std::shared_ptr<node>>> try_get_value_array(std::shared_ptr<node> n)
+        {
+            std::pair<bool, std::vector<std::shared_ptr<node>>> p = { false, std::vector<std::shared_ptr<node>>() };
+            if (const auto& obj = get_node_array(n))
+            {
+                p.first = true;
+                p.second = get_value_array(obj);
+            }
+            return p;
+        }
+
+        // cast the node to an object node
+        std::shared_ptr<node_object> get_node_object(std::shared_ptr<node> n)
+        {
+            return std::dynamic_pointer_cast<node_object>(n);
+        }
+
+        // get the object value of a node
+        std::vector<std::shared_ptr<node>> get_value_object(std::shared_ptr<node> n)
+        {
+            if (const auto& obj = get_node_object(n))
+                return obj->get_data();
+            return std::vector<std::shared_ptr<node>>();
+        }
+
+        // try to get the object of a node
+        std::pair<bool, std::vector<std::shared_ptr<node>>> try_get_value_object(std::shared_ptr<node> n)
+        {
+            std::pair<bool, std::vector<std::shared_ptr<node>>> p = { false, std::vector<std::shared_ptr<node>>() };
+            if (const auto& obj = get_node_object(n))
+            {
+                p.first = true;
+                p.second = get_value_object(obj);
+            }
+            return p;
+        }
+
+        // cast the node to a string node
+        std::shared_ptr<node_string> get_node_string(std::shared_ptr<node> n)
+        {
+            return std::dynamic_pointer_cast<node_string>(n);
+        }
+
+        // get the string value of a node
+        std::string get_value_string(std::shared_ptr<node> n)
+        {
+            if (const auto& obj = get_node_string(n))
+                return obj->get_data();
+            return std::string();
+        }
+
+        // try to get the string value of a node
+        std::pair<bool, std::string> try_get_value_string(std::shared_ptr<node> n)
+        {
+            std::pair<bool, std::string> p = { false, std::string() };
+            if (const auto& obj = get_node_string(n))
+            {
+                p.first = true;
+                p.second = get_value_string(obj);
+            }
+            return p;
         }
 
     } // namespace json

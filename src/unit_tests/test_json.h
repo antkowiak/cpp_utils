@@ -476,8 +476,6 @@ namespace rda
                     { "a" : [ 1, 2, 3 ], "b" : false, "c": null, "d":45, "e" : { "o" : 0, "p": true, "q" : "q text" }, "f": "my text" }
                 )");
 
-               
-
                 auto arr = std::dynamic_pointer_cast<json::node_array>((*j)["a"]);
                 ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>((*arr)[0])->get_data() == 1);
                 ASSERT_TRUE(std::dynamic_pointer_cast<json::node_integer>((*arr)[1])->get_data() == 2);
@@ -518,6 +516,37 @@ namespace rda
                 ASSERT_FALSE(b_found);
                 ASSERT_TRUE(c_found);
             });
+
+            add_test("helpers", [](std::shared_ptr<unit_test_input_base> input) {
+                auto pInput = std::dynamic_pointer_cast<unit_test_input_json>(input);
+
+                auto j = json::parse(R"(
+                    { "a" : [ 1, 2, 3 ], "b" : true, "c": null, "d":45, "e" : { "o" : 0, "p": true, "q" : "q text" }, "f": "my text" }
+                )");
+
+                ASSERT_TRUE(j != nullptr);
+
+                auto a = json::get_node_array(j->get_node_by_path("a"));
+                ASSERT_TRUE(a != nullptr);
+                ASSERT_TRUE(a->size() == 3);
+                
+                auto b = j->get_node_by_path("b");
+                ASSERT_TRUE(b != nullptr);
+                ASSERT_TRUE(json::get_value_boolean(b) == true);
+
+                auto c = j->get_node_by_path("c");
+                ASSERT_TRUE(c != nullptr);
+                ASSERT_TRUE(json::get_value_null(c) == nullptr);
+
+                auto d = j->get_node_by_path("d");
+                ASSERT_TRUE(d != nullptr);
+                ASSERT_TRUE(json::get_value_integer(d) == 45);
+
+                auto f = j->get_node_by_path("f");
+                ASSERT_TRUE(f != nullptr);
+                ASSERT_TRUE(json::get_value_string(f) == "my text");
+
+                });
         }
 
     }; // class test_json
