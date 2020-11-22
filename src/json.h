@@ -1824,6 +1824,94 @@ namespace rda
             }
             return p;
         }
+        
+        // populate a container of booleans
+        template<typename BooleanContainer>
+        void populate_container_boolean(BooleanContainer& container, std::shared_ptr<node> pRootNode, const std::string& path)
+        {
+            if (pRootNode)
+                if (const auto& pObjectNode = get_node_object(pRootNode))
+                    if (pObjectNode)
+                        if (const auto& pArrayNode = pObjectNode->get_array_by_path(path))
+                            for (const auto& pElementNode : *pArrayNode)
+                                if (const auto& pBooleanNode = get_node_boolean(pElementNode))
+                                    container.push_back(pBooleanNode->get_data());
+        }
+
+        // create a container of booleans
+        template<typename BooleanContainer>
+        BooleanContainer get_container_boolean(std::shared_ptr<node> pRootNode, const std::string& path)
+        {
+            BooleanContainer container;
+            populate_container_boolean(container, pRootNode, path);
+            return container;
+        }
+
+        // populate a container of integers
+        template<typename IntegerContainer>
+        void populate_container_integer(IntegerContainer& container, std::shared_ptr<node> pRootNode, const std::string& path)
+        {
+            if (pRootNode)
+                if (const auto& pObjectNode = get_node_object(pRootNode))
+                    if (pObjectNode)
+                        if (const auto& pArrayNode = pObjectNode->get_array_by_path(path))
+                            for (const auto& pElementNode : *pArrayNode)
+                                if (const auto& pIntegerNode = get_node_integer(pElementNode))
+                                    container.push_back(pIntegerNode->get_data());
+        }
+
+        // create a container of integers
+        template<typename IntegerContainer>
+        IntegerContainer get_container_integer(std::shared_ptr<node> pRootNode, const std::string& path)
+        {
+            IntegerContainer container;
+            populate_container_integer(container, pRootNode, path);
+            return container;
+        }
+
+        // populate a container of floats
+        template<typename FloatContainer>
+        void populate_container_float(FloatContainer& container, std::shared_ptr<node> pRootNode, const std::string& path)
+        {
+            if (pRootNode)
+                if (const auto& pObjectNode = get_node_object(pRootNode))
+                    if (pObjectNode)
+                        if (const auto& pArrayNode = pObjectNode->get_array_by_path(path))
+                            for (const auto& pElementNode : *pArrayNode)
+                                if (const auto& pFloatNode = get_node_float(pElementNode))
+                                    container.push_back(pFloatNode->get_data());
+        }
+
+        // create a container of floats
+        template<typename FloatContainer>
+        FloatContainer get_container_float(std::shared_ptr<node> pRootNode, const std::string& path)
+        {
+            FloatContainer container;
+            populate_container_float(container, pRootNode, path);
+            return container;
+        }
+
+        // populate a container of strings
+        template<typename StringContainer>
+        void populate_container_string(StringContainer & container, std::shared_ptr<node> pRootNode, const std::string& path)
+        {
+            if (pRootNode)
+                if (const auto& pObjectNode = get_node_object(pRootNode))
+                    if (pObjectNode)
+                        if (const auto& pArrayNode = pObjectNode->get_array_by_path(path))
+                            for (const auto& pElementNode : *pArrayNode)
+                                if (const auto& pStringNode = get_node_string(pElementNode))
+                                    container.push_back(pStringNode->get_data());
+        }
+
+        // create a container of strings
+        template<typename StringContainer>
+        StringContainer get_container_string(std::shared_ptr<node> pRootNode, const std::string& path)
+        {
+            StringContainer container;
+            populate_container_string(container, pRootNode, path);
+            return container;
+        }
 
     } // namespace json
 } // namespace rda
