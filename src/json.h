@@ -1626,7 +1626,7 @@ namespace rda
         }
 
         // parse a json string and return a smart pointer to the object data
-        std::shared_ptr<node_object> parse(const std::string &input,
+        std::shared_ptr<node_object> parse_object(const std::string &input,
                                                   const size_t start_index = 0)
         {
             size_t parse_index = start_index;
@@ -1641,6 +1641,31 @@ namespace rda
             // create and return the object node
             size_t token_index = 0;
             return std::make_shared<node_object>("", tokens, token_index);
+        }
+
+        // parse a json string and return a smart pointer to the object data
+        std::shared_ptr<node_object> parse(const std::string& input,
+            const size_t start_index = 0)
+        {
+            return parse_object(input, start_index);
+        }
+
+        // parse a json string and return a smart pointer to the array data
+        std::shared_ptr<node_array> parse_array(const std::string& input,
+            const size_t start_index = 0)
+        {
+            size_t parse_index = start_index;
+            const auto tokens = parse_helpers::tokenize(input, parse_index);
+
+            if (tokens.empty())
+                return nullptr;
+
+            if (!data_validators::is_type_array(tokens.front()))
+                return nullptr;
+
+            // create and return the object node
+            size_t token_index = 0;
+            return std::make_shared<node_array>("", tokens, token_index);
         }
 
         // cast the node to a null node
