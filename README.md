@@ -31,6 +31,8 @@ htmldoc.h - Utility to generate html pages.
 
 json.h - Light-weight parser for json-like text.
 
+json_model.h - Base class for structures to model JSON data.
+
 lifetime.h - Utility to benchmark the lifetime of c++ objects in containers.
 
 matrix.h - Simple matrix class.

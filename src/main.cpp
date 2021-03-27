@@ -16,6 +16,7 @@
 #include "unit_tests/test_fileio.h"
 #include "unit_tests/test_fix_message.h"
 #include "unit_tests/test_json.h"
+#include "unit_tests/test_json_model.h"
 #include "unit_tests/test_object_builder.h"
 #include "unit_tests/test_one_to_one_map.h"
 #include "unit_tests/test_regex_builder.h"
@@ -36,6 +37,7 @@ int main()
     rda::test_fileio().run_tests();
     rda::test_fix_message().run_tests();
     rda::test_json().run_tests();
+    rda::test_json_model().run_tests();
     rda::test_object_builder().run_tests();
     rda::test_one_to_one_map().run_tests();
     rda::test_regex_builder().run_tests();

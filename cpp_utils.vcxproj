@@ -168,6 +168,7 @@
     <ClInclude Include="src\platform_defs_posix.h" />
     <ClInclude Include="src\platform_defs_windows.h" />
     <ClInclude Include="src\regex_builder.h" />
+    <ClInclude Include="src\json_model.h" />
     <ClInclude Include="src\statemachine.h" />
     <ClInclude Include="src\sync_rda.h" />
     <ClInclude Include="src\table.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="src\unit_tests\test_object_builder.h" />
     <ClInclude Include="src\unit_tests\test_one_to_one_map.h" />
     <ClInclude Include="src\unit_tests\test_regex_builder.h" />
+    <ClInclude Include="src\unit_tests\test_json_model.h" />
     <ClInclude Include="src\unit_tests\test_statemachine.h" />
     <ClInclude Include="src\unit_tests\test_sync_rda.h" />
     <ClInclude Include="src\unit_tests\test_toolean.h" />
