@@ -5,6 +5,8 @@
 /.vs
 /x64
 /Debug
+/bin
+/obj
 test_cpp_utils
 test_cpp_utils_gnu
 test_cpp_utils_clang

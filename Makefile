@@ -81,47 +81,54 @@ define TIDY_CHECKS
 "
 endef
 
-all : gnu clang
+# CC=g++
+CC=clang++
+CFLAGS=-g -std=c++17 -pthread -Wall -Wextra -Wpedantic
+RM=\rm -f
+CHMOD=chmod
+MKDIR=mkdir -p
+CLANG_FORMAT=clang-format
+CLANG_TIDY=clang-tidy
+DOS_TO_UNIX=dos2unix
+STRIP=strip
 
-gnu : Makefile src/main.cpp src/*.h src/unit_tests/*.h
-	g++ -g -std=c++17 -pthread \
-	-Wall -Wextra -Wpedantic \
-	src/main.cpp -o test_cpp_utils_gnu
+SRC_DIR = src
+OBJ_DIR = obj
+BIN_DIR = bin
+UNIT_TEST_DIR = $(SRC_DIR)/unit_tests
 
-run : 
-	chmod 755 test_cpp_utils_gnu test_cpp_utils_clang
-	./test_cpp_utils_gnu && ./test_cpp_utils_clang
+SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
+HEADER_FILES = $(wildcard $(SRC_DIR)/*.h)
+UNIT_TEST_FILES = $(wildcard $(UNIT_TEST_DIR)/*.h)
+BIN_FILE = $(BIN_DIR)/test_cpp_utils
 
-run_gnu : 
-	chmod 755 test_cpp_utils_gnu
-	./test_cpp_utils_gnu
+all : $(BIN_FILE)
 
-clang : Makefile src/main.cpp src/*.h src/unit_tests/*.h
-	clang++ -g -std=c++17 -pthread \
-	-Wall -Wextra -Wpedantic \
-	src/main.cpp -o test_cpp_utils_clang
+$(BIN_FILE) : $(OBJ_FILES)
+	$(MKDIR) $(BIN_DIR)
+	$(CC) $(CFLAGS) $(OBJ_FILES) -o $@
 
-run_clang : 
-	chmod 755 test_cpp_utils_clang
-	./test_cpp_utils_clang
-
-format :
-	clang-format -i -style=file src/main.cpp
-	clang-format -i -style=file src/*.h
-	clang-format -i -style=file src/unit_tests/*.h
-
-line_endings :
-	dos2unix src/*.cpp src/*.h src/unit_tests/*.h
-
-tidy :
-	clang-tidy -checks=$(TIDY_CHECKS) -header-filter=".*" --format-style=file src/main.cpp
-
-tidy_fix :
-	# clang-tidy -checks=$(TIDY_CHECKS) -header-filter=".*" --format-style=file src/main.cpp --fix
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
+	$(MKDIR) $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
-	\rm -f test_cpp_utils_gnu test_cpp_utils_clang
+	$(RM) $(BIN_DIR)/* $(OBJ_DIR)/*
+
+run : $(BIN_FILE)
+	$(CHMOD) 755 $(BIN_FILE)
+	./$(BIN_FILE)
+
+format :
+	$(CLANG_FORMAT) -i -style=file $(SRC_FILES) $(HEADER_FILES) $(UNIT_TEST_FILES)
+
+line_endings :
+	$(DOS_TO_UNIX) $(SRC_FILES) $(HEADER_FILES) $(UNIT_TEST_FILES)
+
+tidy :
+	$(CLANG_TIDY) -checks=$(TIDY_CHECKS) -header-filter=".*" --format-style=file $(SRC_FILES)
 
 strip :
-	strip test_cpp_utils_gnu test_cpp_utils_clang
+	$(STRIP) $(BIN_FILE)
 
