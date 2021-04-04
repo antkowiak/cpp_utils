@@ -60,23 +60,23 @@ define TIDY_CHECKS
     modernize-pass-by-value, \
     modernize-raw-string-literal, \
     modernize-redundant-void-arg, \
-	modernize-replace-auto-ptr, \
+    modernize-replace-auto-ptr, \
     modernize-replace-random-shuffle, \
     modernize-return-braced-init-list, \
     modernize-shrink-to-fit, \
     modernize-unary-static-assert, \
     modernize-use-auto, \
-	modernize-use-bool-literals, \
+    modernize-use-bool-literals, \
     modernize-use-default-member-init, \
     modernize-use-emplace, \
-	modernize-use-equals-default, \
+    modernize-use-equals-default, \
     modernize-use-equals-delete, \
-	modernize-use-nodiscard, \
+    modernize-use-nodiscard, \
     modernize-use-noexcept, \
     modernize-use-nullptr, \
-	modernize-use-override, \
+    modernize-use-override, \
     modernize-use-transparent-functors, \
-	modernize-use-uncaught-exceptions, \
+    modernize-use-uncaught-exceptions, \
     modernize-use-using \
 "
 endef
