@@ -450,6 +450,13 @@ namespace rda
             return YMD(yr, 6, 14);
         }
 
+       // returns juneteenth
+        static YMD get_holiday_juneteenth(const int yr)
+        {
+            // june 14th
+            return YMD(yr, 6, 19);
+        }
+
         // returns father's day
         static YMD get_holiday_fathers_day(const int yr)
         {
