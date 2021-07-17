@@ -158,6 +158,7 @@
     <ClInclude Include="src\graph.h" />
     <ClInclude Include="src\htmlchars.h" />
     <ClInclude Include="src\htmldoc.h" />
+    <ClInclude Include="src\ipv4_util.h" />
     <ClInclude Include="src\json.h" />
     <ClInclude Include="src\lifetime.h" />
     <ClInclude Include="src\matrix.h" />

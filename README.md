@@ -29,6 +29,8 @@ htmlchars.h - HTML Characters.
 
 htmldoc.h - Utility to generate html pages.
 
+ipv4_util - Utilities for ipv4 addresses.
+
 json.h - Light-weight parser for json-like text.
 
 json_model.h - Base class for structures to model JSON data.
