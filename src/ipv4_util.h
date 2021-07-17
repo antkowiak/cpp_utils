@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <map>
 #include <sstream>
 #include <string>
 #include <iomanip>
@@ -201,6 +202,42 @@ namespace rda
             uint32_t m_ip = 0;
 
         }; // class ipv4_address
+
+        struct subnet
+        {
+            uint8_t num_network_bits = 0;
+            ipv4_address mask;
+            uint32_t num_hosts = 0;
+
+        }; // struct subnet
+
+        const std::map<uint8_t, subnet> IPV4_SUBNETS
+        {
+            {8,  subnet {8,  ipv4_address(255,   0,   0,   0), 16777214} },
+            {9,  subnet {9,  ipv4_address(255, 128,   0,   0),  8388606} },
+            {10, subnet {10, ipv4_address(255, 192,   0,   0),  4194302} },
+            {11, subnet {11, ipv4_address(255, 224,   0,   0),  2097150} },
+            {12, subnet {12, ipv4_address(255, 240,   0,   0),  1048574} },
+            {13, subnet {13, ipv4_address(255, 248,   0,   0),   524286} },
+            {14, subnet {14, ipv4_address(255, 252,   0,   0),   262142} },
+            {15, subnet {15, ipv4_address(255, 254,   0,   0),   131070} },
+            {16, subnet {16, ipv4_address(255, 255,   0,   0),    65534} },
+            {17, subnet {17, ipv4_address(255, 255, 128,   0),    32766} },
+            {18, subnet {18, ipv4_address(255, 255, 192,   0),    16382} },
+            {19, subnet {19, ipv4_address(255, 255, 224,   0),     8190} },
+            {20, subnet {20, ipv4_address(255, 255, 240,   0),     4094} },
+            {21, subnet {21, ipv4_address(255, 255, 248,   0),     2046} },
+            {22, subnet {22, ipv4_address(255, 255, 252,   0),     1022} },
+            {23, subnet {23, ipv4_address(255, 255, 254,   0),      510} },
+            {24, subnet {24, ipv4_address(255, 255, 255,   0),      254} },
+            {25, subnet {25, ipv4_address(255, 255, 255, 128),      126} },
+            {26, subnet {26, ipv4_address(255, 255, 255, 192),       62} },
+            {27, subnet {27, ipv4_address(255, 255, 255, 224),       30} },
+            {28, subnet {28, ipv4_address(255, 255, 255, 240),       14} },
+            {29, subnet {29, ipv4_address(255, 255, 255, 248),        6} },
+            {30, subnet {30, ipv4_address(255, 255, 255, 252),        2} }
+
+        }; // IPV4_SUBNETS
 
 	} // namespace ipv4_util
 
