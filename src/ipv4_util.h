@@ -157,9 +157,22 @@ namespace rda
                 return m_ip == 0;
             }
 
-            bool isInAutomaticPrivateRange() const
+            bool isLocalhost() const
             {
-                return a() == 169 && b() == 254;
+                return a() == 127 && b() == 0 && c() == 0 && d() == 1;
+            }
+
+            bool isInLoopbackRange() const
+            {
+                return a() == 127;
+            }
+
+            bool isInLinkLocalRange() const
+            {
+                const uint8_t an = a();
+                const uint8_t bn = a();
+
+                return an == 169 && (bn == 254 || bn == 255);
             }
 
             bool isInPrivateRange() const
@@ -181,7 +194,7 @@ namespace rda
 
             bool isInPublicRange() const
             {
-                return !isZero() && !isInAutomaticPrivateRange() && !isInPrivateRange();
+                return !isZero() && !isInLoopbackRange() && !isInLinkLocalRange() && !isInPrivateRange();
             }
 
         private:
