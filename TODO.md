@@ -9,5 +9,3 @@
 7) Should json be able to parse outter types other than {object}'s ?
 8) Clean up comparable with spaceship operator
 
-
-
