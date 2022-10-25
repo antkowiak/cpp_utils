@@ -4,7 +4,7 @@
 // one_to_one_map.h - Wraps a std::map where the key and value are the same
 //  type, and can be searched by key or value.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <algorithm>

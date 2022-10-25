@@ -4,7 +4,7 @@
 // bidirectional_map.h - Utility for representing two one-to-one std::map
 //  objects that can be indexed by either key or value.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <algorithm>

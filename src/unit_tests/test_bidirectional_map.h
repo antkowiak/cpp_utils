@@ -3,7 +3,7 @@
 //
 // test_bidirectional_map.h - Unit tests for bidirectional_map.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <functional>

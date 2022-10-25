@@ -4,7 +4,7 @@
 // toolean.h - Utility for a "trinary" boolean that can hold three states:
 //  true, false, other.  (Kind of a joke.)
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <exception>

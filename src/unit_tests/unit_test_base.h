@@ -3,7 +3,7 @@
 //
 // unit_test_base.h - Base class for unit tests
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <algorithm>

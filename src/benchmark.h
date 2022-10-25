@@ -4,7 +4,7 @@
 // benchmark.h - Simple utility to benchmark how long a task takes to complete.
 //  Uses object lifetime.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <chrono>

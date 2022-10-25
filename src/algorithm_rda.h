@@ -3,7 +3,7 @@
 //
 // algorithm_rda.h - A collection of some useful algorithms.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <algorithm>

@@ -3,7 +3,7 @@
 //
 // utility_rda.h - Misc utilities.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2020-05-19
 //

@@ -3,7 +3,7 @@
 //
 // moaht.h - Minimal Implementation of an Open Addressing Hash Table, indexed by integer.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <cstdint>

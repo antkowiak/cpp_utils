@@ -3,7 +3,7 @@
 //
 // cmdline_options.h - Portable utility for parsing command line arguments.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2020-05-04
 //

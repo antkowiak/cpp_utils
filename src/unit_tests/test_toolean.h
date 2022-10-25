@@ -3,7 +3,7 @@
 //
 // test_toolean.h - Unit tests for toolean.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <vector>

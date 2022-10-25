@@ -3,7 +3,7 @@
 //
 // platform_defs_posix.h - Useful platform-dependent macros and utilities for POSIX.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2020-05-08
 //

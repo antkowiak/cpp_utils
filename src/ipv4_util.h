@@ -3,7 +3,7 @@
 //
 // ipv4_util.h - Utilities for ipv4 addresses.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <bitset>

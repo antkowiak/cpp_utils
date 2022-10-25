@@ -3,7 +3,7 @@
 //
 // fix_message_util.h - Utility for FIX Messages.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <cstdlib>

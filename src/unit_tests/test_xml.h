@@ -3,7 +3,7 @@
 //
 // test_xml.h - Unit tests for xml.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <functional>

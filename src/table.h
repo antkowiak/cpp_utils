@@ -4,7 +4,7 @@
 // table.h - Utility to represent and access data elements in a table/matrix
 //  format.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2020-04-05
 //
@@ -27,7 +27,7 @@ namespace rda
      This class allows you to store a table of values that can be indexed
      by column and row indicies.
 
-     \author Ryan Antkowiak (antkowiak@gmail.com)
+     \author Ryan Antkowiak
 
      \version 1.0
 
@@ -51,7 +51,7 @@ namespace rda
                table<int> myTable(5, 5);
                myTable[2][3] = 10;
 
-       \author Ryan Antkowiak (antkowiak@gmail.com)
+       \author Ryan Antkowiak
 
        \version 1.0
 
@@ -92,7 +92,7 @@ namespace rda
        Typically this will be thrown when attempting to access row or column
        indices that are out of the allowed range.
 
-       \author Ryan Antkowiak (antkowiak@gmail.com)
+       \author Ryan Antkowiak
 
        \version 1.0
 

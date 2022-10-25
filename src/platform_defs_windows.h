@@ -3,7 +3,7 @@
 //
 // platform_defs_windows.h - Useful platform-dependent macros and utilities for Windows.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2020-05-08
 //

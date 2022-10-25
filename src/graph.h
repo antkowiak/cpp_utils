@@ -3,7 +3,7 @@
 //
 // graph.h - Graph data structure.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <cstdlib>

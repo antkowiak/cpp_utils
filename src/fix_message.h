@@ -3,7 +3,7 @@
 //
 // fix_message.h - Utility for quickly retrieving fields from a FIX message string.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <algorithm>

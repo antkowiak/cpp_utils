@@ -3,7 +3,7 @@
 //
 // test_statemachine.h - Unit tests for statemachine.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <functional>

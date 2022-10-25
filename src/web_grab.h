@@ -3,7 +3,7 @@
 //
 // webgrab.h - Utility to wrap libcurl web requests.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2020-10-24
 //

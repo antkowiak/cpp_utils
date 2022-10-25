@@ -3,7 +3,7 @@
 //
 // json_model.h - Base class for structures to model JSON data.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2021-03-25
 //

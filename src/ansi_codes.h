@@ -3,7 +3,7 @@
 //
 // ansi_codes.h - Utility for printing ansi escape codes to the console.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2020-05-17
 //

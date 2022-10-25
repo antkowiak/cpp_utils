@@ -6,7 +6,7 @@
 // Does not do any data validation, nor schemas.
 // Assumes input data is not mal-formed and is correct.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <iostream>

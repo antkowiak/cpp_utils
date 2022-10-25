@@ -3,7 +3,7 @@
 //
 // csv.h - Utilities for dealing with comma separated values.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <algorithm>

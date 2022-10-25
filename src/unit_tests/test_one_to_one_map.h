@@ -3,7 +3,7 @@
 //
 // test_one_to_one_map.h - Unit tests for one_to_one_map.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <exception>

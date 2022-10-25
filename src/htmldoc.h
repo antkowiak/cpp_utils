@@ -3,7 +3,7 @@
 //
 // htmldoc.h - Utility to generate html pages.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2020-10-24
 //

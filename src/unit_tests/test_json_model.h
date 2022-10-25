@@ -3,7 +3,7 @@
 //
 // test_json_model.h - Unit tests for json_model.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <cstdlib>

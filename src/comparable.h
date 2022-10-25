@@ -4,7 +4,7 @@
 // comparable.h - Utility to generate all of the common comparison operator
 //  overloads.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 namespace rda

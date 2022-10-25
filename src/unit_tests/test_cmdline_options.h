@@ -3,7 +3,7 @@
 //
 // test_cmdline_options.h - Unit tests for cmdline_options.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <functional>

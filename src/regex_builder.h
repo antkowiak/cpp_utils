@@ -3,7 +3,7 @@
 //
 // regex_builder.h - Utility to build regular expressions.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <sstream>

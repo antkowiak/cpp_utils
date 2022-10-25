@@ -3,7 +3,7 @@
 //
 // sync_rda.h - A collection of some useful utils for synchronization.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <algorithm>

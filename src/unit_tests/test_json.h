@@ -3,7 +3,7 @@
 //
 // test_json.h - Unit tests for json.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <functional>

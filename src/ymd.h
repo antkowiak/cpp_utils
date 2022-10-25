@@ -3,7 +3,7 @@
 //
 // ymd.h - Utility to represent a simple year-month-date object.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <algorithm>

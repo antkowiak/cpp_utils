@@ -3,7 +3,7 @@
 //
 // test_TEMPLATE.h - Unit tests for TEMPLATE.h. // TODO
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <cstdlib>

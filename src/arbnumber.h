@@ -8,7 +8,7 @@
 // as a proof-of-concept, and there are certainly a lot of optimizations
 // that remain to be done.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <algorithm>

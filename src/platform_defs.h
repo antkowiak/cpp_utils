@@ -3,7 +3,7 @@
 //
 // platform_defs.h - Useful platform-dependent macros and utilities.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 // set up "CURRENT_PLATFORM_XYZ" defines

@@ -3,7 +3,7 @@
 //
 // lifetime.h - Utility to benchmark the lifetime of c++ objects in containers.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <iostream>

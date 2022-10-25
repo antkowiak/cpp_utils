@@ -3,7 +3,7 @@
 //
 // test_algorithm_rda.h - Unit tests for algorithm_rda.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <functional>

@@ -3,7 +3,7 @@
 //
 // test_object_builder.h - Unit tests for object_builder.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <cstdlib>

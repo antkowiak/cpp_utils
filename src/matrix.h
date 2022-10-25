@@ -3,7 +3,7 @@
 //
 // matrix.h - Simple matrix class.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2020-06-29
 //

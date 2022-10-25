@@ -4,7 +4,7 @@
 // statemachine.h - Utility to create a simple state machine.
 //  Functions can be called on transitions and when states are entered.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 // 2016
 //

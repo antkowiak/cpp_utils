@@ -3,7 +3,7 @@
 //
 // test_fileio.h - Unit tests for fileio.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <functional>

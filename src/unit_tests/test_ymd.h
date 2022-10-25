@@ -3,7 +3,7 @@
 //
 // test_ymd.h - Unit tests for ymd.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <functional>

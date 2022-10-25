@@ -3,7 +3,7 @@
 //
 // test_fix_message.h - Unit tests for fix_message.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak
 //
 
 #include <cstring>
